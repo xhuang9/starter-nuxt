@@ -1,0 +1,134 @@
+query home {
+  entry(slug: "home") {
+    id
+    title
+    ... on home_Entry {
+      heading
+      featuredExhibits {
+        id
+        title
+        slug
+      }
+      contentBlocks {
+        ... on heading_Entry {
+          id
+          typeHandle
+          __typename
+          heading
+        }
+        ... on richText_Entry {
+          id
+          typeHandle
+          __typename
+          richText
+          topBorder
+          layout
+          narrowWidth
+        }
+        ... on imageAndHeadings_Entry {
+          id
+          typeHandle
+          __typename
+          image {
+            id
+            alt
+            url
+          }
+          preHeading
+          heading
+          subHeading
+          textColor
+          highlightText
+        }
+        ... on slider_Entry {
+          id
+          typeHandle
+          __typename
+          heading
+          ctaLink {
+            id
+          }
+          ctaLinkText
+          slideImages {
+            id
+          }
+          slideEntries {
+            id
+          }
+          slideLayoutCentered
+          darkUI
+        }
+        ... on statsAndImage_Entry {
+          id
+          typeHandle
+          __typename
+          heading
+          description
+          linkLabel
+          linkDestination
+          internalLink {
+            id
+          }
+          leftStatValue
+          leftStatLabel
+          rightStatValue
+          rightStatLabel
+          image {
+            id
+          }
+        }
+        ... on ctaCaption_Entry {
+          id
+          typeHandle
+          __typename
+          heading
+          information
+          linkLabel
+          linkDestination
+          internalLink {
+            id
+          }
+          externalLink
+          linkIcon
+          narrowWidth
+        }
+        ... on featuredEntry_Entry {
+          id
+          typeHandle
+          __typename
+          entry {
+            id
+            title
+            sectionHandle
+            ... on newsArticle_Entry {
+              id
+              postDate
+              heroImage {
+                id
+              }
+              newsCategory {
+                title
+              }
+            }
+          }
+          textColor
+        }
+        ... on googleMapEmbed_Entry {
+          id
+          typeHandle
+          __typename
+          embedCode
+        }
+        ... on form_Entry {
+          id
+          typeHandle
+          __typename
+          form {
+            id
+          }
+          successMessage
+        }
+      }
+    }
+  }
+}
