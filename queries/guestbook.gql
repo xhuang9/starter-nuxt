@@ -1,0 +1,20 @@
+query Guestbook {
+  guestbookEntries {
+    ... on page_Entry {
+      id
+      pageContent
+      pageSubheading
+      slug
+      title
+    }
+  }
+  postsEntries {
+    ... on text_Entry {
+      id
+      title
+      draftCreator {
+        fullName
+      }
+    }
+  }
+}

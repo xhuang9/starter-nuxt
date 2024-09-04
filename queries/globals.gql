@@ -1,0 +1,38 @@
+query Globals {
+  globalEntries {
+    ... on global_Entry {
+      id
+      title
+      address {
+        addressLine1
+        addressLine2
+        addressLine3
+        countryCode
+        id
+        locality
+        organization
+        postalCode
+        title
+      }
+      dateUpdated
+      dateCreated
+      enabled
+      logo {
+        alt
+        img
+        size
+        uri
+        url
+        volumeId
+        width
+        height
+        extension
+        filename
+        format
+      }
+      postDate
+      sectionHandle
+      sectionId
+    }
+  }
+}
