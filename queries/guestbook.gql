@@ -1,5 +1,5 @@
-query Guestbook {
-  guestbookEntries {
+query Guestbook($limit: Int!, $offset: Int!) {
+  guestbookEntries(limit:1) {
     ... on page_Entry {
       id
       pageContent
@@ -8,13 +8,12 @@ query Guestbook {
       title
     }
   }
-  postsEntries {
+  postsEntries(limit: $limit, offset: $offset) {
     ... on text_Entry {
       id
       title
-      draftCreator {
-        fullName
-      }
+      textBlock
+      postDate
     }
   }
 }
