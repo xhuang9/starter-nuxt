@@ -16,35 +16,14 @@
             <article class="text-xl py-6">
               {{ post.textBlock }}
               <p class="text-sm mt-1">
-                <time :datetime="post.postDate">{{ post.postDate }}</time><br />
-                By {{ post.draftCreator ? post.draftCreator.name : 'Unknown Author' }}
+                <time :datetime="post.postDate">{{ post.postDate }}</time>
               </p>
             </article>
           </li>
         </ol>
         <!-- Message to display if there are no posts -->
         <p v-else class="text-2xl">No entries yet. Create one using the form.</p>
-        <!-- Pagination controls -->
-        <nav class="pt-6 text-sm" role="navigation" aria-label="Entry pagination">
-          <ul class="flex justify-between">
-            <li>
-              <!-- Button to go to the previous page -->
-              <button @click="prevPage" :disabled="currentPage === 1" aria-label="Previous Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-                ← Previous
-              </button>
-            </li>
-            <li>
-              <!-- Display the current page and total pages -->
-              <span>Page {{ currentPage }} of {{ totalPages }}</span>
-            </li>
-            <li>
-              <!-- Button to go to the next page -->
-              <button @click="nextPage" :disabled="currentPage === totalPages" aria-label="Next Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-                Next →
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <Pagination :currentPage="currentPage" :totalPages="totalPages" @update:currentPage="updateCurrentPage" />
       </section>
     </div>
   </section>
@@ -53,72 +32,72 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useAsyncData } from '#app';
+import { ref, computed, watch } from 'vue';
+import Pagination from '~/components/pagination.vue';
 
-// Define interfaces for the data
-interface GuestbookEntry {
-  title: string;
-  pageSubheading: string;
-  pageContent: string;
+// Define the type for GuestbookQuery
+interface GuestbookQuery {
+  guestbookEntries: Array<{
+    title: string;
+    pageSubheading: string;
+    pageContent: string;
+  }>;
+  postsEntries: Array<{
+    id: string;
+    textBlock: string;
+    postDate: string;
+    draftCreator?: {
+      name: string;
+    };
+  }>;
+  totalPosts: number; // Add totalPosts to the query result
 }
 
-interface PostEntry {
-  id: string;
-  textBlock: string;
-  postDate: string;
-  draftCreator?: {
-    name: string;
-  };
-}
-
-interface PageData {
-  guestbookEntries: GuestbookEntry[];
-  postsEntries: PostEntry[];
-}
-
-// Define the current page and items per page
 const currentPage = ref(1);
-const itemsPerPage = 5;
+const itemsPerPage = ref(5);
+const page = ref<GuestbookQuery | null>(null);
+const loading = ref(true);
+const error = ref(null);
 
-// Fetch the guestbook data using useAsyncData
-const { data: page, pending: loading } = useAsyncData<PageData>('guestbook', async () => {
-  const response: GuestbookQuery = await GqlGuestbook();
-  return {
-    guestbookEntries: response.guestbookEntries.map((entry: GuestbookEntry) => ({
-      title: entry.title,
-      pageSubheading: entry.pageSubheading,
-      pageContent: entry.pageContent,
-    })),
-    postsEntries: response.postsEntries.map((post: PostEntry) => ({
-      id: post.id,
-      textBlock: post.textBlock,
-      postDate: post.postDate,
-      draftCreator: post.draftCreator,
-    }))
-  };
-});
-
-// Compute the total number of pages based on the number of posts
-const totalPages = computed(() => {
-  return page.value ? Math.ceil(page.value.postsEntries.length / itemsPerPage) : 1;
-});
-
-// Compute the posts to display on the current page
-const paginatedPosts = computed(() => {
-  if (!page.value) return [];
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return page.value.postsEntries.slice(start, end);
-});
-
-// Function to go to the previous page
-const prevPage = () => {
-  if (currentPage.value > 1) currentPage.value--;
+// Function to fetch page data
+const fetchPageData = async () => {
+  loading.value = true;
+  try {
+    const result = await useAsyncGql<Ref<GuestbookQuery>>({
+      operation: 'GetGuestbook',
+      variables: {
+        limit: itemsPerPage.value,
+        offset: (currentPage.value - 1) * itemsPerPage.value
+      }
+    });
+    console.log('GraphQL Response:', result); // Log the response for debugging
+    page.value = result.data.value.guestbook;
+  } catch (err) {
+    error.value = err;
+  } finally {
+    loading.value = false;
+  }
 };
 
-// Function to go to the next page
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) currentPage.value++;
+// Initial data fetch
+await fetchPageData();
+
+// Compute paginated posts
+const paginatedPosts = computed(() => page.value?.postsEntries || []);
+
+// Compute total pages
+const totalPages = computed(() => {
+  const totalPosts = page.value?.totalPosts || 0;
+  return Math.ceil(totalPosts / itemsPerPage.value);
+});
+
+// Watch for changes in currentPage and refetch data
+watch(currentPage, () => {
+  fetchPageData();
+});
+
+// Function to update current page
+const updateCurrentPage = (newPage: number) => {
+  currentPage.value = newPage;
 };
 </script>
