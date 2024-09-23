@@ -1,0 +1,10 @@
+query Home {
+  homeEntries(limit:1) {
+    ... on page_Entry {
+      id
+      title
+      pageSubheading
+      pageContent
+    }
+  }
+}
