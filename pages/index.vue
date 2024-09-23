@@ -4,8 +4,7 @@
     <p v-if="data.homeEntries?.[0]?.pageSubheading">{{ data.homeEntries?.[0]?.pageSubheading }}</p>
   </header>
   <section class="page__content">
-    <div class="container mx-auto py-12 px-2 text-balance" v-html="data.homeEntries?.[0]?.pageContent">
-    </div>
+    <div class="container mx-auto py-12 px-2 text-balance" v-html="data.homeEntries?.[0]?.pageContent"></div>
   </section>
 </template>
 
