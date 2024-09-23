@@ -8,7 +8,7 @@
   </section>
 </template>
 
-<script lang="ts" setup>
+<script lang="js" setup>
   const { data } = await useAsyncGql({
     operation: 'Home'
   });

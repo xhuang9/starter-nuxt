@@ -28,7 +28,7 @@
         required: true
       },
       postDate: {
-        type: Date,
+        type: String,
         required: true
       }
     }

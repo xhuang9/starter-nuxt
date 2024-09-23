@@ -9,6 +9,7 @@
   <section class="container mx-auto mb-6 px-2 divide-y divide-slate-300">
     <Teaser v-for="(entry, i) in data?.articleEntries" 
     :key="entry?.id"
+    :id="entry?.id"
     :title="entry?.title"
     :slug="entry?.slug"
     :pageSubheading="entry?.pageSubheading"
@@ -16,7 +17,7 @@
   </section>
 </template>
 
-<script lang="ts" setup>
+<script lang="js" setup>
   const { data } = await useAsyncGql({
     operation: 'Blog',
     variables: { 

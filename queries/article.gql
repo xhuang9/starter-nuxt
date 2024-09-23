@@ -1,0 +1,36 @@
+query Article($slug: [String]) {
+  articleEntries(limit: 1, slug: $slug) {
+    ... on page_Entry {
+      id
+      slug
+      title
+      pageSubheading
+      pageContent
+      postDate @formatDateTime(format: "F j, Y")
+      next {
+        ... on page_Entry {
+          id
+          slug
+          title
+          pageSubheading
+          postDate @formatDateTime(format: "F j, Y")
+        }
+      }
+      prev {
+        ... on page_Entry {
+          id
+          slug
+          title
+          pageSubheading
+          postDate @formatDateTime(format: "F j, Y")
+        }
+      }
+      category {
+        ... on category_Entry {
+          id
+          title
+        }
+      }
+    }
+  }
+}
