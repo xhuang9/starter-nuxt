@@ -16,5 +16,4 @@ query Guestbook($limit: Int!, $offset: Int!) {
       postDate
     }
   }
-  totalPosts
 }
