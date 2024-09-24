@@ -8,17 +8,22 @@
   </section>
   <div class="container mx-auto px-2 sm:grid gap-6 grid-cols-2">
     <section class="mb-12">
-      <ol class="mb-2 divide-y divide-slate-300" v-if="data.postsEntries.length > 0">
-        <li v-for="post in data.postsEntries">
-          <article class="text-xl py-6">
-            {{ post.textBlock }}
-            <p class="text-sm mt-1">
-              <time :datetime="post.postDate">{{ post.postDate }}</time><br />
-              By
-            </p>
-          </article>
-        </li>
-      </ol>
+      <div v-if="data.postsEntries.length > 0">
+        <ol class="mb-2 divide-y divide-slate-300">
+          <li v-for="post in data.postsEntries">
+            <article class="text-xl py-6">
+              <div v-html="post.textBlock"></div>
+              <p class="text-sm mt-1">
+                <time :datetime="post.postDate">{{ post.postDate }}</time><br />
+                By
+              </p>
+            </article>
+          </li>
+        </ol>
+        <Pagination
+        :current-page="0"
+        :total-pages="3" />
+      </div>
       <p class="text-2xl" v-else>No entries yet. Create one using the form.</p>
     </section>
     <section>

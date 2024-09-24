@@ -14,6 +14,7 @@
     :slug="entry?.slug"
     :pageSubheading="entry?.pageSubheading"
     :postDate="entry?.postDate" />
+    <Pagination />
   </section>
 </template>
 

@@ -12,7 +12,7 @@ query Guestbook($limit: Int!, $offset: Int!) {
     ... on text_Entry {
       id
       title
-      textBlock
+      textBlock @markdown
       postDate @formatDateTime(format: "F j, Y")
     }
   }
