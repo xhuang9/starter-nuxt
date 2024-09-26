@@ -1,3 +1,13 @@
+<script lang="js" setup>
+  const route = useRoute()
+  const { data } = await useAsyncGql({
+    operation: 'Article',
+    variables: { 
+      slug: route.params.slug
+    }
+  });
+</script>
+
 <template>
   <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
     <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ data.articleEntries?.[0]?.title }}</h1>
@@ -28,12 +38,4 @@
   </section>
 </template>
 
-<script lang="js" setup>
-  const route = useRoute()
-  const { data } = await useAsyncGql({
-    operation: 'Article',
-    variables: { 
-      slug: route.params.slug
-    }
-  });
-</script>
+

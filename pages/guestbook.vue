@@ -1,3 +1,62 @@
+<script setup>
+import { ref, computed, watch, onMounted } from 'vue';
+
+const currentPage = ref(1);
+const itemsPerPage = ref(3);
+const page = ref(null);
+const loading = ref(true);
+const error = ref(null);
+
+const content = computed(() => {
+  return page.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' };
+});
+
+const posts = computed(() => page.value?.postsEntries || []);
+
+// Calculate total pages
+const totalPosts = computed(() => {
+  return page.value?.entryCount || 0; // Default to 0 if entryCount is undefined
+});
+
+const totalPages = computed(() => {
+  const total = totalPosts.value; // Get the total posts
+  const itemsPerPageValue = itemsPerPage.value; // Get items per page
+  return itemsPerPageValue > 0 ? Math.ceil(total / itemsPerPageValue) : 0; // Return 0 if itemsPerPage is 0
+});
+
+
+// Function to fetch page data
+const fetchPageData = async () => {
+  loading.value = true;
+  try {
+    const result = await useAsyncGql({
+      operation: 'Guestbook',
+      variables: {
+        limit: itemsPerPage.value,
+        offset: (currentPage.value - 1) * itemsPerPage.value
+      }
+    });
+    console.log('GraphQL Response:', result.data.value); // Log the response for debugging
+    page.value = result.data.value;
+  } catch (err) {
+    error.value = err;
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Fetch on load
+onMounted(fetchPageData);
+
+// Watch for changes in currentPage and refetch data
+watch(currentPage, fetchPageData);
+
+// Function to update current page
+const updateCurrentPage = (newPage) => {
+  currentPage.value = newPage;
+};
+</script>
+
 <template>
   <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
     <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ content.title }}</h1>
@@ -36,57 +95,3 @@
     </section>
   </div>
 </template>
-
-<script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-
-const currentPage = ref(1);
-const itemsPerPage = ref(3);
-const page = ref(null);
-const loading = ref(true);
-const error = ref(null);
-
-const content = computed(() => {
-  return page.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' };
-});
-
-const posts = computed(() => page.value?.postsEntries || []);
-
-// Function to fetch page data
-const fetchPageData = async () => {
-  loading.value = true;
-  try {
-    const result = await useAsyncGql({
-      operation: 'Guestbook',
-      variables: {
-        limit: itemsPerPage.value,
-        offset: (currentPage.value - 1) * itemsPerPage.value
-      }
-    });
-    console.log('GraphQL Response:', result); // Log the response for debugging
-    page.value = result.data.value.guestbook;
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
-};
-
-// Fetch on load
-onMounted(fetchPageData);
-
-// Calculate total pages
-const totalPosts = computed(() => page.value?.entryCount || 0);
-
-const totalPages = computed(() => {
-  return Math.ceil(totalPosts / itemsPerPage.value);
-});
-
-// Watch for changes in currentPage and refetch data
-watch(currentPage, fetchPageData);
-
-// Function to update current page
-const updateCurrentPage = (newPage) => {
-  currentPage.value = newPage;
-};
-</script>
