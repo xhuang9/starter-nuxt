@@ -11,6 +11,6 @@
   </header>
 </template>
 
-<script lang="ts" setup>
+<script setup>
   const global = await GqlGlobals();
 </script>

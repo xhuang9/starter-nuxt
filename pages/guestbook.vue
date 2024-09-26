@@ -10,7 +10,7 @@
     <section class="mb-12">
       <div v-if="posts.length > 0">
         <ol class="mb-2 divide-y divide-slate-300">
-          <li v-for="post in posts">
+          <li v-for="post in posts" :key="post.id">
             <article class="text-xl py-6">
               <div v-html="post.textBlock"></div>
               <p class="text-sm mt-1">
@@ -21,9 +21,9 @@
           </li>
         </ol>
         <Pagination
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        @update:currentPage="updateCurrentPage" />
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          @update:currentPage="updateCurrentPage" />
       </div>
       <p class="text-2xl" v-else>No entries yet. Create one using the form.</p>
     </section>
@@ -37,37 +37,26 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-
-interface GuestbookQuery {
-  guestbookEntries: Array<{
-    title: string;
-    pageSubheading: string;
-    pageContent: string;
-  }>;
-  postsEntries: Array<{
-    id: string;
-    textBlock: string;
-    postDate: string;
-  }>;
-}
 
 const currentPage = ref(1);
 const itemsPerPage = ref(3);
-const page = ref<GuestbookQuery | null>(null);
-const content = computed(() => {
-  return page.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' }; // {{ edit_1 }}
-});
-const posts = computed(() => page.value?.postsEntries || []); // {{ edit_2 }}
+const page = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+const content = computed(() => {
+  return page.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' };
+});
+
+const posts = computed(() => page.value?.postsEntries || []);
+
 // Function to fetch page data
-const fetchPageData = async function() { 
+const fetchPageData = async () => {
   loading.value = true;
   try {
-    const result = await useAsyncGql<Ref<GuestbookQuery>>({
+    const result = await useAsyncGql({
       operation: 'Guestbook',
       variables: {
         limit: itemsPerPage.value,
@@ -84,27 +73,20 @@ const fetchPageData = async function() {
 };
 
 // Fetch on load
-onMounted(async () => { // {{ edit_3 }}
-  await fetchPageData();
-});
-
-// Compute paginated posts
-const paginatedPosts = computed(() => page.value?.postsEntries || []);
+onMounted(fetchPageData);
 
 // Calculate total pages
+const totalPosts = computed(() => page.value?.entryCount || 0);
+
 const totalPages = computed(() => {
-  const totalPosts = page.value?.totalPosts || 0;
   return Math.ceil(totalPosts / itemsPerPage.value);
 });
 
 // Watch for changes in currentPage and refetch data
-watch(currentPage, () => {
-  fetchPageData();
-});
+watch(currentPage, fetchPageData);
 
 // Function to update current page
-const updateCurrentPage = (newPage: number) => {
+const updateCurrentPage = (newPage) => {
   currentPage.value = newPage;
 };
-
 </script>

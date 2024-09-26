@@ -18,4 +18,5 @@ query Blog($limit: Int!, $offset: Int!) {
       postDate @formatDateTime(format: "F j, Y")
     }
   }
+  entryCount(section: "article")
 }

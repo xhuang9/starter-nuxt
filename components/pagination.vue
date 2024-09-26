@@ -18,24 +18,32 @@
   </nav>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { defineProps, defineEmits } from 'vue';
 
-const props = defineProps<{
-  currentPage: number;
-  totalPages: number;
-}>();
+// Define props
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    required: true
+  },
+  totalPages: {
+    type: Number,
+    required: true
+  }
+});
 
-const emit = defineEmits<{
-  (e: 'update:currentPage', value: number): void;
-}>();
+// Define emits
+const emit = defineEmits(['update:currentPage']);
 
+// Function to go to the next page
 const nextPage = () => {
   if (props.currentPage < props.totalPages) {
     emit('update:currentPage', props.currentPage + 1);
   }
 };
 
+// Function to go to the previous page
 const prevPage = () => {
   if (props.currentPage > 1) {
     emit('update:currentPage', props.currentPage - 1);

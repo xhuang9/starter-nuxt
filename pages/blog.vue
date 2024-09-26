@@ -18,7 +18,7 @@
   </section>
 </template>
 
-<script lang="js" setup>
+<script setup>
   const { data } = await useAsyncGql({
     operation: 'Blog',
     variables: { 
