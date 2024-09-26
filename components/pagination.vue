@@ -2,16 +2,13 @@
   <nav class="pt-6 text-sm" role="navigation" aria-label="Entry pagination">
     <ul class="flex justify-between">
       <li>
-        <button @click="prevPage" :disabled="currentPage === 1" aria-label="Previous Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-          ← Previous
+        <button @click="prevPage" v-if="currentPage !== 1" aria-label="Previous Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
+          ← Previous page ({{ currentPage - 1 }} of {{ totalPages }})
         </button>
       </li>
       <li>
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      </li>
-      <li>
-        <button @click="nextPage" :disabled="currentPage === totalPages" aria-label="Next Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-          Next →
+        <button @click="nextPage" v-if="currentPage !== totalPages" aria-label="Next Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
+          Next page ({{ currentPage }} of {{ totalPages }}) →
         </button>
       </li>
     </ul>
