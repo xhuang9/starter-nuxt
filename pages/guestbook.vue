@@ -1,60 +1,30 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { usePagination } from '@/composables/usePagination';
 
-const currentPage = ref(1);
-const itemsPerPage = ref(3);
-const page = ref(null);
-const loading = ref(true);
-const error = ref(null);
-
-const content = computed(() => {
-  return page.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' };
-});
-
-const posts = computed(() => page.value?.postsEntries || []);
-
-// Calculate total pages
-const totalPosts = computed(() => {
-  return page.value?.entryCount || 0; // Default to 0 if entryCount is undefined
-});
-
-const totalPages = computed(() => {
-  const total = totalPosts.value; // Get the total posts
-  const itemsPerPageValue = itemsPerPage.value; // Get items per page
-  return itemsPerPageValue > 0 ? Math.ceil(total / itemsPerPageValue) : 0; // Return 0 if itemsPerPage is 0
-});
-
-
-// Function to fetch page data
-const fetchPageData = async () => {
-  loading.value = true;
-  try {
-    const result = await useAsyncGql({
-      operation: 'Guestbook',
-      variables: {
-        limit: itemsPerPage.value,
-        offset: (currentPage.value - 1) * itemsPerPage.value
-      }
-    });
-    console.log('GraphQL Response:', result.data.value); // Log the response for debugging
-    page.value = result.data.value;
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
+const fetchGuestbookData = async (currentPage, itemsPerPage) => {
+  const result = await useAsyncGql({
+    operation: 'Guestbook',
+    variables: {
+      limit: itemsPerPage,
+      offset: (currentPage - 1) * itemsPerPage
+    }
+  });
+  return result.data.value; // Ensure this path is correct
 };
 
-// Fetch on load
-onMounted(fetchPageData);
+const {
+  currentPage,
+  itemsPerPage,
+  data,
+  totalPages,
+  loading,
+  error,
+  updateCurrentPage
+} = usePagination(fetchGuestbookData);
 
-// Watch for changes in currentPage and refetch data
-watch(currentPage, fetchPageData);
-
-// Function to update current page
-const updateCurrentPage = (newPage) => {
-  currentPage.value = newPage;
-};
+// Extract posts from the data
+const posts = computed(() => data.value?.postsEntries || []);
+const content = computed(() => data.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' });
 </script>
 
 <template>
@@ -67,6 +37,7 @@ const updateCurrentPage = (newPage) => {
   </section>
   <div class="container mx-auto px-2 sm:grid gap-6 grid-cols-2">
     <section class="mb-12">
+      <div v-if="error">{{ error.message }}</div> <!-- Display error message -->
       <div v-if="posts.length > 0">
         <ol class="mb-2 divide-y divide-slate-300">
           <li v-for="post in posts" :key="post.id">
@@ -80,6 +51,7 @@ const updateCurrentPage = (newPage) => {
           </li>
         </ol>
         <Pagination
+          v-if="totalPages > 1"
           :currentPage="currentPage"
           :totalPages="totalPages"
           @update:currentPage="updateCurrentPage" />
