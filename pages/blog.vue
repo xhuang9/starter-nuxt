@@ -1,5 +1,7 @@
 <script setup>
-import { usePagination } from '@/composables/usePagination';
+import { usePaginatedData } from '@/composables/usePagination';
+
+const router = useRouter();
 
 const fetchBlogData = async (currentPage, itemsPerPage) => {
   const result = await useAsyncGql({
@@ -19,8 +21,10 @@ const {
   totalPages,
   loading,
   error,
-  updateCurrentPage
-} = usePagination(fetchBlogData);
+  updateCurrentPage,
+  goBack,
+  goForward
+} = usePaginatedData(fetchBlogData, router);
 
 const posts = computed(() => data.value?.postsEntries || []);
 const content = computed(() => data.value?.blogEntries[0] || { title: '', pageSubheading: '', pageContent: '' });

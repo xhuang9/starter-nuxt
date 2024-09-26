@@ -1,5 +1,8 @@
 <script setup>
-import { usePagination } from '@/composables/usePagination';
+import { usePaginatedData } from '@/composables/usePagination';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const fetchGuestbookData = async (currentPage, itemsPerPage) => {
   const result = await useAsyncGql({
@@ -19,8 +22,10 @@ const {
   totalPages,
   loading,
   error,
-  updateCurrentPage
-} = usePagination(fetchGuestbookData);
+  updateCurrentPage,
+  goBack,
+  goForward
+} = usePaginatedData(fetchGuestbookData, router);
 
 // Extract posts from the data
 const posts = computed(() => data.value?.postsEntries || []);
