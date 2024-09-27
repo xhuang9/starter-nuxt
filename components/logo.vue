@@ -1,5 +1,16 @@
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  siteName: {
+    type: String,
+    required: true
+  }
+});
+</script>
+
 <template>
   <a href="/" class="text-red-600 block">
-    Site name
+    {{ siteName }}
   </a>
 </template>

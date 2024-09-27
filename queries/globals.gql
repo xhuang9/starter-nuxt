@@ -30,7 +30,6 @@ query Globals {
         filename
         format
       }
-      postDate
       sectionHandle
       sectionId
     }
