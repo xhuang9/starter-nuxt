@@ -23,6 +23,7 @@ export function usePaginatedData(fetchData, router, initialItemsPerPage = 3) {
     error.value = null; // Reset error state before fetching
     try {
       data.value = await fetchData(currentPage.value, itemsPerPage.value);
+      console.log('Fetched data:', data.value);
     } catch (err) {
       error.value = err; // Capture the error
       console.error('Error fetching data:', err); // Log the error for debugging
@@ -30,6 +31,7 @@ export function usePaginatedData(fetchData, router, initialItemsPerPage = 3) {
       loading.value = false; // Ensure loading is set to false
     }
   };
+  
 
   onMounted(() => {
     // Read the current page from the URL

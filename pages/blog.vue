@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginatedData } from '@/composables/usePagination';
+import { usePaginatedData } from '@/composables/usePaginatedData';
 
 const router = useRouter();
 

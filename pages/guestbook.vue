@@ -1,18 +1,31 @@
 <script setup>
-import { usePaginatedData } from '@/composables/usePagination';
+import { usePaginatedData } from '@/composables/usePaginatedData';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const posts = ref([]);
+const content = ref({});
 
 const fetchGuestbookData = async (currentPage, itemsPerPage) => {
-  const result = await useAsyncGql({
-    operation: 'Guestbook',
-    variables: {
-      limit: itemsPerPage,
-      offset: (currentPage - 1) * itemsPerPage
+  try {
+    const result = await useAsyncGql({
+      operation: 'Guestbook',
+      variables: {
+        limit: itemsPerPage,
+        offset: (currentPage - 1) * itemsPerPage
+      }
+    });
+
+    if (!result.data || !result.data.value) {
+      console.error('No data returned from GraphQL:', result);
+      return null; // Return null if no data is found
     }
-  });
-  return result.data.value; // Ensure this path is correct
+
+    return result.data.value; // Ensure this path is correct
+  } catch (error) {
+    console.error('Error fetching guestbook data:', error);
+    return null; // Return null on error
+  }
 };
 
 const {
@@ -27,9 +40,9 @@ const {
   goForward
 } = usePaginatedData(fetchGuestbookData, router);
 
-// Extract posts from the data
-const posts = computed(() => data.value?.postsEntries || []);
-const content = computed(() => data.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' });
+onMounted(() => {
+  fetchGuestbookData(); // Call fetchData when the component is mounted
+});
 </script>
 
 <template>
