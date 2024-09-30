@@ -1,20 +1,25 @@
 <script lang="js" setup>
-  const { data } = await useAsyncGql({
-    operation: 'Globals'
-  });
+  import { defineProps } from 'vue';
+
+  const props = defineProps({
+    globalData: {
+      type: Object,
+      required: false
+    }
+  })
 </script>
 
 
 <template>
   <footer class="bg-slate-50 py-6 px-2 text-sm">
-    <address class="container mx-auto not-italic">
-      <p class="font-bold">{{ data.globalEntries?.[0]?.address?.[0]?.title }}</p>
+    <address class="container mx-auto not-italic" v-if="globalData.address">
+      <p class="font-bold">{{ globalData.address.title }}</p>
       <p>
-        {{ data.globalEntries?.[0]?.address?.[0]?.addressLine1 }}<br v-if="data.globalEntries?.[0]?.address?.[0]?.addressLine1" />
-        {{ data.globalEntries?.[0]?.address?.[0]?.addressLine2 }}<br v-if="data.globalEntries?.[0]?.address?.[0]?.addressLine2" />
-        {{ data.globalEntries?.[0]?.address?.[0]?.addressLine3 }}<br v-if="data.globalEntries?.[0]?.address?.[0]?.addressLine3" />
-        {{ data.globalEntries?.[0]?.address?.[0]?.locality }} {{ data.globalEntries?.[0]?.address?.[0]?.postalCode }}<br />
-        {{ data.globalEntries?.[0]?.address?.[0]?.countryCode }}
+        {{ globalData.address.addressLine1 }}<br v-if="globalData.address.addressLine1" />
+        {{ globalData.address.addressLine2 }}<br v-if="globalData.address.addressLine2" />
+        {{ globalData.address.addressLine3 }}<br v-if="globalData.address.addressLine3" />
+        {{ globalData.address.locality }} {{ globalData.address.postalCode }}<br />
+        {{ globalData.address.countryCode }}
       </p>
     </address>
   </footer>
