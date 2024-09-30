@@ -16,8 +16,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-
 // Define props
 const props = defineProps({
   currentPage: {
