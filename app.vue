@@ -18,7 +18,7 @@
 <template>
   <div>
     <Header :globalData="globalData" />
-    <NuxtPage />
+      <NuxtPage />
     <Footer :globalData="globalData" />
   </div>
 </template>
