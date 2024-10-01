@@ -1,23 +1,37 @@
 <script setup>
-import { usePagination } from '@/composables/usePagination';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'; // or from '#app' if using Nuxt
+import { usePaginatedData } from '@/composables/usePaginatedData';
 
-const fetchGuestbookData = async (currentPage, itemsPerPage) => {
+const route = useRoute();
+const router = useRouter();
+
+const fetchGuestbookData = async (page, perPage) => {
+  console.log(`Fetching guestbook data for page ${page} with ${perPage} items per page`);
   try {
-    console.log('Fetching data for page:', currentPage, 'with itemsPerPage:', itemsPerPage);
-    const GqlInstance = useGql();
-    const result = await GqlInstance('Guestbook', {
-      limit: itemsPerPage,
-      offset: (currentPage - 1) * itemsPerPage
+    const result = await GqlGuestbook({
+      limit: perPage,
+      offset: (page - 1) * perPage
     });
-    console.log('GraphQL result:', result);
-    if (!result || !result.postsEntries) {
-      console.error('No data returned from GraphQL query');
-      return null;
+    console.log('Raw GraphQL result:', JSON.stringify(result, null, 2));
+    
+    if (!result) {
+      throw new Error('No result returned from GraphQL query');
     }
-    return result;
+    
+    if (!result.postsEntries) {
+      console.error('Missing postsEntries in GraphQL response:', result);
+      throw new Error('Invalid GraphQL response: missing postsEntries');
+    }
+    
+    return {
+      postsEntries: result.postsEntries,
+      guestbookEntries: result.guestbookEntries || [],
+      entryCount: result.entryCount || 0
+    };
   } catch (error) {
     console.error('Error fetching guestbook data:', error);
-    return null;
+    throw error;
   }
 };
 
@@ -28,8 +42,26 @@ const {
   totalPages,
   loading,
   error,
-  updateCurrentPage
-} = usePagination(fetchGuestbookData);
+  updateCurrentPage,
+  fetchPageData
+} = usePaginatedData(fetchGuestbookData, router);
+
+// Watch for changes in the route's query parameters
+watch(
+  () => route.query,
+  (newQuery) => {
+    const newPage = parseInt(newQuery.page) || 1;
+    if (newPage !== currentPage.value) {
+      currentPage.value = newPage;
+    }
+  }
+);
+
+onMounted(() => {
+  const pageFromQuery = parseInt(route.query.page) || 1;
+  currentPage.value = pageFromQuery;
+  fetchPageData(currentPage.value);
+});
 
 // Extract posts from the data
 const posts = computed(() => data.value?.postsEntries || []);

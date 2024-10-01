@@ -1,25 +1,37 @@
 <script setup>
+import { watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'; // or from '#app' if using Nuxt
 import { usePaginatedData } from '@/composables/usePaginatedData';
 
+const route = useRoute();
 const router = useRouter();
 
-const fetchBlogData = async (currentPage, itemsPerPage) => {
+const fetchBlogData = async (page, perPage) => {
+  console.log(`Fetching blog data for page ${page} with ${perPage} items per page`);
   try {
-    console.log('Fetching data for page:', currentPage, 'with itemsPerPage:', itemsPerPage);
-    const GqlInstance = useGql();
-    const result = await GqlInstance('Blog', {
-      limit: itemsPerPage,
-      offset: (currentPage - 1) * itemsPerPage
+    const result = await GqlBlog({
+      limit: perPage,
+      offset: (page - 1) * perPage
     });
-    console.log('GraphQL result:', result);
-    if (!result || !result.articleEntries) {
-      console.error('No data returned from GraphQL query');
-      return null;
+    console.log('Raw GraphQL result:', JSON.stringify(result, null, 2));
+    
+    if (!result) {
+      throw new Error('No result returned from GraphQL query');
     }
-    return result;
+    
+    if (!result.articleEntries) {
+      console.error('Missing articleEntries in GraphQL response:', result);
+      throw new Error('Invalid GraphQL response: missing postsEntries');
+    }
+    
+    return {
+      articleEntries: result.articleEntries,
+      blogEntries: result.blogEntries || [],
+      entryCount: result.entryCount || 0
+    };
   } catch (error) {
-    console.error('Error fetching guestbook data:', error);
-    return null;
+    console.error('Error fetching blog data:', error);
+    throw error;
   }
 };
 
@@ -31,13 +43,28 @@ const {
   loading,
   error,
   updateCurrentPage,
-  goBack,
-  goForward
+  fetchPageData
 } = usePaginatedData(fetchBlogData, router);
 
-// Extract posts from the data
+// Watch for changes in the route's query parameters
+watch(
+  () => route.query,
+  (newQuery) => {
+    const newPage = parseInt(newQuery.page) || 1;
+    if (newPage !== currentPage.value) {
+      currentPage.value = newPage;
+    }
+  }
+);
+
+onMounted(() => {
+  const pageFromQuery = parseInt(route.query.page) || 1;
+  currentPage.value = pageFromQuery;
+  fetchPageData(currentPage.value);
+});
+
 const posts = computed(() => data.value?.articleEntries || []);
-const content = computed(() => data.value?.blogEntries[0] || { title: '', pageSubheading: '', pageContent: '' });
+const content = computed(() => data.value?.blogEntries?.[0] || { title: '', pageSubheading: '', pageContent: '' });
 </script>
 
 <template>
