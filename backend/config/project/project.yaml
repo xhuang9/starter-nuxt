@@ -1,4 +1,4 @@
-dateModified: 1726329232
+dateModified: 1727771251
 elementSources:
   craft\elements\Entry:
     -
@@ -146,7 +146,7 @@ meta:
     9d082133-4710-4468-ab39-80db8c9fcf59: Code # Code
     9d42aa56-4a66-4d0b-b8a9-84a4cb387788: 'Text block' # Text block
     25b2446d-c1d2-4aa1-8184-3147e617f069: Text # Text
-    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Starter starter' # Starter starter
+    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Starter Nuxt' # Starter Nuxt
     70b2614b-639a-4de2-8c11-3851d36d6f8c: 'Blog categories' # Blog categories
     163c895f-0c05-4845-80e2-043b2346d830: Address # Address
     697da4c2-e02f-4f49-9d76-e22609ceda25: Page # Page
