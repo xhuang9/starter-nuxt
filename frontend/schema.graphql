@@ -1,0 +1,13 @@
+type Mutation {
+  save_posts_text_Entry(title: String!, textBlock: String): Entry
+}
+
+type Entry {
+  id: ID
+  title: String
+  textBlock: String
+}
+
+type Query {
+  entries: [Entry]
+}

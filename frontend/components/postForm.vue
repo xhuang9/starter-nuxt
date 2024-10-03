@@ -6,11 +6,13 @@ const form = ref({
 })
 
 const submitting = ref(false)
+const title = ref('Post ' + now())
 
 const submitPost = async () => {
   submitting.value = true
   try {
     const result = await createPost({
+      title: title.value,
       message: form.value.message
     })
     console.log('Post created:', result)
