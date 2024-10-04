@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     public: {
       GQL_HOST: process.env.GQL_HOST,
       AUTH_HEADER: process.env.AUTH_HEADER,
-      LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true'
+      LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true',
+      CRAFT_URL: process.env.CRAFT_URL,
     }
   },
   'graphql-client': {
@@ -22,7 +23,8 @@ export default defineNuxtConfig({
           name: 'Authorization',
           value: process.env.AUTH_HEADER
         },
-        retainToken: true
+        retainToken: true,
+        enableMutation: true
       }
     }
   }

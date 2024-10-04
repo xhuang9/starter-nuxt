@@ -1,27 +1,48 @@
 <script setup>
 import { ref } from 'vue'
+import { useLazyAsyncData, useRuntimeConfig } from '#imports'
 
-const form = ref({
-  message: ''
-})
+const config = useRuntimeConfig()
+const message = ref('')
+const title = ref('Post ')
 
-const submitting = ref(false)
-const title = ref('Post ' + now())
+const fetchCsrfToken = async () => {
+  try {
+    const response = await fetch(`${config.public.baseURL}/api/csrf`)
+    const data = await response.json()
+    return data.csrfToken
+  } catch (error) {
+    console.error('Error fetching CSRF token:', error)
+    return null
+  }
+}
+
+const { data: csrfToken } = useLazyAsyncData('csrfToken', fetchCsrfToken)
+
+// Use the auto-generated composable for the createPost mutation
+const { mutate: createPost, loading, error } = useCreatePostMutation()
 
 const submitPost = async () => {
-  submitting.value = true
+  if (!csrfToken.value) {
+    console.error('CSRF token not available')
+    return
+  }
+
   try {
     const result = await createPost({
       title: title.value,
-      message: form.value.message
+      message: message.value
+    }, {
+      headers: {
+        'X-CSRF-Token': csrfToken.value,
+      }
     })
     console.log('Post created:', result)
-    // Reset form or navigate to new post
-    form.value = { message: '' }
-  } catch (error) {
-    console.error('Error creating post:', error)
-  } finally {
-    submitting.value = false
+    // Clear the form fields after successful submission
+    title.value = 'Post '
+    message.value = ''
+  } catch (err) {
+    console.error('Error creating post:', err)
   }
 }
 </script>
@@ -29,9 +50,13 @@ const submitPost = async () => {
 <template>
   <form method="post" @submit.prevent="submitPost">
     <div class="mb-6 mt-4">
+      <label for="title" class="font-bold">Title</label>
+      <input type="text" name="title" class="w-full px-6 py-4" required id="title" v-model="title">
+    </div>
+    <div class="mb-6 mt-4">
       <label for="message" class="font-bold">Message</label>
       <textarea name="message" class="w-full px-6 py-4" required id="message" v-model="message"></textarea>
     </div>
-    <input type="submit" class="rounded font-bold bg-red-600 text-slate-50 px-6 py-4" value="Post entry" />
-  </form>  
+    <input type="submit" class="rounded font-bold bg-red-600 text-slate-50 px-6 py-4" value="Post entry" :disabled="loading">
+  </form>
 </template>
