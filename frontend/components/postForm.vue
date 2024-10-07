@@ -27,6 +27,7 @@ if (csrfError.value) {
 }
 
 const submitPost = async () => {
+  console.log('submitPost function called')
   if (!csrfToken.value) {
     console.error('CSRF token not available')
     return
@@ -46,27 +47,24 @@ const submitPost = async () => {
       }
     })
 
-    console.log('Raw response:', result)
+    console.log('Full GraphQL response:', JSON.stringify(result, null, 2))
 
-    if (result.error) {
-      console.error('GraphQL Error:', result.error)
-      throw new Error(JSON.stringify(result.error))
+    if (result.errors) {
+      console.error('GraphQL Errors:', JSON.stringify(result.errors, null, 2))
+      throw new Error(JSON.stringify(result.errors))
     }
 
-    if (!result.data) {
+    if (!result.data || !result.data.save_posts_text_Entry) {
       throw new Error('No data returned from the mutation')
     }
 
-    console.log('Post created:', result.data)
+    console.log('Post created successfully:', result.data.save_posts_text_Entry)
     // Clear the form fields after successful submission
     title.value = 'Post '
     message.value = ''
   } catch (err) {
     console.error('Error creating post:', err)
-    if (err.response) {
-      console.error('Response status:', err.response.status)
-      console.error('Response data:', await err.response.text())
-    }
+    console.error('Error details:', JSON.stringify(err, Object.getOwnPropertyNames(err)))
   } finally {
     loading.value = false
   }
