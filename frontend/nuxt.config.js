@@ -3,27 +3,31 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "nuxt-graphql-client"],
+  runtimeConfig: {
+    CRAFT_URL: process.env.CRAFT_URL,
+    public: {
+      GQL_HOST: process.env.GQL_HOST,
+      AUTH_HEADER: process.env.AUTH_HEADER,
+      LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true',
+      CRAFT_URL: process.env.CRAFT_URL,
+      BASE_URL: process.env.BASE_URL
+    }
+  },
   'graphql-client': {
     clients: {
       default: {
-        livePreview: process.env.LIVE_PREVIEW === 'true',
-        host: process.env.GQL_HOST,
-        token: process.env.LIVE_PREVIEW === 'true' ? process.env.AUTH_HEADER : '',
+        host: process.env.GQL_HOST
       },
       posts: {
         host: process.env.GQL_HOST,
-        token: process.env.AUTH_HEADER
+        token: {
+          type: 'Bearer',
+          name: 'Authorization',
+          value: process.env.AUTH_HEADER
+        },
+        retainToken: true,
+        enableMutation: true
       }
-    },
-    tokenStorage: {
-      name: '__session',
-      mode: 'cookie', // default
-      cookieOptions: {
-        path: '/',
-        secure: true, // defaults to `process.env.NODE_ENV === 'production'`
-        httpOnly: false, // Only accessible via HTTP(S)
-        maxAge: 60 * 60 * 24 * 5 // 5 days
-      }
-    } 
+    }
   }
 });

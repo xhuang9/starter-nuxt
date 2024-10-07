@@ -1,0 +1,10 @@
+mutation createPost($title: String!, $message: String) {
+  save_posts_text_Entry(
+    title: $title,
+    textBlock: $message,
+    authorId: 1
+  ) {
+      title
+      textBlock
+  }
+}
