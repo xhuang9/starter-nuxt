@@ -5,24 +5,26 @@ import { useLazyAsyncData, useRuntimeConfig } from '#imports'
 const config = useRuntimeConfig()
 const message = ref('')
 const title = ref('Post ')
-const craftUrl = config.public.CRAFT_URL
+const loading = ref(false)
 
 const fetchCsrfToken = async () => {
   try {
-    const response = await fetch('${config.public.BASE_URL}/api/csrf')
+    const response = await fetch('/api/csrf')
     const data = await response.json()
     return data.csrfToken
-    console('CSRF acquiered')
+    console('CSRF acquired ' + data.csrfToken)
   } catch (error) {
     console.error('Error fetching CSRF token:', error)
     return null
   }
 }
 
-const { data: csrfToken } = useLazyAsyncData('csrfToken', fetchCsrfToken)
+const { data: csrfTokenData, error: csrfError } = await useFetch('/api/csrf')
+const csrfToken = ref(csrfTokenData.value?.csrfToken)
 
-// Use the auto-generated composable for the createPost mutation
-//const { mutate: createPost, loading, error } = useGqlMutation(createPostMutation, { clientId: 'posts' })
+if (csrfError.value) {
+  console.error('Error fetching CSRF token:', csrfError.value)
+}
 
 const submitPost = async () => {
   if (!csrfToken.value) {
@@ -30,8 +32,12 @@ const submitPost = async () => {
     return
   }
 
+  loading.value = true
   try {
-    const result = await createPost({
+    console.log('Submitting post with title:', title.value, 'and message:', message.value)
+    console.log('CSRF Token:', csrfToken.value)
+
+    const result = await GqlCreatePost({
       title: title.value,
       message: message.value
     }, {
@@ -39,12 +45,30 @@ const submitPost = async () => {
         'X-CSRF-Token': csrfToken.value,
       }
     })
-    console.log('Post created:', result)
+
+    console.log('Raw response:', result)
+
+    if (result.error) {
+      console.error('GraphQL Error:', result.error)
+      throw new Error(JSON.stringify(result.error))
+    }
+
+    if (!result.data) {
+      throw new Error('No data returned from the mutation')
+    }
+
+    console.log('Post created:', result.data)
     // Clear the form fields after successful submission
     title.value = 'Post '
     message.value = ''
   } catch (err) {
     console.error('Error creating post:', err)
+    if (err.response) {
+      console.error('Response status:', err.response.status)
+      console.error('Response data:', await err.response.text())
+    }
+  } finally {
+    loading.value = false
   }
 }
 </script>
