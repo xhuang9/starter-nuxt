@@ -5,12 +5,14 @@ import { useLazyAsyncData, useRuntimeConfig } from '#imports'
 const config = useRuntimeConfig()
 const message = ref('')
 const title = ref('Post ')
+const craftUrl = config.public.CRAFT_URL
 
 const fetchCsrfToken = async () => {
   try {
-    const response = await fetch(`${config.public.baseURL}/api/csrf`)
+    const response = await fetch('${config.public.BASE_URL}/api/csrf')
     const data = await response.json()
     return data.csrfToken
+    console('CSRF acquiered')
   } catch (error) {
     console.error('Error fetching CSRF token:', error)
     return null
@@ -20,7 +22,7 @@ const fetchCsrfToken = async () => {
 const { data: csrfToken } = useLazyAsyncData('csrfToken', fetchCsrfToken)
 
 // Use the auto-generated composable for the createPost mutation
-const { mutate: createPost, loading, error } = useCreatePostMutation()
+//const { mutate: createPost, loading, error } = useGqlMutation(createPostMutation, { clientId: 'posts' })
 
 const submitPost = async () => {
   if (!csrfToken.value) {
@@ -49,10 +51,6 @@ const submitPost = async () => {
 
 <template>
   <form method="post" @submit.prevent="submitPost">
-    <div class="mb-6 mt-4">
-      <label for="title" class="font-bold">Title</label>
-      <input type="text" name="title" class="w-full px-6 py-4" required id="title" v-model="title">
-    </div>
     <div class="mb-6 mt-4">
       <label for="message" class="font-bold">Message</label>
       <textarea name="message" class="w-full px-6 py-4" required id="message" v-model="message"></textarea>

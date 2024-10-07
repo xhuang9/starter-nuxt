@@ -4,11 +4,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "nuxt-graphql-client"],
   runtimeConfig: {
+    CRAFT_URL: process.env.CRAFT_URL,
     public: {
       GQL_HOST: process.env.GQL_HOST,
       AUTH_HEADER: process.env.AUTH_HEADER,
       LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true',
       CRAFT_URL: process.env.CRAFT_URL,
+      BASE_URL: process.env.BASE_URL
     }
   },
   'graphql-client': {
