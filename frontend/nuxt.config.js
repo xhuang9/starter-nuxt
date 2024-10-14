@@ -25,8 +25,7 @@ export default defineNuxtConfig({
           name: 'Authorization',
           value: process.env.AUTH_HEADER
         },
-        retainToken: true,
-        enableMutation: true
+        retainToken: true
       }
     }
   }

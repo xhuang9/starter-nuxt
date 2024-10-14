@@ -11,8 +11,8 @@ const fetchCsrfToken = async () => {
   try {
     const response = await fetch('/api/csrf')
     const data = await response.json()
+    console.log('CSRF acquired ' + data.csrfToken)
     return data.csrfToken
-    console('CSRF acquired ' + data.csrfToken)
   } catch (error) {
     console.error('Error fetching CSRF token:', error)
     return null
@@ -27,6 +27,7 @@ if (csrfError.value) {
 }
 
 const submitPost = async () => {
+  console.log('submitPost function called')
   if (!csrfToken.value) {
     console.error('CSRF token not available')
     return
@@ -37,35 +38,48 @@ const submitPost = async () => {
     console.log('Submitting post with title:', title.value, 'and message:', message.value)
     console.log('CSRF Token:', csrfToken.value)
 
-    const result = await GqlCreatePost({
-      title: title.value,
-      message: message.value
-    }, {
+    // First, test the ping mutation
+    const pingResult = await GqlTestMutation({
       headers: {
         'X-CSRF-Token': csrfToken.value,
-      }
+      },
+      clientId: 'posts'
+    })
+    console.log('Ping result:', JSON.stringify(pingResult, null, 2))
+
+    // Now, try the actual post creation
+    const result = await GqlCreatePost({
+      variables: {
+        title: title.value,
+        message: message.value
+      },
+      headers: {
+        'X-CSRF-Token': csrfToken.value,
+      },
+      clientId: 'posts'
     })
 
-    console.log('Raw response:', result)
+    console.log('Full GraphQL response:', JSON.stringify(result, null, 2))
 
-    if (result.error) {
-      console.error('GraphQL Error:', result.error)
-      throw new Error(JSON.stringify(result.error))
+    if (result.errors) {
+      console.error('GraphQL Errors:', JSON.stringify(result.errors, null, 2))
+      throw new Error(JSON.stringify(result.errors))
     }
 
-    if (!result.data) {
+    if (!result.data || !result.data.save_posts_text_Entry) {
+      console.error('Unexpected response structure:', JSON.stringify(result, null, 2))
       throw new Error('No data returned from the mutation')
     }
 
-    console.log('Post created:', result.data)
+    console.log('Post created successfully:', result.data.save_posts_text_Entry)
     // Clear the form fields after successful submission
     title.value = 'Post '
     message.value = ''
   } catch (err) {
     console.error('Error creating post:', err)
+    console.error('Error details:', JSON.stringify(err, null, 2))
     if (err.response) {
-      console.error('Response status:', err.response.status)
-      console.error('Response data:', await err.response.text())
+      console.error('GraphQL response:', JSON.stringify(err.response, null, 2))
     }
   } finally {
     loading.value = false
