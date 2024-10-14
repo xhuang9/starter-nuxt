@@ -1,24 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { useLazyAsyncData, useRuntimeConfig } from '#imports'
 
-const config = useRuntimeConfig()
 const message = ref('')
 const title = ref('Post ')
 const loading = ref(false)
-
-const fetchCsrfToken = async () => {
-  try {
-    const response = await fetch('/api/csrf')
-    const data = await response.json()
-    console.log('CSRF acquired ' + data.csrfToken)
-    return data.csrfToken
-  } catch (error) {
-    console.error('Error fetching CSRF token:', error)
-    return null
-  }
-}
-
 const { data: csrfTokenData, error: csrfError } = await useFetch('/api/csrf')
 const csrfToken = ref(csrfTokenData.value?.csrfToken)
 
@@ -38,16 +23,6 @@ const submitPost = async () => {
     console.log('Submitting post with title:', title.value, 'and message:', message.value)
     console.log('CSRF Token:', csrfToken.value)
 
-    // First, test the ping mutation
-    const pingResult = await GqlTestMutation({
-      headers: {
-        'X-CSRF-Token': csrfToken.value,
-      },
-      clientId: 'posts'
-    })
-    console.log('Ping result:', JSON.stringify(pingResult, null, 2))
-
-    // Now, try the actual post creation
     const result = await GqlCreatePost({
       variables: {
         title: title.value,
@@ -55,8 +30,7 @@ const submitPost = async () => {
       },
       headers: {
         'X-CSRF-Token': csrfToken.value,
-      },
-      clientId: 'posts'
+      }
     })
 
     console.log('Full GraphQL response:', JSON.stringify(result, null, 2))
