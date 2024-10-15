@@ -1,86 +1,67 @@
 <script setup>
-import { ref } from 'vue'
-import { useLazyAsyncData, useRuntimeConfig } from '#imports'
+import { computed, ref } from 'vue'
+import { useRuntimeConfig } from '#app'
 
 const config = useRuntimeConfig()
 const message = ref('')
-const title = ref('Post ')
+const authorId = ref(1)
 const loading = ref(false)
 
-const fetchCsrfToken = async () => {
-  try {
-    const response = await fetch('/api/csrf')
-    const data = await response.json()
-    console.log('CSRF acquired ' + data.csrfToken)
-    return data.csrfToken
-  } catch (error) {
-    console.error('Error fetching CSRF token:', error)
-    return null
-  }
+const generateTitle = (text) => {
+  const words = text.split(' ').slice(0, 3).join(' ').trim()
+  return `Post: ${words}${words ? '...' : ''}`
 }
 
-const { data: csrfTokenData, error: csrfError } = await useFetch('/api/csrf')
-const csrfToken = ref(csrfTokenData.value?.csrfToken)
-
-if (csrfError.value) {
-  console.error('Error fetching CSRF token:', csrfError.value)
-}
-
+const title = computed(() => generateTitle(message.value))
+''
 const submitPost = async () => {
-  console.log('submitPost function called')
-  if (!csrfToken.value) {
-    console.error('CSRF token not available')
+  if (!message.value.trim()) {
+    console.error('Message is required')
     return
   }
-
   loading.value = true
   try {
-    console.log('Submitting post with title:', title.value, 'and message:', message.value)
-    console.log('CSRF Token:', csrfToken.value)
-
-    // First, test the ping mutation
-    const pingResult = await GqlTestMutation({
+    const result = await $fetch(config.public.GQL_HOST, {
+      method: 'POST',
       headers: {
-        'X-CSRF-Token': csrfToken.value,
+        Authorization: `Bearer ${config.public.AUTH_HEADER}`,
+        'Content-Type': 'application/json',
       },
-      clientId: 'posts'
+      body: JSON.stringify({
+        query: `
+          mutation createPost($title: String!, $message: String, $authorId: ID!) {
+            save_posts_text_Entry(
+              title: $title,
+              textBlock: $message,
+              authorId: $authorId
+            ) {
+                title
+                textBlock
+            }
+          }
+        `,
+        variables: {
+          title: title.value,
+          message: message.value,
+          authorId: authorId.value
+        }
+      })
     })
-    console.log('Ping result:', JSON.stringify(pingResult, null, 2))
-
-    // Now, try the actual post creation
-    const result = await GqlCreatePost({
-      variables: {
-        title: title.value,
-        message: message.value
-      },
-      headers: {
-        'X-CSRF-Token': csrfToken.value,
-      },
-      clientId: 'posts'
-    })
-
-    console.log('Full GraphQL response:', JSON.stringify(result, null, 2))
 
     if (result.errors) {
-      console.error('GraphQL Errors:', JSON.stringify(result.errors, null, 2))
-      throw new Error(JSON.stringify(result.errors))
+      throw new Error('Error creating post: ' + JSON.stringify(result.errors))
     }
 
     if (!result.data || !result.data.save_posts_text_Entry) {
-      console.error('Unexpected response structure:', JSON.stringify(result, null, 2))
       throw new Error('No data returned from the mutation')
     }
 
-    console.log('Post created successfully:', result.data.save_posts_text_Entry)
+    console.log('Post created successfully')
     // Clear the form fields after successful submission
     title.value = 'Post '
     message.value = ''
   } catch (err) {
-    console.error('Error creating post:', err)
-    console.error('Error details:', JSON.stringify(err, null, 2))
-    if (err.response) {
-      console.error('GraphQL response:', JSON.stringify(err.response, null, 2))
-    }
+    console.error('Error creating post:', err.message)
   } finally {
     loading.value = false
   }
