@@ -103,7 +103,6 @@ const content = computed(() => data.value?.guestbookEntries[0] || { title: '', p
       <div class="bg-slate-200 p-6 mb-9 rounded">
         <h2 class="font-bold text-3xl mb-4">Post an entry</h2>
         <PostForm />
-        <SignInForm />
       </div>
     </section>
   </div>
