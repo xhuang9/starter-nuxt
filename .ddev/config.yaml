@@ -1,13 +1,13 @@
 name: starter-nuxt
 type: craftcms
-docroot: web
+docroot: backend/web
 php_version: "8.2"
 nodejs_version: "20"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: 
-    - starter-nuxt.ddev.site
-    - api.starter-nuxt.ddev.site
+    - starter-nuxt
+    - api.starter-nuxt
 additional_fqdns: []
 database:
     type: mysql
@@ -16,6 +16,8 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
+upload_dirs:
+  - backend/web/uploads
 hooks:
   post-start:
     - exec: "pm2 start apps.config.js"
