@@ -16,7 +16,6 @@ export function usePaginatedData(fetchData, router = null, initialItemsPerPage =
     error.value = null;
     try {
       const result = await fetchData(page, itemsPerPage.value);
-      console.log('Fetched result:', result);
       if (!result) {
         throw new Error('No data returned from fetch function');
       }
