@@ -18,6 +18,7 @@
 <template>
   <div>
     <Header :globalData="globalData" />
+      <Alert />
       <NuxtPage />
     <Footer :globalData="globalData" />
   </div>

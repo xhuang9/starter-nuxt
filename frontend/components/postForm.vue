@@ -1,11 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRuntimeConfig } from '#app'
+import { useFlashes } from '~/composables/useFlashes'
 
 const config = useRuntimeConfig()
 const message = ref('')
 const authorId = ref(1)
 const loading = ref(false)
+const { addFlash } = useFlashes()
 
 const generateTitle = (text) => {
   const words = text.split(' ').slice(0, 3).join(' ').trim()
@@ -13,6 +15,7 @@ const generateTitle = (text) => {
 }
 
 const title = computed(() => generateTitle(message.value))
+const emit = defineEmits(['post-submitted'])
 ''
 const submitPost = async () => {
   if (!message.value.trim()) {
@@ -50,17 +53,21 @@ const submitPost = async () => {
 
     if (result.errors) {
       throw new Error('Error creating post: ' + JSON.stringify(result.errors))
+      addFlash('Error posting message', 'error')
     }
 
     if (!result.data || !result.data.save_posts_text_Entry) {
       throw new Error('No data returned from the mutation')
     }
 
-    console.log('Post created successfully')
+    addFlash('Message posted', 'success')
     // Clear the form fields after successful submission
-    title.value = 'Post '
+    title.value = ''
     message.value = ''
+    //Refresh post list
+    emit('post-submitted')
   } catch (err) {
+    addFlash('Error posting message', 'error')
     console.error('Error creating post:', err.message)
   } finally {
     loading.value = false

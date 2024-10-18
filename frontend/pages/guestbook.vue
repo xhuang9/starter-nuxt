@@ -1,27 +1,20 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router'; // or from '#app' if using Nuxt
+import { useRoute, useRouter } from '#app';
 import { usePaginatedData } from '@/composables/usePaginatedData';
 
 const route = useRoute();
 const router = useRouter();
 
 const fetchGuestbookData = async (page, perPage) => {
-  console.log(`Fetching guestbook data for page ${page} with ${perPage} items per page`);
   try {
     const result = await GqlGuestbook({
       limit: perPage,
       offset: (page - 1) * perPage
     });
-    console.log('Raw GraphQL result:', JSON.stringify(result, null, 2));
     
-    if (!result) {
+    if (!result || !result.postsEntries) {
       throw new Error('No result returned from GraphQL query');
-    }
-    
-    if (!result.postsEntries) {
-      console.error('Missing postsEntries in GraphQL response:', result);
-      throw new Error('Invalid GraphQL response: missing postsEntries');
     }
     
     return {
@@ -30,17 +23,14 @@ const fetchGuestbookData = async (page, perPage) => {
       entryCount: result.entryCount || 0
     };
   } catch (error) {
-    console.error('Error fetching guestbook data:', error);
     throw error;
   }
 };
 
 const {
   currentPage,
-  itemsPerPage,
   data,
   totalPages,
-  loading,
   error,
   updateCurrentPage,
   fetchPageData
@@ -66,6 +56,13 @@ onMounted(() => {
 // Extract posts from the data
 const posts = computed(() => data.value?.postsEntries || []);
 const content = computed(() => data.value?.guestbookEntries[0] || { title: '', pageSubheading: '', pageContent: '' });
+
+const newPost = async () => {
+  await fetchPageData(1);
+  if (currentPage.value !== 1) {
+    updateCurrentPage(1);
+  }
+};
 </script>
 
 <template>
@@ -102,7 +99,7 @@ const content = computed(() => data.value?.guestbookEntries[0] || { title: '', p
     <section>
       <div class="bg-slate-200 p-6 mb-9 rounded">
         <h2 class="font-bold text-3xl mb-4">Post an entry</h2>
-        <PostForm />
+        <PostForm @post-submitted="newPost" />
       </div>
     </section>
   </div>
