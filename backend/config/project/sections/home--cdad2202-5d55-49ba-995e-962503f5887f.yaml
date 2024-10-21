@@ -13,7 +13,7 @@ previewTargets:
         - 'Primary entry page'
       -
         - urlFormat
-        - /
+        - '{{ alias(''@preview'') }}/'
       -
         - refresh
         - '1'
@@ -22,6 +22,6 @@ siteSettings:
   58ccb571-6c72-449f-8e7b-6f43c5d416b3: # Starter Nuxt
     enabledByDefault: true
     hasUrls: true
-    template: index.twig
+    template: null
     uriFormat: __home__
 type: single
