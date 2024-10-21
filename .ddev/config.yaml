@@ -21,6 +21,11 @@ upload_dirs:
 hooks:
   post-start:
     - exec: "pm2 start apps.config.js"
+web_extra_exposed_ports:
+  - name: nuxt
+    container_port: 3000
+    http_port: 3000
+    https_port: 3001
 
 # Key features of DDEV's config.yaml:
 

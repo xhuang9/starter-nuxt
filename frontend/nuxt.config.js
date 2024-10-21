@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "nuxt-graphql-client"],
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000
+  },
   runtimeConfig: {
     CRAFT_URL: process.env.CRAFT_URL,
     public: {
