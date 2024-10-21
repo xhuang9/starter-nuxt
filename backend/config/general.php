@@ -26,4 +26,4 @@ return GeneralConfig::create()
         '@preview' => getenv('PREVIEW_URL'),
     ])
     ->headlessMode(true)
-;
+    ->allowedGraphqlOrigins([getenv('PREVIEW_URL')]);

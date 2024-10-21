@@ -20,7 +20,17 @@ export default defineNuxtConfig({
   'graphql-client': {
     clients: {
       default: {
-        host: process.env.GQL_HOST
+        host: process.env.GQL_HOST,
+        headers: ({ req }) => {
+          if (!req?.url) return {}
+          const url = new URL(req.url, 'http://localhost')
+          const isPreview = url.searchParams.get('x-craft-live-preview') === 'true'
+          const token = url.searchParams.get('x-craft-live-preview')
+          return {
+            ...(isPreview && token ? { 'X-Craft-Token': token } : {}),
+            'X-Craft-Preview': isPreview ? 'true' : 'false'
+          }
+        }
       },
       posts: {
         host: process.env.GQL_HOST,

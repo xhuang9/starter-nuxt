@@ -2,15 +2,19 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from '#app';
 import { usePaginatedData } from '@/composables/usePaginatedData';
+import { usePreview } from '~/composables/usePreview'
 
 const route = useRoute();
 const router = useRouter();
+const { isPreview, previewToken } = usePreview()
 
 const fetchGuestbookData = async (page, perPage) => {
   try {
     const result = await GqlGuestbook({
       limit: perPage,
-      offset: (page - 1) * perPage
+      offset: (page - 1) * perPage,
+      slug: route.params.slug,
+      token: previewToken.value
     });
     
     if (!result || !result.postsEntries) {
