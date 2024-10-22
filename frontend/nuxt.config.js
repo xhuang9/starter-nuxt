@@ -17,18 +17,24 @@ export default defineNuxtConfig({
       BASE_URL: process.env.BASE_URL
     }
   },
+  vite: {
+    server: {
+      https: true,
+      hmr: {
+        protocol: 'wss'
+      }
+    }
+  },
   'graphql-client': {
     clients: {
       default: {
         host: process.env.GQL_HOST,
         headers: ({ req }) => {
           if (!req?.url) return {}
-          const url = new URL(req.url, 'http://localhost')
-          const isPreview = url.searchParams.get('x-craft-live-preview') === 'true'
-          const token = url.searchParams.get('x-craft-live-preview')
+          const url = req ? new URL(req.url, `https://${req.headers.host}`) : null
+          const previewToken = url ? url.searchParams.get('x-craft-live-preview') : null
           return {
-            ...(isPreview && token ? { 'X-Craft-Token': token } : {}),
-            'X-Craft-Preview': isPreview ? 'true' : 'false'
+            ...(previewToken ? { 'X-Craft-Token': previewToken } : {}),
           }
         }
       },
