@@ -23,5 +23,7 @@ return GeneralConfig::create()
     // Set the @webroot alias so the clear-caches command knows where to find CP resources
     ->aliases([
         '@webroot' => dirname(__DIR__) . '/web',
+        '@preview' => getenv('PREVIEW_URL'),
     ])
-;
+    ->headlessMode(true)
+    ->allowedGraphqlOrigins([getenv('PREVIEW_URL')]);
