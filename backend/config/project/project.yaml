@@ -1,4 +1,4 @@
-dateModified: 1729493751
+dateModified: 1730204403
 elementSources:
   craft\elements\Entry:
     -
@@ -160,7 +160,6 @@ meta:
     bd99645a-4524-40e4-83dc-c6b12e023bab: Global # Global
     c4b4f50d-7d62-4a4c-bbf8-7aae00fd82c7: Pages # Pages
     c7d2eb61-cdde-4a76-88a9-eb30ddcf155b: Posts # Posts
-    c55ca0a9-4bd6-409b-afd8-c1884dafecd0: Team # Team
     cdad2202-5d55-49ba-995e-962503f5887f: Home # Home
     d4f0917b-edcf-4ef0-a98b-661ff27384ad: Page # Page
     d55d172f-8b8f-4bb7-b680-31249981c350: Global # Global

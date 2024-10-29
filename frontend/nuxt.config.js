@@ -2,17 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: false },
-  modules: ["@nuxtjs/tailwindcss", "nuxt-graphql-client"],
+  modules: ["@nuxtjs/tailwindcss"],
   devServer: {
     host: '0.0.0.0',
     port: 3000
   },
   runtimeConfig: {
-    CRAFT_URL: process.env.CRAFT_URL,
-    livePreviewParam: 'has-live-preview',
     public: {
-      GQL_HOST: process.env.GQL_HOST,
       AUTH_HEADER: process.env.AUTH_HEADER,
+      GQL_HOST: process.env.GQL_HOST,
       LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true',
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL
@@ -23,31 +21,6 @@ export default defineNuxtConfig({
       https: true,
       hmr: {
         protocol: 'wss'
-      }
-    }
-  },
-  'graphql-client': {
-    clients: {
-      default: {
-        host: process.env.GQL_HOST,
-        headers: ({ req }) => {
-          if (!req?.url) return {}
-          const url = req ? new URL(req.url, `https://${req.headers.host}`) : null
-          const previewToken = url ? url.searchParams.get('x-craft-live-preview') : null
-          console.log('Preview Token:', previewToken); 
-          return {
-            ...(previewToken ? { 'X-Craft-Token': previewToken } : {}),
-          }
-        }
-      },
-      posts: {
-        host: process.env.GQL_HOST,
-        token: {
-          type: 'Bearer',
-          name: 'Authorization',
-          value: process.env.AUTH_HEADER
-        },
-        retainToken: true
       }
     }
   }
