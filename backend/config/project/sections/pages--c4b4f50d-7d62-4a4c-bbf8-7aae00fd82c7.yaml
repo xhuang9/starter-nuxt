@@ -12,11 +12,11 @@ previewTargets:
         - label
         - 'Primary entry page'
       -
-        - urlFormat
-        - '{{ alias(''@preview'') }}/{url}'
-      -
         - refresh
         - '1'
+      -
+        - urlFormat
+        - '{{ alias(''@preview'') }}/{url}'
 propagationMethod: all
 siteSettings:
   58ccb571-6c72-449f-8e7b-6f43c5d416b3: # Starter Nuxt

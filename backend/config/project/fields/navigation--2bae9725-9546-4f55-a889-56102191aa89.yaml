@@ -5,8 +5,6 @@ name: Navigation
 searchable: false
 settings:
   createButtonLabel: 'New page'
-  entryTypes:
-    - b1b93579-e9e1-44de-9199-f7c9c50c51ef
   includeTableView: false
   maxEntries: null
   minEntries: null
