@@ -1,13 +1,12 @@
 <script setup>
 import { watch, onMounted, computed } from 'vue'
-import { useRoute, useRouter } from '#app'
+import { useRoute } from '#app'
 import { usePaginatedData } from '@/composables/usePaginatedData'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
 import { BLOG_QUERY } from '@/queries/blog.mjs'
 
 const route = useRoute()
-const router = useRouter()
 const graphql = useGraphQL()
 const { isPreview, previewToken, previewTimestamp } = usePreview()
 
@@ -26,21 +25,12 @@ const fetchBlogData = async (page, perPage) => {
       previewToken: previewToken.value
     })
     
-    console.log('Raw GraphQL result:', JSON.stringify(result, null, 2))
-    
-    if (!result) {
-      throw new Error('No result returned from GraphQL query')
-    }
-    
-    if (!result.articleEntries) {
-      console.error('Missing articleEntries in GraphQL response:', result)
-      throw new Error('Invalid GraphQL response: missing postsEntries')
-    }
+    console.log('Raw GraphQL result:', result)
     
     return {
-      articleEntries: result.articleEntries,
-      blogEntries: result.blogEntries || [],
-      entryCount: result.entryCount || 0
+      content: result?.blogEntries?.[0] || {},
+      posts: result?.articleEntries || [],
+      total: result?.entryCount || 0
     }
   } catch (error) {
     console.error('Error fetching blog data:', error)
@@ -50,25 +40,13 @@ const fetchBlogData = async (page, perPage) => {
 
 const {
   currentPage,
-  itemsPerPage,
   data,
   totalPages,
   loading,
   error,
   updateCurrentPage,
   fetchPageData
-} = usePaginatedData(fetchBlogData, router)
-
-// Watch for changes in the route's query parameters
-watch(
-  () => route.query,
-  (newQuery) => {
-    const newPage = parseInt(newQuery.page) || 1
-    if (newPage !== currentPage.value) {
-      currentPage.value = newPage
-    }
-  }
-)
+} = usePaginatedData(fetchBlogData)
 
 // Watch for preview changes
 watch([isPreview, previewToken], () => {
@@ -77,20 +55,14 @@ watch([isPreview, previewToken], () => {
   }
 })
 
-onMounted(() => {
-  const pageFromQuery = parseInt(route.query.page) || 1
-  currentPage.value = pageFromQuery
-  fetchPageData(currentPage.value)
-})
-
-const posts = computed(() => data.value?.articleEntries || [])
-const content = computed(() => data.value?.blogEntries?.[0] || { title: '', pageSubheading: '', pageContent: '' })
+const posts = computed(() => data.value?.posts || [])
+const content = computed(() => data.value?.content || {})
 </script>
 
 <template>
   <div :key="previewTimestamp">
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">Error: {{ error }}</div>
+    <div v-else-if="error">Error: {{ error.message }}</div>
     <div v-else>
       <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
         <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ content.title }}</h1>

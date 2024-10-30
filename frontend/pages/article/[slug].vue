@@ -51,7 +51,7 @@ watch([isPreview, previewToken], () => {
 })
 
 // Computed property for cleaner template
-const article = computed(() => {
+const currentArticle = computed(() => {
   const entry = data.value?.articleEntries?.[0]
   console.log('Full entry data:', entry)
   console.log('Next/Prev:', {
@@ -61,9 +61,7 @@ const article = computed(() => {
   })
   return entry
 })
-const hasArticle = computed(() => !!article.value)
-
-
+const hasArticle = computed(() => !!currentArticle.value)
 </script>
 
 <template>
@@ -78,18 +76,18 @@ const hasArticle = computed(() => !!article.value)
     
     <template v-else-if="hasArticle">
       <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
-        <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ article.title }}</h1>
-        <p v-if="article.pageSubheading">{{ article.pageSubheading }}</p>
+        <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ currentArticle.title }}</h1>
+        <p v-if="currentArticle.pageSubheading">{{ currentArticle.pageSubheading }}</p>
         <div class="text-xs mt-4">
           <p>
-            <span v-if="article.category?.length" class="font-bold">
-              {{ article.category[0].title }}
+            <span v-if="currentArticle.category?.length" class="font-bold">
+              {{ currentArticle.category[0].title }}
             </span>
-            <template v-if="article.category?.length && article.postDate">
+            <template v-if="currentArticle.category?.length && currentArticle.postDate">
               |
             </template>
-            <time v-if="article.postDate" :datetime="article.postDate">
-              {{ article.postDate }}
+            <time v-if="currentArticle.postDate" :datetime="currentArticle.postDate">
+              {{ currentArticle.postDate }}
             </time>
           </p>
         </div>
@@ -98,30 +96,18 @@ const hasArticle = computed(() => !!article.value)
       <section class="page__content">
         <div 
           class="container mx-auto py-12 px-2 text-balance" 
-          v-html="article.pageContent"
+          v-html="currentArticle.pageContent"
         ></div>
       </section>
 
       <section class="container mx-auto mb-6 px-2 divide-y divide-slate-300">
         <Teaser 
-          v-if="article.prev"
-          v-bind="article.prev"
-          :key="article.prev.id"
-          :id="article.prev.id"
-          :title="article.prev.title"
-          :slug="article.prev.slug"
-          :pageSubheading="article.prev.pageSubheading"
-          :postDate="article.prev.postDate"
+          v-if="currentArticle.prev"
+          v-bind="currentArticle.prev"
         />
         <Teaser
-          v-if="article.next"
-          v-bind="article.next"
-          :key="article.next.id"
-          :id="article.next.id"
-          :title="article.next.title"
-          :slug="article.next.slug"
-          :pageSubheading="article.next.pageSubheading"
-          :postDate="article.next.postDate"
+          v-if="currentArticle.next"
+          v-bind="currentArticle.next"
         />
       </section>
     </template>
