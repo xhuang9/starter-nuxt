@@ -1,25 +1,33 @@
-<script lang="js" setup>
-  import { ref } from 'vue';
+<script setup>
+import { useGraphQL } from '~/composables/useGraphQL'
+import { GLOBALS_QUERY } from '~/queries/globals.mjs'
 
-  const globalData = ref({
-    siteName: 'Nuxt Starter',
-    address: {
-      title: 'Nuxt Starter',
-      addressLine1: '123 Address St.',
-      addressLine2: null,
-      addressLine3: null,
-      locality: 'City',
-      postalCode: 'POSTAL',
-      countryCode: 'Country'
+const graphql = useGraphQL()
+
+// Fetch globals data
+const { data: globalsData } = await useAsyncData('globals', async () => {
+  try {
+    const result = await graphql.query(GLOBALS_QUERY)
+    console.log('GraphQL result:', result) // Debug log
+    return {
+      global: result?.globalEntries?.[0] || {},
+      pages: result?.pagesEntries || []
     }
-  })
+  } catch (err) {
+    console.error('Error fetching globals:', err)
+    throw err
+  }
+})
 </script>
 
 <template>
   <div>
-    <Header :globalData="globalData" />
-      <Alert />
-      <NuxtPage />
-    <Footer :globalData="globalData" />
+    <Header 
+      :globalData="globalsData?.global" 
+      :pages="globalsData?.pages"
+    />
+    <Alert />
+    <NuxtPage />
+    <Footer :globalData="globalsData?.global" />
   </div>
 </template>

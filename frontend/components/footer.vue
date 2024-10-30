@@ -1,23 +1,36 @@
-<script lang="js" setup>
-  const props = defineProps({
-    globalData: {
-      type: Object,
-      required: false
-    }
-  })
+<script setup>
+const props = defineProps({
+  globalData: {
+    type: Object,
+    default: () => ({
+      address: []
+    })
+  }
+})
+
+const address = computed(() => props.globalData?.address?.[0] || {})
 </script>
 
 
 <template>
   <footer class="bg-slate-50 py-6 px-2 text-sm">
-    <address class="container mx-auto not-italic" v-if="globalData.address">
-      <p class="font-bold">{{ globalData.address.title }}</p>
+    <address 
+      v-if="address" 
+      class="container mx-auto not-italic"
+    >
+      <p class="font-bold">{{ address.title }}</p>
       <p>
-        {{ globalData.address.addressLine1 }}<br v-if="globalData.address.addressLine1" />
-        {{ globalData.address.addressLine2 }}<br v-if="globalData.address.addressLine2" />
-        {{ globalData.address.addressLine3 }}<br v-if="globalData.address.addressLine3" />
-        {{ globalData.address.locality }} {{ globalData.address.postalCode }}<br />
-        {{ globalData.address.countryCode }}
+        <template v-if="address.addressLine1">
+          {{ address.addressLine1 }}<br>
+        </template>
+        <template v-if="address.addressLine2">
+          {{ address.addressLine2 }}<br>
+        </template>
+        <template v-if="address.addressLine3">
+          {{ address.addressLine3 }}<br>
+        </template>
+        {{ address.locality }} {{ address.postalCode }}<br>
+        {{ address.countryCode }}
       </p>
     </address>
   </footer>
