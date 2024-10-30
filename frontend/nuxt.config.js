@@ -8,6 +8,14 @@ export default defineNuxtConfig({
       plugins: [
         require('@tailwindcss/typography'),
         require('@tailwindcss/forms'),
+      ],
+      content: [
+        './components/**/*.{js,vue,ts}',
+        './layouts/**/*.vue',
+        './pages/**/*.vue',
+        './plugins/**/*.{js,ts}',
+        './app.vue',
+        './error.vue'
       ]
     }
   },
