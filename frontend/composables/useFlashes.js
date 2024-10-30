@@ -1,12 +1,16 @@
 import { useState } from '#app'
 
-export const useFlashes = () => {
+export function useFlashes() {
   const flashes = useState('flashes', () => [])
 
-  const addFlash = (message, type = 'info') => {
+  const addFlash = (message, level = 'info') => {
     const id = Date.now()
-    flashes.value.push({ id, message, type })
-    setTimeout(() => removeFlash(id), 5000) // Auto-remove after 5 seconds
+    flashes.value.push({ id, message, level })
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      removeFlash(id)
+    }, 5000)
   }
 
   const removeFlash = (id) => {

@@ -1,75 +1,101 @@
-# Nuxt 3 Minimal Starter
+# Nuxt + Craft CMS Starter
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
-## Setup
+## Features
+- 🚀 Nuxt 3 + Craft CMS 5
+- 📱 Responsive pagination
+- 🔍 Preview mode support
+- 📝 Blog and Guestbook examples
+- 🎨 TailwindCSS styling
 
-Make sure to install the dependencies:
+## Project Structure
+├── components/ # Reusable Vue components
+│ ├── Pagination.vue # Shared pagination component
+│ ├── PostForm.vue # Guestbook form component
+│ └── Teaser.vue # Blog post preview component
+├── composables/ # Shared composable functions
+│ ├── useGraphQL.js # GraphQL client setup
+│ ├── usePreview.js # Craft preview mode handler
+│ └── usePaginatedData.js # Pagination logic
+├── pages/ # File-based routing
+│ ├── article/ # Individual article pages
+│ ├── blog.vue # Blog listing page
+│ └── guestbook.vue # Guestbook page with form
+└── queries/ # GraphQL query definitions
+├── article.mjs # Single article query
+├── blog.mjs # Blog listing query
+└── guestbook.mjs # Guestbook queries
 
-```bash
-# npm
-npm install
+## Quick Start
 
-# pnpm
-pnpm install
+1. Clone this repository
+2. Set up your Craft CMS backend:
+   ```bash
+   cd craft
+   composer install
+   ./craft setup
+   ```
 
-# yarn
-yarn install
+3. Set up your Nuxt frontend:
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-# bun
-bun install
-```
+4. Configure your environment:
+   - Copy `.env.example` to `.env`
+   - Update the CRAFT_API_URL to match your Craft installation
 
-## Development Server
+5. Start development:
+   ```bash
+   npm run dev
+   ```
 
-Start the development server on `http://localhost:3000`:
+## GraphQL Setup
 
-```bash
-# npm
-npm run dev
+1. In Craft CMS admin:
+   - Enable GraphQL under Settings → GraphQL
+   - Create a new Schema with access to:
+     - Blog entries
+     - Article entries
+     - Guestbook entries
+   - Generate a token and add it to your `.env`
 
-# pnpm
-pnpm run dev
+2. Test your queries in the GraphQL Explorer at:
+   `your-craft-site.test/admin/graphql`
 
-# yarn
-yarn dev
+## Environment Variables
+env
+Craft CMS API URL
+CRAFT_API_URL=http://starter-craft.ddev.site
+GraphQL token (generate in Craft admin)
+GRAPHQL_TOKEN=your-token-here
+Preview mode settings
+PREVIEW_SECRET=your-preview-secret
 
-# bun
-bun run dev
-```
+## Key Features
 
-## Production
+### Pagination
+The starter includes a reusable pagination system that:
+- Maintains page state in the URL
+- Supports browser back/forward navigation
+- Shows loading states during transitions
 
-Build the application for production:
+### Preview Mode
+Full support for Craft CMS preview functionality:
+- Live preview while editing
+- Shareable preview URLs
+- Token-based authentication
 
-```bash
-# npm
-npm run build
+### GraphQL Integration
+Clean GraphQL implementation with:
+- Error handling
+- Preview token support
+- Pagination support
 
-# pnpm
-pnpm run build
+## Contributing
 
-# yarn
-yarn build
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## License
