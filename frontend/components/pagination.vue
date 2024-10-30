@@ -1,20 +1,3 @@
-<template>
-  <nav class="pt-6 text-sm" role="navigation" aria-label="Entry pagination">
-    <ul class="flex justify-between">
-      <li>
-        <button @click="prevPage" v-if="currentPage !== 1" aria-label="Previous Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-          ← Previous page ({{ currentPage - 1 }} of {{ totalPages }})
-        </button>
-      </li>
-      <li>
-        <button @click="nextPage" v-if="currentPage !== totalPages" aria-label="Next Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
-          Next page ({{ currentPage }} of {{ totalPages }}) →
-        </button>
-      </li>
-    </ul>
-  </nav>
-</template>
-
 <script setup>
 // Define props
 const props = defineProps({
@@ -45,3 +28,20 @@ const prevPage = () => {
   }
 };
 </script>
+
+<template>
+  <nav class="pt-6 text-sm" role="navigation" aria-label="Entry pagination">
+    <ul class="flex justify-between">
+      <li>
+        <button @click="prevPage" v-if="currentPage !== 1" aria-label="Previous Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
+          ← Previous page ({{ currentPage - 1 }} of {{ totalPages }})
+        </button>
+      </li>
+      <li>
+        <button @click="nextPage" v-if="currentPage !== totalPages" aria-label="Next Page" class="text-red-600 cursor-pointer font-bold hover:underline focus:underline">
+          Next page ({{ currentPage }} of {{ totalPages }}) →
+        </button>
+      </li>
+    </ul>
+  </nav>
+</template>
