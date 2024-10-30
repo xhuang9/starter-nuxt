@@ -1,7 +1,11 @@
 <template>
   <article class="py-6">
     <h2 class="text-4xl font-bold">
-      <a :href="'/article/' + slug" class="text-red-600 hover:underline focus:underline cursor-pointer">{{ title }}</a>
+      <NuxtLink 
+        :to="`/article/${slug}`" 
+        class="text-red-600 hover:underline focus:underline cursor-pointer"
+      >{{ title }}
+    </NuxtLink>
     </h2>
     <p>{{ pageSubheading }}</p>
     <p>

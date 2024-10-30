@@ -1,22 +1,18 @@
 <script setup>
-import { watch, onMounted, computed } from 'vue'
-import { useRoute } from '#app'
+import { watch, computed } from 'vue'
 import { usePaginatedData } from '@/composables/usePaginatedData'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
 import { BLOG_QUERY } from '@/queries/blog.mjs'
 
-const route = useRoute()
 const graphql = useGraphQL()
 const { isPreview, previewToken, previewTimestamp } = usePreview()
 
-// Disable SSR for preview mode
 if (isPreview.value) {
   definePageMeta({ ssr: false })
 }
 
 const fetchBlogData = async (page, perPage) => {
-  console.log(`Fetching blog data for page ${page} with ${perPage} items per page`)
   try {
     const result = await graphql.query(BLOG_QUERY, {
       limit: perPage,
@@ -25,15 +21,12 @@ const fetchBlogData = async (page, perPage) => {
       previewToken: previewToken.value
     })
     
-    console.log('Raw GraphQL result:', result)
-    
     return {
       content: result?.blogEntries?.[0] || {},
       posts: result?.articleEntries || [],
       total: result?.entryCount || 0
     }
   } catch (error) {
-    console.error('Error fetching blog data:', error)
     throw error
   }
 }
@@ -48,7 +41,6 @@ const {
   fetchPageData
 } = usePaginatedData(fetchBlogData)
 
-// Watch for preview changes
 watch([isPreview, previewToken], () => {
   if (isPreview.value && previewToken.value) {
     fetchPageData(currentPage.value)
