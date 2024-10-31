@@ -1,23 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: false },
+  devtools: { enabled: true },
+  app: {
+    head: {
+      titleTemplate: '%s | ' + process.env.SITE_NAME,
+      title: process.env.SITE_NAME
+    }
+  },
   modules: ["@nuxtjs/tailwindcss"],
   tailwindcss: {
-    config: {
-      plugins: [
-        require('@tailwindcss/typography'),
-        require('@tailwindcss/forms'),
-      ],
-      content: [
-        './components/**/*.{js,vue,ts}',
-        './layouts/**/*.vue',
-        './pages/**/*.vue',
-        './plugins/**/*.{js,ts}',
-        './app.vue',
-        './error.vue'
-      ]
-    }
+    configPath: '~/tailwind.config.js',
+    exposeConfig: true,
+    viewer: true
   },
   devServer: {
     host: '0.0.0.0',
@@ -27,9 +22,9 @@ export default defineNuxtConfig({
     public: {
       AUTH_HEADER: process.env.AUTH_HEADER,
       GQL_HOST: process.env.GQL_HOST,
-      LIVE_PREVIEW: process.env.LIVE_PREVIEW === 'true',
       CRAFT_URL: process.env.CRAFT_URL,
-      BASE_URL: process.env.BASE_URL
+      BASE_URL: process.env.BASE_URL,
+      SITE_NAME: process.env.SITE_NAME
     }
   },
   vite: {

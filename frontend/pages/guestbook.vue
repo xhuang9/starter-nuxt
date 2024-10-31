@@ -1,12 +1,11 @@
 <script setup>
-import { useRoute } from '#app'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
 import { usePaginatedData } from '@/composables/usePaginatedData'
 import { GUESTBOOK_QUERY } from '@/queries/guestbook.mjs'
 import { computed } from 'vue'
+import { useHead } from '#imports'
 
-const route = useRoute()
 const graphql = useGraphQL()
 const { isPreview, previewToken } = usePreview()
 
@@ -73,6 +72,11 @@ const handleNewPost = async () => {
     updateCurrentPage(1)
   }
 }
+
+// Set the page title
+useHead(() => ({
+  title: content.value?.title || ''
+}))
 </script>
 
 <template>
