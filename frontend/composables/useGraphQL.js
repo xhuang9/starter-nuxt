@@ -24,6 +24,7 @@ export function useGraphQL() {
         Object.assign(headers, options.headers)
       }
 
+      // Make the request
       const result = await $fetch(config.public.GQL_HOST, {
         method: 'POST',
         headers,
@@ -33,11 +34,13 @@ export function useGraphQL() {
         })
       })
 
+      // Throw an error if there are any errors
       if (result.errors) {
         throw new Error(result.errors[0].message)
       }
 
-      return result.data
+      // Return the data
+      return result .data
     } catch (err) {
       console.error('GraphQL Error:', err)
       throw err

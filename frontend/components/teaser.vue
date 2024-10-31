@@ -2,7 +2,8 @@
 const props = defineProps({
   id: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   },
   title: {
     type: String,
@@ -14,7 +15,8 @@ const props = defineProps({
   },
   pageSubheading: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   postDate: {
     type: String,
@@ -32,7 +34,7 @@ const props = defineProps({
       >{{ title }}
     </NuxtLink>
     </h2>
-    <p>{{ pageSubheading }}</p>
+    <p v-if="pageSubheading">{{ pageSubheading }}</p>
     <p>
       <time class="text-sm" :datetime="postDate">{{ postDate }}</time>
     </p>

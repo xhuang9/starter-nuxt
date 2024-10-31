@@ -2,6 +2,7 @@
 import { useGraphQL } from '~/composables/useGraphQL'
 import { PAGE_QUERY } from '~/queries/pages.mjs'
 import { usePreview } from '@/composables/usePreview'
+import { useHead } from '#imports'
 
 const route = useRoute()
 const graphql = useGraphQL()
@@ -57,6 +58,11 @@ watch([isPreview, previewToken], () => {
     refresh()
   }
 })
+
+// Set the page title
+useHead(() => ({
+  title: pageData.value?.title || ''
+}))
 </script>
 
 <template>
