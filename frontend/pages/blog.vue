@@ -53,7 +53,7 @@ const content = computed(() => data.value?.content || {})
 
 // Set the page title
 useHead(() => ({
-  title: content.value.title || ''
+  title: content.value?.title || ''
 }))
 </script>
 

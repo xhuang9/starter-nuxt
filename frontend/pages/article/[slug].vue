@@ -66,7 +66,7 @@ const hasArticle = computed(() => !!currentArticle.value)
 
 // Set the page title
 useHead(() => ({
-  title: currentArticle.value.title || ''
+  title: currentArticle.value?.title || ''
 }))
 </script>
 

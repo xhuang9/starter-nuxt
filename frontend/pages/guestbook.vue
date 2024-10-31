@@ -75,7 +75,7 @@ const handleNewPost = async () => {
 
 // Set the page title
 useHead(() => ({
-  title: content.value.title || ''
+  title: content.value?.title || ''
 }))
 </script>
 

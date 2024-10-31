@@ -61,7 +61,7 @@ watch([isPreview, previewToken], () => {
 
 // Set the page title
 useHead(() => ({
-  title: pageData.value.title || ''
+  title: pageData.value?.title || ''
 }))
 </script>
 
