@@ -1,5 +1,7 @@
 # Nuxt + Craft CMS Starter
 
+## README UNDER CONSTRUCTION 🚧
+
 A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
 ## Features
