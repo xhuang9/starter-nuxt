@@ -4,6 +4,7 @@ import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
 import { ARTICLE_QUERY } from '@/queries/article.mjs'
 import { watch, computed } from 'vue'
+import { useHead } from '#imports'
 
 const route = useRoute()
 const graphql = useGraphQL()
@@ -62,6 +63,11 @@ const currentArticle = computed(() => {
   return entry
 })
 const hasArticle = computed(() => !!currentArticle.value)
+
+// Set the page title
+useHead(() => ({
+  title: currentArticle.value.title || ''
+}))
 </script>
 
 <template>

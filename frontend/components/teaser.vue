@@ -2,7 +2,8 @@
 const props = defineProps({
   id: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   },
   title: {
     type: String,
@@ -14,7 +15,8 @@ const props = defineProps({
   },
   pageSubheading: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   postDate: {
     type: String,

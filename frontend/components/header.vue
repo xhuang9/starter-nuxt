@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 // Get the site name from the global entry
-const siteName = computed(() => props.globalData?.title || 'Site Name')
+const siteName = computed(() => process.env.SITE_NAME)
 </script>
 
 <template>

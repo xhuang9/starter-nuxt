@@ -1,5 +1,6 @@
 <script setup>
 import { watch, computed } from 'vue'
+import { useHead } from '#imports'
 import { usePaginatedData } from '@/composables/usePaginatedData'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
@@ -49,6 +50,11 @@ watch([isPreview, previewToken], () => {
 
 const posts = computed(() => data.value?.posts || [])
 const content = computed(() => data.value?.content || {})
+
+// Set the page title
+useHead(() => ({
+  title: content.value.title || ''
+}))
 </script>
 
 <template>
