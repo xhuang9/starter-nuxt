@@ -4,6 +4,10 @@ export const GLOBALS_QUERY = `
       ... on global_Entry {
         id
         title
+        logo {
+          url
+          alt
+        }
         address {
           addressLine1
           addressLine2
