@@ -1,5 +1,7 @@
 # Nuxt + Craft CMS Starter
 
+## README UNDER CONSTRUCTION 🚧
+
 A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
 ## Features
@@ -10,6 +12,8 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 - 🎨 TailwindCSS styling
 
 ## Project Structure
+
+```
 ├── components/ # Reusable Vue components
 │ ├── Pagination.vue # Shared pagination component
 │ ├── PostForm.vue # Guestbook form component
@@ -26,44 +30,38 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 ├── article.mjs # Single article query
 ├── blog.mjs # Blog listing query
 └── guestbook.mjs # Guestbook queries
+```
 
 ## Quick Start
 
 1. Clone this repository
-2. Set up your Craft CMS backend:
+   
+2. Setup ddev environment
    ```bash
-   cd craft
-   composer install
-   ./craft setup
+   ddev start
    ```
 
-3. Set up your Nuxt frontend:
+3. Set up your Craft CMS backend:
+   ```bash
+   cd backend
+   ddev composer install
+   ddev ./craft setup
+   ```
+
+4. Set up your Nuxt frontend:
    ```bash
    cd frontend
-   npm install
+   ddev npm install
    ```
 
-4. Configure your environment:
+5. Configure your environment:
    - Copy `.env.example` to `.env`
    - Update the CRAFT_API_URL to match your Craft installation
 
-5. Start development:
+6. Start development:
    ```bash
-   npm run dev
+   ddev npm run dev
    ```
-
-## GraphQL Setup
-
-1. In Craft CMS admin:
-   - Enable GraphQL under Settings → GraphQL
-   - Create a new Schema with access to:
-     - Blog entries
-     - Article entries
-     - Guestbook entries
-   - Generate a token and add it to your `.env`
-
-2. Test your queries in the GraphQL Explorer at:
-   `your-craft-site.test/admin/graphql`
 
 ## Environment Variables
 env
