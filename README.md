@@ -13,52 +13,45 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
 ## Project Structure
 
-```
-├── components/ # Reusable Vue components
-│ ├── Pagination.vue # Shared pagination component
-│ ├── PostForm.vue # Guestbook form component
-│ └── Teaser.vue # Blog post preview component
-├── composables/ # Shared composable functions
-│ ├── useGraphQL.js # GraphQL client setup
-│ ├── usePreview.js # Craft preview mode handler
-│ └── usePaginatedData.js # Pagination logic
-├── pages/ # File-based routing
-│ ├── article/ # Individual article pages
-│ ├── blog.vue # Blog listing page
-│ └── guestbook.vue # Guestbook page with form
-└── queries/ # GraphQL query definitions
-├── article.mjs # Single article query
-├── blog.mjs # Blog listing query
-└── guestbook.mjs # Guestbook queries
-```
+
 
 ## Quick Start
 
 1. Clone this repository
    
-2. Setup ddev environment
+2. Copy the environment file:
+    ```bash
+   cp .env.example .env
+   ```  
+
+3. Update `.env` with your project settings:
+   - Change PROJECT_NAME to your project name
+   - Update domains
+   - Set your site name
+
+4. Setup ddev environment
    ```bash
    ddev start
    ```
 
-3. Set up your Craft CMS backend:
+5. Set up your Craft CMS backend:
    ```bash
    cd backend
    ddev composer install
    ddev ./craft setup
    ```
 
-4. Set up your Nuxt frontend:
+6. Set up your Nuxt frontend:
    ```bash
    cd frontend
    ddev npm install
    ```
 
-5. Configure your environment:
+7. Configure your environment:
    - Copy `.env.example` to `.env`
    - Update the CRAFT_API_URL to match your Craft installation
 
-6. Start development:
+8. Start development:
    ```bash
    ddev npm run dev
    ```
