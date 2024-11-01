@@ -14,6 +14,7 @@ export default {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms')
   ],
+  // Add closses used in the Twig templates in /backend/templates/_partials for CKEditor
   safelist: [
     {
       pattern: /bg-slate-.+/,
