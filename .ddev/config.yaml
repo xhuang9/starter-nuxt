@@ -1,4 +1,4 @@
-name: starter-nuxt
+name: ${PROJECT_NAME}
 type: craftcms
 docroot: backend/web
 php_version: "8.2"
@@ -6,9 +6,8 @@ nodejs_version: "20"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: 
-    - starter-nuxt
-    - api.starter-nuxt
-additional_fqdns: []
+  - ${DDEV_FRONTEND_DOMAIN}
+  - ${DDEV_BACKEND_DOMAIN}
 database:
     type: mysql
     version: "8.0"
@@ -26,6 +25,10 @@ web_extra_exposed_ports:
     container_port: 3000
     http_port: 3000
     https_port: 3001
+web_environment:
+  - FRONTEND_DOMAIN=${DDEV_FRONTEND_DOMAIN}
+  - BACKEND_DOMAIN=${DDEV_BACKEND_DOMAIN}
+  - VIRTUAL_HOST=${DDEV_FRONTEND_DOMAIN},${DDEV_BACKEND_DOMAIN}
 
 # Key features of DDEV's config.yaml:
 
