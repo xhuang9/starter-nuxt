@@ -27,7 +27,9 @@ const { data: globalsData } = await useAsyncData('globals', async () => {
       :pages="globalsData?.pages"
     />
     <Alert />
-    <NuxtPage />
+    <main class="page" id="main" tabindex="-1">
+      <NuxtPage />
+    </main>
     <Footer :globalData="globalsData?.global" />
   </div>
 </template>
