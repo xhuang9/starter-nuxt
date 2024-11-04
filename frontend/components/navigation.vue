@@ -15,6 +15,7 @@ defineProps({
           to="/blog" 
           class="block p-2 hover:underline text-red-600 hover:text-red-600"
           active-class="text-red-600"
+          :aria-current="$route.path === '/blog' ? 'page' : null"
         >
           Blog
         </NuxtLink>
@@ -24,6 +25,7 @@ defineProps({
           to="/guestbook" 
           class="block p-2 hover:underline text-red-600 hover:text-red-600"
           active-class="text-red-600"
+          :aria-current="$route.path === '/guestbook' ? 'page' : null"
         >
           Guestbook
         </NuxtLink>
@@ -33,6 +35,7 @@ defineProps({
           :to="page.uri" 
           class="block p-2 hover:underline text-red-600 hover:text-red-600"
           active-class="text-red-600"
+          :aria-current="$route.path === page.uri ? 'page' : null"
         >
           {{ page.title }}
         </NuxtLink>
