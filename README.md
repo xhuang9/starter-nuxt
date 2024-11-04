@@ -13,64 +13,57 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
 ## Project Structure
 
-```
-├── components/ # Reusable Vue components
-│ ├── Pagination.vue # Shared pagination component
-│ ├── PostForm.vue # Guestbook form component
-│ └── Teaser.vue # Blog post preview component
-├── composables/ # Shared composable functions
-│ ├── useGraphQL.js # GraphQL client setup
-│ ├── usePreview.js # Craft preview mode handler
-│ └── usePaginatedData.js # Pagination logic
-├── pages/ # File-based routing
-│ ├── article/ # Individual article pages
-│ ├── blog.vue # Blog listing page
-│ └── guestbook.vue # Guestbook page with form
-└── queries/ # GraphQL query definitions
-├── article.mjs # Single article query
-├── blog.mjs # Blog listing query
-└── guestbook.mjs # Guestbook queries
-```
+
 
 ## Quick Start
 
 1. Clone this repository
    
-2. Setup ddev environment
+2. Optional: Change the default domains (Defaults: Frontend = https://starter-nuxt.ddev.site, Backend = https://api.starter-nuxt.ddev.com):
+   - Edit `.ddev/config.yaml`
+     - Update `name`
+     - Change the front end and backend domains under `additional_hostnames`
+     - Change the front end, backend, and virtual host domains under `web_environment`
+   - Change the `server name` in `.ddev/nginx_full/api-site.conf` to match backend url
+   - Change the `server name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
+
+3. Setup ddev environment
    ```bash
    ddev start
    ```
 
-3. Set up your Craft CMS backend:
+4. Set up your Craft CMS backend:
    ```bash
    cd backend
    ddev composer install
-   ddev ./craft setup
+   ddev php craft setup
    ```
 
-4. Set up your Nuxt frontend:
+5. Configure domains for Craft in `backend/.env`
+   - Update the following to match your ddev configuration
+   ```
+   PRIMARY_SITE_URL="https://api.starter-nuxt.ddev.site"
+   PREVIEW_URL="https://starter-nuxt.ddev.site"
+   ```
+6. Generate a token for the Posts GraphQL Schema
+   - Sign into https://api.starter-nuxt.ddev.site/admin
+   - Navigate to https://api.nuxt-test.ddev.site/admin/graphql/tokens and create a new token for the Posts schema
+
+7. Set up your Nuxt frontend:
    ```bash
    cd frontend
    ddev npm install
    ```
 
-5. Configure your environment:
+8. Configure your frontend environment:
    - Copy `.env.example` to `.env`
-   - Update the CRAFT_API_URL to match your Craft installation
+   - Update to match your Craft installation
+   - Update `AUTH_HEADER` to the token generated in step 6
 
-6. Start development:
+9.  Start development:
    ```bash
    ddev npm run dev
    ```
-
-## Environment Variables
-env
-Craft CMS API URL
-CRAFT_API_URL=http://starter-craft.ddev.site
-GraphQL token (generate in Craft admin)
-GRAPHQL_TOKEN=your-token-here
-Preview mode settings
-PREVIEW_SECRET=your-preview-secret
 
 ## Key Features
 

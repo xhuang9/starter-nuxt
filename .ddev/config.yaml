@@ -6,15 +6,13 @@ nodejs_version: "20"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: 
-    - starter-nuxt
-    - api.starter-nuxt
-additional_fqdns: []
+  - starter-nuxt.ddev.site
+  - api.starter-nuxt.ddev.site
 database:
     type: mysql
     version: "8.0"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
 corepack_enable: false
 upload_dirs:
   - backend/web/uploads
@@ -26,6 +24,10 @@ web_extra_exposed_ports:
     container_port: 3000
     http_port: 3000
     https_port: 3001
+web_environment:
+  - FRONTEND_DOMAIN=starter-nuxt.ddev.site
+  - BACKEND_DOMAIN=api.starter-nuxt.ddev.site
+  - VIRTUAL_HOST=starter-nuxt.ddev.site,api.starter-nuxt.ddev.site
 
 # Key features of DDEV's config.yaml:
 
