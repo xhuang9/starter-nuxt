@@ -19,51 +19,51 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 
 1. Clone this repository
    
-2. Copy the environment file:
-    ```bash
-   cp .env.example .env
-   ```  
+2. Optional: Change the default domains (Defaults: Frontend = https://starter-nuxt.ddev.site, Backend = https://api.starter-nuxt.ddev.com):
+   - Edit `.ddev/config.yaml`
+     - Update `name`
+     - Change the front end and backend domains under `additional_hostnames`
+     - Change the front end, backend, and virtual host domains under `web_environment`
+   - Change the `server name` in `.ddev/nginx_full/api-site.conf` to match backend url
+   - Change the `server name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
 
-3. Update `.env` with your project settings:
-   - Change PROJECT_NAME to your project name
-   - Update domains
-   - Set your site name
-
-4. Setup ddev environment
+3. Setup ddev environment
    ```bash
    ddev start
    ```
 
-5. Set up your Craft CMS backend:
+4. Set up your Craft CMS backend:
    ```bash
    cd backend
    ddev composer install
-   ddev ./craft setup
+   ddev php craft setup
    ```
 
-6. Set up your Nuxt frontend:
+5. Configure domains for Craft in `backend/.env`
+   - Update the following to match your ddev configuration
+   ```
+   PRIMARY_SITE_URL="https://api.starter-nuxt.ddev.site"
+   PREVIEW_URL="https://starter-nuxt.ddev.site"
+   ```
+6. Generate a token for the Posts GraphQL Schema
+   - Sign into https://api.starter-nuxt.ddev.site/admin
+   - Navigate to https://api.nuxt-test.ddev.site/admin/graphql/tokens and create a new token for the Posts schema
+
+7. Set up your Nuxt frontend:
    ```bash
    cd frontend
    ddev npm install
    ```
 
-7. Configure your environment:
+8. Configure your frontend environment:
    - Copy `.env.example` to `.env`
-   - Update the CRAFT_API_URL to match your Craft installation
+   - Update to match your Craft installation
+   - Update `AUTH_HEADER` to the token generated in step 6
 
-8. Start development:
+9.  Start development:
    ```bash
    ddev npm run dev
    ```
-
-## Environment Variables
-env
-Craft CMS API URL
-CRAFT_API_URL=http://starter-craft.ddev.site
-GraphQL token (generate in Craft admin)
-GRAPHQL_TOKEN=your-token-here
-Preview mode settings
-PREVIEW_SECRET=your-preview-secret
 
 ## Key Features
 
