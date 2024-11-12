@@ -21,7 +21,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       AUTH_HEADER: process.env.AUTH_HEADER,
-      GQL_HOST: process.env.GQL_HOST,
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL,
       SITE_NAME: process.env.SITE_NAME
