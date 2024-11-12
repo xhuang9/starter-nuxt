@@ -4,8 +4,9 @@ docroot: backend/web
 php_version: "8.2"
 nodejs_version: "20"
 webserver_type: nginx-fpm
+composer_root: backend
 xdebug_enabled: false
-additional_hostnames: 
+additional_fqdns:
   - starter-nuxt.ddev.site
   - api.starter-nuxt.ddev.site
 database:
@@ -28,6 +29,7 @@ web_environment:
   - FRONTEND_DOMAIN=starter-nuxt.ddev.site
   - BACKEND_DOMAIN=api.starter-nuxt.ddev.site
   - VIRTUAL_HOST=starter-nuxt.ddev.site,api.starter-nuxt.ddev.site
+  - CRAFT_CMD_ROOT=/var/www/html/backend
 
 # Key features of DDEV's config.yaml:
 
