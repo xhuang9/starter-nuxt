@@ -25,5 +25,4 @@ return GeneralConfig::create()
         '@webroot' => dirname(__DIR__) . '/web',
         '@preview' => getenv('PREVIEW_URL'),
     ])
-    ->baseCpUrl('https://'.App::env('BACKEND_DOMAIN'))
     ->headlessMode();
