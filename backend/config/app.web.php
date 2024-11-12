@@ -28,7 +28,6 @@ return [
         'class' => Cors::class,
         'cors' => [
             'Origin' => [
-                'https://starter-nuxt.ddev.site',
                 App::env('PRIMARY_SITE_URL')
             ],
             'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
