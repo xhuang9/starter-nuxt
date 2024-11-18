@@ -4,10 +4,11 @@ import { useGraphQL } from '~/composables/useGraphQL'
 import { CREATE_POST_MUTATION } from '~/queries/post.mjs'
 import { useFlashes } from '~/composables/useFlashes'
 
+const config = useRuntimeConfig()
 const graphql = useGraphQL()
 const { addFlash } = useFlashes()
 const message = ref('')
-const authorId = ref(1)
+const authorId = ref(config.public.ADMIN_USER_ID)
 const loading = ref(false)
 
 const emit = defineEmits(['post-submitted'])

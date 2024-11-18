@@ -1,4 +1,4 @@
-dateModified: 1730275377
+dateModified: 1731920264
 elementSources:
   craft\elements\Entry:
     -
@@ -174,5 +174,5 @@ system:
   edition: solo
   live: true
   name: 'Starter starter'
-  schemaVersion: 5.3.0.2
+  schemaVersion: 5.5.0.0
   timeZone: America/Los_Angeles
