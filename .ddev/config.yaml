@@ -27,7 +27,6 @@ web_extra_exposed_ports:
 web_environment:
   - FRONTEND_DOMAIN=starter-nuxt.ddev.site
   - BACKEND_DOMAIN=api.starter-nuxt.ddev.site
-  - VIRTUAL_HOST=starter-nuxt.ddev.site,api.starter-nuxt.ddev.site
 
 # Key features of DDEV's config.yaml:
 
