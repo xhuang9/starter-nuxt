@@ -24,7 +24,8 @@ export default defineNuxtConfig({
       GQL_HOST: process.env.GQL_HOST,
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL,
-      SITE_NAME: process.env.SITE_NAME
+      SITE_NAME: process.env.SITE_NAME,
+      ADMIN_USER_ID: process.env.ADMIN_USER_ID
     }
   },
   vite: {
