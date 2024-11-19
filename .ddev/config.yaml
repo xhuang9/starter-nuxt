@@ -6,8 +6,7 @@ nodejs_version: "20"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: 
-  - starter-nuxt.ddev.site
-  - api.starter-nuxt.ddev.site
+  - api.starter-nuxt
 database:
     type: mysql
     version: "8.0"
@@ -18,14 +17,11 @@ upload_dirs:
   - backend/web/uploads
 hooks:
   post-start:
-    # Clean install of dependencies and start dev server
     - exec: |
         cd /var/www/html/frontend
         if [ ! -f .env ]; then
           cp .env.example .env
         fi
-        npm ci
-        npm run dev
 web_extra_exposed_ports:
   - name: nuxt
     container_port: 3000
@@ -34,7 +30,7 @@ web_extra_exposed_ports:
 web_environment:
   - FRONTEND_DOMAIN=starter-nuxt.ddev.site
   - BACKEND_DOMAIN=api.starter-nuxt.ddev.site
-
+nginx_full_urls: true
 # Key features of DDEV's config.yaml:
 
 # name: <projectname> # Name of the project, automatically provides
