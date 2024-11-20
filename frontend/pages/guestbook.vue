@@ -29,7 +29,7 @@ const fetchGuestbookData = async (page, perPage) => {
     
     const processedData = {
       content: result?.guestbookEntries?.[0] || {},
-      posts: result?.postsEntries || [],
+      posts: result?.guestbookPostsEntries || [],
       total: result?.entryCount || 0
     }
     

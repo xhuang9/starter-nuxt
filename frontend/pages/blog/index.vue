@@ -24,7 +24,7 @@ const fetchBlogData = async (page, perPage) => {
     
     return {
       content: result?.blogEntries?.[0] || {},
-      posts: result?.articleEntries || [],
+      posts: result?.blogPostsEntries || [],
       total: result?.entryCount || 0
     }
   } catch (error) {
@@ -75,7 +75,7 @@ useHead(() => ({
           :key="entry.id"
           :id="entry.id"
           :title="entry.title"
-          :slug="entry.slug"
+          :uri="entry.uri"
           :pageSubheading="entry.pageSubheading"
           :postDate="entry.postDate"
         />

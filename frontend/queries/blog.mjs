@@ -9,16 +9,17 @@ export const BLOG_QUERY = `
       pageContent
     }
   }
-  articleEntries(limit: $limit, offset: $offset) {
+  blogPostsEntries(limit: $limit, offset: $offset) {
     ... on page_Entry {
       id
       slug
       title
+      uri
       pageSubheading
       pageContent
       postDate @formatDateTime(format: "F j, Y")
     }
   }
-  entryCount(section: "article")
+  entryCount(section: "blogPosts")
   }
 `
