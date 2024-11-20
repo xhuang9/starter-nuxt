@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d66e6aca90074a0e09d6dc2ff4c17607",
+    "content-hash": "d93b729493fd3aa1c65864de58b506ab",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -542,11 +542,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.5.1.1",
+            "version": "5.5.2",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/2233b27fd7e80cccc3aab927ad073f5916167dba",
-                "reference": "2233b27fd7e80cccc3aab927ad073f5916167dba",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/43dc9cfba1d5ccb1cd0b5da4ff1ab6459db26811",
+                "reference": "43dc9cfba1d5ccb1cd0b5da4ff1ab6459db26811",
                 "shasum": ""
             },
             "require": {
@@ -644,7 +644,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2024-11-19T02:11:31+00:00"
+            "time": "2024-11-19T17:17:31+00:00"
         },
         {
             "name": "craftcms/flysystem",
