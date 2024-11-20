@@ -86,7 +86,7 @@ useHead(() => ({
           <img :src="currentPost.image.url" :alt="currentPost.image.description" />
         </figure>
         <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ currentPost.title }}</h1>
-        <p v-if="currentPost.pageSubheading">{{ currentPost.pageSubheading }}</p>
+        <p v-if="currentPost.pageSubheading" class="mt-4">{{ currentPost.pageSubheading }}</p>
         <div class="text-xs mt-4">
           <p>
             <span v-if="currentPost.category?.length" class="font-bold">
@@ -113,20 +113,12 @@ useHead(() => ({
         <Teaser 
           v-if="currentPost.prev"
           :key="currentPost.prev.id"
-          :id="currentPost.prev.id"
-          :title="currentPost.prev.title"
-          :uri="currentPost.prev.uri"
-          :pageSubheading="currentPost.prev.pageSubheading"
-          :postDate="currentPost.prev.postDate"
+          :entry="currentPost.prev"
         />
         <Teaser
           v-if="currentPost.next"
           :key="currentPost.next.id"
-          :id="currentPost.next.id"
-          :title="currentPost.next.title"
-          :uri="currentPost.next.uri"
-          :pageSubheading="currentPost.next.pageSubheading"
-          :postDate="currentPost.next.postDate"
+          :entry="currentPost.next"
         />
       </section>
     </template>
