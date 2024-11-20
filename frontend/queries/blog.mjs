@@ -18,6 +18,10 @@ export const BLOG_QUERY = `
       pageSubheading
       pageContent
       postDate @formatDateTime(format: "F j, Y")
+      image {
+        alt
+        url @transform(handle: "wide")
+      }
     }
   }
   entryCount(section: "blogPosts")

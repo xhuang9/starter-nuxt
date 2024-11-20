@@ -3,7 +3,7 @@ format: null
 handle: wide
 height: 1080
 interlace: plane
-mode: fit
+mode: crop
 name: Wide
 position: center-center
 quality: 30

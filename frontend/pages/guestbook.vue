@@ -92,7 +92,7 @@ useHead(() => ({
     <template v-else>
       <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
         <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ content.title }}</h1>
-        <p v-if="content.pageSubheading">{{ content.pageSubheading }}</p>
+        <p v-if="content.pageSubheading" class="mt-4">{{ content.pageSubheading }}</p>
       </header>
 
       <section class="page__content">
