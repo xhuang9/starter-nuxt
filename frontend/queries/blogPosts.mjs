@@ -8,6 +8,10 @@ export const BLOG_POSTS_QUERY = `
       pageSubheading
       pageContent
       postDate @formatDateTime(format: "F j, Y")
+      image {
+        alt
+        url @transform(handle: "hero")
+      }
       next(section: "blogPosts") {
         id
         slug

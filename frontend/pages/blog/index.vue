@@ -64,20 +64,17 @@ useHead(() => ({
     <div v-else>
       <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
         <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ content.title }}</h1>
-        <p v-if="content.pageSubheading">{{ content.pageSubheading }}</p>
+        <p v-if="content.pageSubheading" class="mt-4">{{ content.pageSubheading }}</p>
       </header>
       <section class="page__content">
         <div class="container mx-auto py-12 px-2 text-balance" v-html="content.pageContent"></div>
       </section>
       <section class="container mx-auto mb-6 px-2 divide-y divide-slate-300">
         <Teaser 
-          v-for="entry in posts" 
+          v-for="(entry, index) in posts"
+          :featured="index === 0 ? true : false"
           :key="entry.id"
-          :id="entry.id"
-          :title="entry.title"
-          :uri="entry.uri"
-          :pageSubheading="entry.pageSubheading"
-          :postDate="entry.postDate"
+          :entry="entry"
         />
         <Pagination
           v-if="totalPages > 1"

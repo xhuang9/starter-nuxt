@@ -9,6 +9,7 @@ import { useHead } from '#imports'
 const route = useRoute()
 const graphql = useGraphQL()
 const { isPreview, previewToken, previewTimestamp } = usePreview()
+const hero = computed(() => currentPost.value?.image && currentPost.value?.image.length > 0)
 
 // Disable SSR for preview mode
 if (isPreview.value) {
@@ -81,30 +82,35 @@ useHead(() => ({
     </div>
     
     <template v-else-if="hasPost">
-      <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
-        <figure v-if="currentPost.image">
-          <img :src="currentPost.image.url" :alt="currentPost.image.description" />
+      <header class="container mx-auto pt-12 pb-6 px-2 text-2xl relative" :class="hero ? 'aspect-video' : ''">
+        
+        <figure v-if="hero" class="absolute top-0 left-0 w-full h-full">
+          <img :src="currentPost.image[0].url" :alt="currentPost.image[0].alt" />
         </figure>
-        <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ currentPost.title }}</h1>
-        <p v-if="currentPost.pageSubheading">{{ currentPost.pageSubheading }}</p>
-        <div class="text-xs mt-4">
-          <p>
-            <span v-if="currentPost.category?.length" class="font-bold">
-              {{ currentPost.category[0].title }}
-            </span>
+
+        <div class=" z-10" :class="hero ? 'text-white bg-black/80 p-4 sm:bottom-0 relative sm:ml-4 sm:max-w-screen-lg sm:absolute sm:rounded' : ''">
+          <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ currentPost.title }}</h1>
+          <p v-if="currentPost.pageSubheading" class="mt-4">{{ currentPost.pageSubheading }}</p>
+          <div class="text-xs mt-4">
+            <p>
+              <span v-if="currentPost.category?.length" class="font-bold">
+                {{ currentPost.category[0].title }}
+              </span>
             <template v-if="currentPost.category?.length && currentPost.postDate">
               |
             </template>
             <time v-if="currentPost.postDate" :datetime="currentPost.postDate">
               {{ currentPost.postDate }}
-            </time>
-          </p>
+              </time>
+            </p>
+          </div>
         </div>
+      
       </header>
 
       <section class="page__content">
         <div 
-          class="container mx-auto py-12 px-2 text-balance" 
+          class="container mx-auto py-12 px-2 text-balance prose" 
           v-html="currentPost.pageContent"
         ></div>
       </section>
@@ -113,20 +119,12 @@ useHead(() => ({
         <Teaser 
           v-if="currentPost.prev"
           :key="currentPost.prev.id"
-          :id="currentPost.prev.id"
-          :title="currentPost.prev.title"
-          :uri="currentPost.prev.uri"
-          :pageSubheading="currentPost.prev.pageSubheading"
-          :postDate="currentPost.prev.postDate"
+          :entry="currentPost.prev"
         />
         <Teaser
           v-if="currentPost.next"
           :key="currentPost.next.id"
-          :id="currentPost.next.id"
-          :title="currentPost.next.title"
-          :uri="currentPost.next.uri"
-          :pageSubheading="currentPost.next.pageSubheading"
-          :postDate="currentPost.next.postDate"
+          :entry="currentPost.next"
         />
       </section>
     </template>

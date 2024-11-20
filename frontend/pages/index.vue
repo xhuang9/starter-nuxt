@@ -42,7 +42,7 @@ watch([isPreview, previewToken], () => {
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
         {{ data?.entries?.[0]?.title }}
       </h1>
-      <p v-if="data?.entries?.[0]?.pageSubheading">
+      <p v-if="data?.entries?.[0]?.pageSubheading" class="mt-4">
         {{ data?.entries?.[0]?.pageSubheading }}
       </p>
     </header>

@@ -71,7 +71,7 @@ useHead(() => ({
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
         {{ pageData.title }}
       </h1> 
-      <p v-if="pageData.pageSubheading">
+      <p v-if="pageData.pageSubheading" class="mt-4">
         {{ pageData.pageSubheading }}
       </p>
     </header>
