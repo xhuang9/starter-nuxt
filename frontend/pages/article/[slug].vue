@@ -82,6 +82,9 @@ useHead(() => ({
     
     <template v-else-if="hasArticle">
       <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
+        <figure v-if="currentArticle.image">
+          <img :src="currentArticle.image.url" :alt="currentArticle.image.description" />
+        </figure>
         <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ currentArticle.title }}</h1>
         <p v-if="currentArticle.pageSubheading">{{ currentArticle.pageSubheading }}</p>
         <div class="text-xs mt-4">
