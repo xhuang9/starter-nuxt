@@ -21,7 +21,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       AUTH_HEADER: process.env.AUTH_HEADER,
-      GQL_HOST: process.env.GQL_HOST,
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL,
       SITE_NAME: process.env.SITE_NAME,
@@ -35,5 +34,25 @@ export default defineNuxtConfig({
         protocol: 'wss'
       }
     }
+  },
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: process.env.CRAFT_URL,
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    },
+    devServer: {
+      watch: ['./server']
+    }
+  },
+  experimental: {
+    payloadExtraction: false
   }
 });
