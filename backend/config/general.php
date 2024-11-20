@@ -25,5 +25,4 @@ return GeneralConfig::create()
         '@webroot' => dirname(__DIR__) . '/web',
         '@preview' => getenv('PREVIEW_URL'),
     ])
-    ->headlessMode(true)
-    ->allowedGraphqlOrigins([getenv('PREVIEW_URL')]);
+    ->headlessMode();
