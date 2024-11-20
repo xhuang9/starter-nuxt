@@ -4,8 +4,9 @@ docroot: backend/web
 php_version: "8.2"
 nodejs_version: "20"
 webserver_type: nginx-fpm
+composer_root: backend
 xdebug_enabled: false
-additional_hostnames: 
+additional_fqdns:
   - starter-nuxt.ddev.site
   - api.starter-nuxt.ddev.site
 database:
@@ -18,22 +19,15 @@ upload_dirs:
   - backend/web/uploads
 hooks:
   post-start:
-    # Clean install of dependencies and start dev server
-    - exec: |
-        cd /var/www/html/frontend
-        if [ ! -f .env ]; then
-          cp .env.example .env
-        fi
-        npm ci
-        npm run dev
+    - exec: "cd ./frontend && npm run dev"
 web_extra_exposed_ports:
   - name: nuxt
     container_port: 3000
     http_port: 3000
     https_port: 3001
 web_environment:
-  - FRONTEND_DOMAIN=starter-nuxt.ddev.site
-  - BACKEND_DOMAIN=api.starter-nuxt.ddev.site
+  - VIRTUAL_HOST=starter-nuxt.ddev.site,api.starter-nuxt.ddev.site
+  - CRAFT_CMD_ROOT=/var/www/html/backend
 
 # Key features of DDEV's config.yaml:
 
