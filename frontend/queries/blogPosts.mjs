@@ -8,14 +8,14 @@ export const BLOG_POSTS_QUERY = `
       pageSubheading
       pageContent
       postDate @formatDateTime(format: "F j, Y")
-      next(section: "article") {
+      next(section: "blogPosts") {
         id
         slug
         uri
         title
         postDate @formatDateTime(format: "F j, Y")
       }
-      prev(section: "article") {
+      prev(section: "blogPosts") {
         id
         slug
         uri
