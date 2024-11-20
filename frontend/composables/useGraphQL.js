@@ -2,7 +2,7 @@ import { useRuntimeConfig } from '#app'
 
 export function useGraphQL() {
   const config = useRuntimeConfig()
-  
+
   const query = async (query, variables = {}, options = {}) => {
     try {
       const headers = {
@@ -25,7 +25,7 @@ export function useGraphQL() {
       }
 
       // Make the request
-      const result = await $fetch(config.public.GQL_HOST, {
+      const result = await $fetch(`${config.public.CRAFT_URL}/api`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
