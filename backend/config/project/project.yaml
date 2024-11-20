@@ -1,4 +1,4 @@
-dateModified: 1732069185
+dateModified: 1732074647
 elementSources:
   craft\elements\Entry:
     -
@@ -63,7 +63,7 @@ elementSources:
         - postDate
         - desc
       disabled: false
-      key: 'section:6ba54824-1c3f-454f-8830-f6cea379bee4' # Article
+      key: 'section:6ba54824-1c3f-454f-8830-f6cea379bee4' # Blog posts
       tableAttributes:
         - status
         - postDate
@@ -78,7 +78,7 @@ elementSources:
         - postDate
         - desc
       disabled: false
-      key: 'section:3e2a1a6f-88ea-477b-936d-39393f2d594f' # Posts
+      key: 'section:3e2a1a6f-88ea-477b-936d-39393f2d594f' # Guestbook Posts
       tableAttributes:
         - status
         - postDate
@@ -134,9 +134,9 @@ meta:
     0a58e287-e038-4eb7-ab2a-cf4cbdbe013d: 'Page content' # Page content
     2b829e15-a7bd-4ab0-9050-dcdfe44499cf: 'Public Schema' # Public Schema
     2bae9725-9546-4f55-a889-56102191aa89: Navigation # Navigation
-    3e2a1a6f-88ea-477b-936d-39393f2d594f: Posts # Posts
+    3e2a1a6f-88ea-477b-936d-39393f2d594f: 'Guestbook Posts' # Guestbook Posts
     5dd08fc8-3ea4-4582-952f-4c0f7ebf409e: Category # Category
-    6ba54824-1c3f-454f-8830-f6cea379bee4: Article # Article
+    6ba54824-1c3f-454f-8830-f6cea379bee4: 'Blog posts' # Blog posts
     6c819fc7-3f73-4873-8f0c-5ea322fef1f9: 'Divider type' # Divider type
     6c9778b8-507c-4108-937d-6ceeabf35047: Image # Image
     6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: 'Starter starter' # Starter starter
