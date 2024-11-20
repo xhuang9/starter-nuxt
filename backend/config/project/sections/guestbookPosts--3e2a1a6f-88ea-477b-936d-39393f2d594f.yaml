@@ -1,10 +1,10 @@
 defaultPlacement: end
 enableVersioning: true
 entryTypes:
-  - 697da4c2-e02f-4f49-9d76-e22609ceda25 # Page
-handle: article
+  - 25b2446d-c1d2-4aa1-8184-3147e617f069 # Text
+handle: guestbookPosts
 maxAuthors: 1
-name: Article
+name: 'Guestbook Posts'
 previewTargets:
   -
     __assoc__:
@@ -23,5 +23,5 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: null
-    uriFormat: 'article/{slug}'
+    uriFormat: 'posts/{slug}'
 type: channel

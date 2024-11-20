@@ -9,7 +9,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  slug: {
+  uri: {
     type: String,
     required: true
   },
@@ -29,7 +29,7 @@ const props = defineProps({
   <article class="py-6">
     <h2 class="text-4xl font-bold">
       <NuxtLink 
-        :to="`/article/${slug}`" 
+        :to="`${uri}`" 
         class="text-red-600 hover:underline focus:underline cursor-pointer"
       >{{ title }}
     </NuxtLink>

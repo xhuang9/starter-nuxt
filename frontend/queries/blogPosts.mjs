@@ -1,6 +1,6 @@
-export const ARTICLE_QUERY = `
-  query Article($slug: [String]) {
-    articleEntries(slug: $slug) {
+export const BLOG_POSTS_QUERY = `
+  query BlogPosts($slug: [String]) {
+    blogPostsEntries(slug: $slug) {
       ... on page_Entry {
       id
       slug
@@ -11,12 +11,14 @@ export const ARTICLE_QUERY = `
       next(section: "article") {
         id
         slug
+        uri
         title
         postDate @formatDateTime(format: "F j, Y")
       }
       prev(section: "article") {
         id
         slug
+        uri
         title
         postDate @formatDateTime(format: "F j, Y")
       }

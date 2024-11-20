@@ -9,7 +9,7 @@ export const GUESTBOOK_QUERY = `
         title
       }
     }
-    postsEntries(limit: $limit, offset: $offset) {
+    guestbookPostsEntries(limit: $limit, offset: $offset) {
       ... on text_Entry {
         id
         title
