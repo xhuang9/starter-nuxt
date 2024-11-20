@@ -53,7 +53,7 @@ fieldLayouts:
             providesThumbs: false
             readonly: false
             requirable: true
-            required: true
+            required: false
             rows: null
             tip: null
             title: null
@@ -66,8 +66,8 @@ fieldLayouts:
         uid: b16c4140-39f5-4220-b0a1-e83126b7daaf
         userCondition: null
 fs: cloud
-handle: assets
-name: Assets
+handle: media
+name: Media
 sortOrder: 1
 subpath: img
 titleTranslationKeyFormat: null
