@@ -1,4 +1,4 @@
-dateModified: 1731920264
+dateModified: 1732069185
 elementSources:
   craft\elements\Entry:
     -
@@ -141,7 +141,7 @@ meta:
     6c9778b8-507c-4108-937d-6ceeabf35047: Image # Image
     6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: 'Starter starter' # Starter starter
     6d2e5577-5ded-43c9-96e2-d4fc4c770fe9: Text # Text
-    7b9364bd-2215-495a-8b0b-2280df887a8b: Assets # Assets
+    7b9364bd-2215-495a-8b0b-2280df887a8b: Media # Media
     7dac7ab3-08a0-4af8-ba7c-cbecd0726f08: Simple # Simple
     9d082133-4710-4468-ab39-80db8c9fcf59: Code # Code
     9d42aa56-4a66-4d0b-b8a9-84a4cb387788: 'Text block' # Text block

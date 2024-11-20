@@ -7,7 +7,7 @@ settings:
   availableTransforms:
     - 0922209d-2911-419e-82cf-b05113a35f6e # Wide
   availableVolumes:
-    - 7b9364bd-2215-495a-8b0b-2280df887a8b # Assets
+    - 7b9364bd-2215-495a-8b0b-2280df887a8b # Media
   ckeConfig: b579b454-12bd-4710-a436-c26907141957 # Full
   createButtonLabel: 'New block'
   defaultTransform: null
