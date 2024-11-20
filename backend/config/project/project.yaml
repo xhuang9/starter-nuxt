@@ -1,4 +1,4 @@
-dateModified: 1732087194
+dateModified: 1732089349
 elementSources:
   craft\elements\Entry:
     -
@@ -149,6 +149,7 @@ meta:
     58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Starter Nuxt' # Starter Nuxt
     70b2614b-639a-4de2-8c11-3851d36d6f8c: 'Blog categories' # Blog categories
     163c895f-0c05-4845-80e2-043b2346d830: Address # Address
+    0413e9dc-1c8a-4221-b81d-c9f6c0594cbd: Hero # Hero
     697da4c2-e02f-4f49-9d76-e22609ceda25: Page # Page
     998bf681-e007-4f7e-a525-863e01a38560: Blog # Blog
     5358db38-27c0-49b4-b9d3-e68326e79da2: Image # Image
