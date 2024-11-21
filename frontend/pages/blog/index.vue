@@ -70,12 +70,14 @@ useHead(() => ({
         <div class="container mx-auto py-12 px-2 text-balance" v-html="content.pageContent"></div>
       </section>
       <section class="container mx-auto mb-6 px-2 divide-y divide-slate-300">
-        <Teaser 
-          v-for="(entry, index) in posts"
-          :featured="index === 0 ? true : false"
-          :key="entry.id"
-          :entry="entry"
-        />
+        <div v-if="posts.length > 0" class="sm:grid sm:grid-cols-2 sm:gap-6">
+          <Teaser 
+            v-for="entry in posts"
+            :key="entry.id"
+            :entry="entry"
+            :featured="true"
+          />
+        </div>
         <Pagination
           v-if="totalPages > 1"
           :currentPage="currentPage"

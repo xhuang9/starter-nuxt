@@ -8,6 +8,6 @@ export const GUESTBOOK_POSTS_QUERY = `
         postDate @formatDateTime(format: "F j, Y")
       }
     }
-    entryCount(section: "posts")
+    entryCount(section: "guestbookPosts")
   }
 `
