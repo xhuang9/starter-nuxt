@@ -24,8 +24,8 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
      - Update `name`
      - Change the front end and backend domains under `additional_fqdns`
      - Change the front end, backend, and virtual host domains under `web_environment`
-   - Change the `server name` in `.ddev/nginx_full/api-site.conf` to match backend url
-   - Change the `server name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
+   - Change the `server_name` in `.ddev/nginx_full/api-site.conf` to match backend url
+   - Change the `server_name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
 
 1. Set up your Craft CMS backend:
    ```bash
