@@ -17,7 +17,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <a href="/" class="text-red-600 block">
+  <NuxtLink to="/" class="text-red-600 block">
     <template v-if="logo.length > 0">
       <span class="sr-only">{{ siteName }}</span>
       <img 
@@ -29,5 +29,5 @@ const props = defineProps({
     <template v-else>
       {{ siteName }}
     </template>
-  </a>
+  </NuxtLink>
 </template>
