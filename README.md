@@ -18,8 +18,8 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 ## Quick Start
 
 1. Clone this repository
-   
-2. Optional: Change the default domains (Defaults: Frontend = https://starter-nuxt.ddev.site, Backend = https://api.starter-nuxt.ddev.com):
+
+1. Optional: Change the default domains (Defaults: Frontend = https://starter-nuxt.ddev.site, Backend = https://api.starter-nuxt.ddev.com):
    - Edit `.ddev/config.yaml`
      - Update `name`
      - Change the front end and backend domains under `additional_fqdns`
@@ -27,37 +27,37 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    - Change the `server name` in `.ddev/nginx_full/api-site.conf` to match backend url
    - Change the `server name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
 
-3. Setup ddev environment
+1. Setup ddev environment
    ```bash
    ddev fe npm run start
    ```
 
-4. Set up your Craft CMS backend:
+1. Set up your Craft CMS backend:
    ```bash
    ddev composer install
    ddev craft setup
    ```
 
-5. Configure domains for Craft in `backend/.env`
+1. Configure domains for Craft in `backend/.env`
    - Update the following to match your ddev configuration
    ```
    PRIMARY_SITE_URL="https://starter-nuxt.ddev.site"
    ```
-6. Generate a token for the Posts GraphQL Schema
+1. Generate a token for the Posts GraphQL Schema
    - Sign into https://api.starter-nuxt.ddev.site/admin
    - Navigate to https://api.starter-nuxt.ddev.site/admin/graphql/tokens and create a new token for the Posts schema
 
-7. Set up your Nuxt frontend:
+1. Set up your Nuxt frontend:
    ```bash
    ddev fe npm install
    ```
 
-8. Configure your frontend environment:
+1. Configure your frontend environment:
    - Copy `.env.example` to `.env`
    - Update to match your Craft installation
    - Update `AUTH_HEADER` to the token generated in step 6
 
-9.  Start development:
+1.  Start development:
    ```bash
    ddev fe npm run dev
    ```
