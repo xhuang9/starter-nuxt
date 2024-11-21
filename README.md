@@ -38,13 +38,15 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    ```
    PRIMARY_SITE_URL="https://starter-nuxt.ddev.site"
    ```
-1. Generate a token for the Posts GraphQL Schema
-   - Sign into https://api.starter-nuxt.ddev.site/admin
-   - Navigate to https://api.starter-nuxt.ddev.site/admin/graphql/tokens and create a new token for the Posts schema
 
-1. Set up your Nuxt frontend:
+1. Generate a token for the _Posts_ GraphQL Schema:
+
    ```bash
-   ddev fe npm install
+   # Display a list of schemas and UUIDs:
+   ddev craft graphql/list-schemas
+
+   # Use the “Posts” schema ID to generate a token:
+   ddev craft graphql/create-token c7d2eb61-cdde-4a76-88a9-eb30ddcf155b
    ```
 
 1. Configure your frontend environment:
