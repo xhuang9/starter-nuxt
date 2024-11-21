@@ -30,7 +30,7 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
 1. Set up your Craft CMS backend:
    ```bash
    ddev composer install
-   ddev craft setup
+   ddev craft install
    ```
 
 1. Configure domains for Craft in `backend/.env`
