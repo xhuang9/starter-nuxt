@@ -8,7 +8,6 @@ const graphql = useGraphQL()
 const { data: globalsData } = await useAsyncData('globals', async () => {
   try {
     const result = await graphql.query(GLOBALS_QUERY)
-    console.log('GraphQL result:', result) // Debug log
     return {
       global: result?.globalEntries?.[0] || {},
       pages: result?.pagesEntries || []

@@ -38,6 +38,19 @@ export function usePaginatedData(fetchData, initialItemsPerPage = 3) {
     }
   }
 
+  const refresh = async () => {
+    loading.value = true
+    try {
+      const newData = await fetchData(currentPage.value, itemsPerPage.value)
+      data.value = newData
+    } catch (err) {
+      error.value = err
+      console.error('Error refreshing data:', err)
+    } finally {
+      loading.value = false
+    }
+  }
+
   watch(() => route.query.page, async (newPage) => {
     const page = parseInt(newPage) || 1
     if (page !== currentPage.value) {
@@ -57,6 +70,7 @@ export function usePaginatedData(fetchData, initialItemsPerPage = 3) {
     loading,
     error,
     updateCurrentPage,
-    fetchPageData
+    fetchPageData,
+    refresh
   }
 }

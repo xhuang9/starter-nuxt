@@ -14,7 +14,7 @@
   <div 
     v-if="flashes.length > 0" 
     role="alert"
-    class="sticky top-0 left-0 right-0 z-50"
+    class="absolute top-0 left-0 right-0 z-50"
   >
     <p 
       v-for="flash in flashes" 

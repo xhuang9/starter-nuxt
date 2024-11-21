@@ -102,6 +102,9 @@ useHead(() => ({
             <time v-if="currentPost.postDate" :datetime="currentPost.postDate">
               {{ currentPost.postDate }}
               </time>
+              <span v-if="currentPost.authorName" class="block">
+                By {{ currentPost.authorName }}
+              </span>
             </p>
           </div>
         </div>

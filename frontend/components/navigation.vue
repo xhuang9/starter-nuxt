@@ -32,10 +32,10 @@ defineProps({
       </li>
       <li v-for="page in pages" :key="page.id">
         <NuxtLink 
-          :to="page.uri" 
+          :to="`/${page.uri}`" 
           class="block p-2 hover:underline text-red-600 hover:text-red-600"
           active-class="text-red-600"
-          :aria-current="$route.path === page.uri ? 'page' : null"
+          :aria-current="$route.path === `/${page.uri}` ? 'page' : null"
         >
           {{ page.title }}
         </NuxtLink>
