@@ -8,7 +8,6 @@ const config = useRuntimeConfig()
 const graphql = useGraphQL()
 const { addFlash } = useFlashes()
 const message = ref('')
-const authorId = ref(config.public.ADMIN_USER_ID)
 const loading = ref(false)
 
 const emit = defineEmits(['post-submitted'])
@@ -17,6 +16,13 @@ const generateTitle = (text) => {
   const words = text.split(' ').slice(0, 3).join(' ').trim()
   return `Post: ${words}${words ? '...' : ''}`
 }
+
+const props = defineProps({
+  authorId: {
+    type: Number,
+    required: true
+  }
+})
 
 const title = computed(() => generateTitle(message.value))
 
@@ -27,15 +33,23 @@ const submitPost = async () => {
   }
   loading.value = true
   try {
+    console.log('Submitting with:', {
+      title: title.value,
+      message: message.value,
+      authorId: props.authorId
+    })
+
     const result = await graphql.query(CREATE_POST_MUTATION, {
       title: title.value,
       message: message.value,
-      authorId: authorId.value
+      authorId: props.authorId.toString()
     }, {
       private: true
     })
 
-    if (!result?.save_posts_text_Entry) {
+    console.log('Mutation result:', result)
+
+    if (!result?.save_guestbookPosts_text_Entry) {
       throw new Error('No data returned from the mutation')
     }
 
@@ -43,8 +57,8 @@ const submitPost = async () => {
     message.value = ''
     emit('post-submitted')
   } catch (err) {
-    addFlash('Error posting message', 'error')
-    console.error('Error creating post:', err.message)
+    addFlash(`Error posting message: ${err.message}`, 'error')
+    console.error('Error creating post:', err)
   } finally {
     loading.value = false
   }

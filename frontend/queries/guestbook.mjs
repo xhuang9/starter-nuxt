@@ -1,22 +1,13 @@
 export const GUESTBOOK_QUERY = `
-  query Guestbook($limit: Int!, $offset: Int!) {
-    guestbookEntries(limit: 1) {
+  query Guestbook {
+    guestbookEntries: entries(section: "guestbook", limit: 1) {
       ... on page_Entry {
         id
+        title
         pageContent
         pageSubheading
-        slug
-        title
+        authorId
       }
     }
-    guestbookPostsEntries(limit: $limit, offset: $offset) {
-      ... on text_Entry {
-        id
-        title
-        textBlock @markdown
-        postDate @formatDateTime(format: "F j, Y")
-      }
-    }
-    entryCount(section: "posts")
   }
 `

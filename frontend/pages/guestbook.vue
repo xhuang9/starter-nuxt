@@ -1,11 +1,13 @@
 <script setup>
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
-import { usePaginatedData } from '@/composables/usePaginatedData'
 import { GUESTBOOK_QUERY } from '@/queries/guestbook.mjs'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useHead } from '#imports'
+import PostList from '@/components/postList.vue'
+import PostForm from '@/components/postForm.vue'
 
+// Composables
 const graphql = useGraphQL()
 const { isPreview, previewToken } = usePreview()
 
@@ -14,121 +16,99 @@ if (isPreview.value) {
   definePageMeta({ ssr: false })
 }
 
-const fetchGuestbookData = async (page, perPage) => {
+// Data fetching
+const loading = ref(false)
+const error = ref(null)
+const content = ref({})
+
+const fetchGuestbookData = async () => {
+  loading.value = true
+  error.value = null
   try {
-    console.log('Fetching with params:', { page, perPage })
-    
-    const result = await graphql.query(GUESTBOOK_QUERY, {
-      limit: perPage,
-      offset: (page - 1) * perPage
-    }, {
+    const result = await graphql.query(GUESTBOOK_QUERY, {}, {
       previewToken: previewToken.value
     })
     
-    console.log('Raw GraphQL Response:', result)
-    
-    const processedData = {
-      content: result?.guestbookEntries?.[0] || {},
-      posts: result?.guestbookPostsEntries || [],
-      total: result?.entryCount || 0
-    }
-    
-    console.log('Processed Data:', processedData)
-    
-    return processedData
+    content.value = result?.guestbookEntries?.[0] || {}
   } catch (err) {
-    console.error('GraphQL Error:', err)
-    throw err
+    error.value = new Error(`Failed to fetch guestbook data: ${err.message}`)
+  } finally {
+    loading.value = false
   }
 }
 
-const {
-  currentPage,
-  data,
-  totalPages,
-  error,
-  loading,
-  updateCurrentPage,
-  fetchPageData
-} = usePaginatedData(fetchGuestbookData)
+// Post list refresh handling
+const postListRef = ref(null)
+const handleNewPost = async () => {
+  if (postListRef.value) {
+    await postListRef.value.refresh()
+  }
+}
 
+// Initial data fetch
 onMounted(() => {
-  fetchPageData(1)
+  fetchGuestbookData()
 })
 
-watch(data, (newData) => {
-  console.log('Watch Data:', newData)
-}, { immediate: true })
-
-const content = computed(() => data.value?.content || {})
-const posts = computed(() => data.value?.posts || [])
-
-const handleNewPost = async () => {
-  if (currentPage.value === 1) {
-    // Just refresh the current page
-    await fetchGuestbookData(1, 3)
-  } else {
-    // Go back to page 1
-    updateCurrentPage(1)
-  }
-}
-
-// Set the page title
+// Page title
 useHead(() => ({
-  title: content.value?.title || ''
+  title: content.value?.title || 'Guestbook'
 }))
 </script>
 
 <template>
   <div>
+    <!-- Loading state -->
     <div v-if="loading" class="container mx-auto py-12 px-2">
       Loading...
     </div>
     
+    <!-- Error state -->
     <div v-else-if="error" class="container mx-auto py-12 px-2 text-red-600">
       {{ error.message }}
     </div>
     
+    <!-- Content -->
     <template v-else>
-      <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
-        <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">{{ content.title }}</h1>
-        <p v-if="content.pageSubheading" class="mt-4">{{ content.pageSubheading }}</p>
+      <header class="container mx-auto pt-12 pb-6 px-2">
+        <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
+          {{ content.title }}
+        </h1>
+        <p 
+          v-if="content.pageSubheading" 
+          class="mt-4 text-2xl"
+        >
+          {{ content.pageSubheading }}
+        </p>
       </header>
 
-      <section class="page__content">
+      <section 
+        v-if="content.pageContent"
+        class="page__content"
+      >
         <div 
           class="container mx-auto py-12 px-2 text-balance" 
           v-html="content.pageContent"
-        ></div>
+        />
       </section>
 
       <div class="container mx-auto px-2 sm:grid gap-6 grid-cols-2">
+        <!-- Posts list -->
         <section class="mb-12">
-          <div v-if="posts.length > 0">
-            <ol class="mb-2 divide-y divide-slate-300">
-              <li v-for="post in posts" :key="post.id">
-                <article class="text-xl py-6">
-                  <div v-html="post.textBlock"></div>
-                  <p class="text-sm mt-1">
-                    <time :datetime="post.postDate">{{ post.postDate }}</time>
-                  </p>
-                </article>
-              </li>
-            </ol>
-            <Pagination
-              v-if="totalPages > 1"
-              :currentPage="currentPage"
-              :totalPages="totalPages"
-              @update:currentPage="updateCurrentPage"
-            />
-          </div>
-          <p v-else class="text-2xl">No entries yet. Create one using the form.</p>
+          <PostList 
+            ref="postListRef"
+            :preview-token="previewToken"
+          />
         </section>
 
+        <!-- Post form -->
         <section>
           <div class="bg-slate-200 p-6 mb-9 rounded">
             <h2 class="font-bold text-3xl mb-4">Post an entry</h2>
-            <PostForm @post-submitted="handleNewPost" />
+            <PostForm 
+              @post-submitted="handleNewPost" 
+              :author-id="content.authorId" 
+            />
           </div>
         </section>
       </div>
