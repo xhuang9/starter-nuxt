@@ -11,12 +11,12 @@ use yii\base\Event;
 class Module extends \yii\base\Module
 {
     public static $instance;
-    
+
     /**
      * Cache for the admin user to avoid multiple queries
      */
     private ?User $adminUser = null;
-    
+
     public function init()
     {
         parent::init();
