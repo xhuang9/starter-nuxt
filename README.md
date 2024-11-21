@@ -33,12 +33,6 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    ddev craft install
    ```
 
-1. Configure domains for Craft in `backend/.env`
-   - Update the following to match your ddev configuration
-   ```
-   PRIMARY_SITE_URL="https://starter-nuxt.ddev.site"
-   ```
-
 1. Generate a token for the _Posts_ GraphQL Schema:
    ```bash
    # Display a list of schemas and UUIDs:
