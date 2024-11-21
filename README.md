@@ -27,11 +27,6 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    - Change the `server name` in `.ddev/nginx_full/api-site.conf` to match backend url
    - Change the `server name` in `.ddev/nginx_full/nuxt-site.conf` to match frontend url
 
-1. Setup ddev environment
-   ```bash
-   ddev fe npm run start
-   ```
-
 1. Set up your Craft CMS backend:
    ```bash
    ddev composer install
