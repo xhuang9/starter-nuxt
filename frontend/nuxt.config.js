@@ -23,8 +23,7 @@ export default defineNuxtConfig({
       AUTH_HEADER: process.env.AUTH_HEADER,
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL,
-      SITE_NAME: process.env.SITE_NAME,
-      ADMIN_USER_ID: process.env.ADMIN_USER_ID
+      SITE_NAME: process.env.SITE_NAME
     }
   },
   vite: {

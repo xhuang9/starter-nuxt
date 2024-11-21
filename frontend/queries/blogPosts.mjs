@@ -7,6 +7,8 @@ export const BLOG_POSTS_QUERY = `
       title
       pageSubheading
       pageContent
+      authorName
+      authorId
       postDate @formatDateTime(format: "F j, Y")
       image {
         alt
