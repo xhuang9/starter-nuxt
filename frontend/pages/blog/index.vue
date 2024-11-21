@@ -75,6 +75,7 @@ useHead(() => ({
             v-for="entry in posts"
             :key="entry.id"
             :entry="entry"
+            :featured="true"
           />
         </div>
         <Pagination

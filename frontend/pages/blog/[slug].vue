@@ -118,7 +118,7 @@ useHead(() => ({
         ></div>
       </section>
 
-      <section class="container mx-auto mb-6 px-2 divide-y divide-slate-300">
+      <section class="container mx-auto mb-6 px-2 border-t sm:flex sm:justify-between sm:gap-6">
         <Teaser 
           v-if="currentPost.prev"
           :key="currentPost.prev.id"
