@@ -3,33 +3,26 @@ const props = defineProps({
   entry: {
     type: Object,
     required: true
-  },
-  featured: {
-    type: Boolean,
-    default: false
   }
 });
 </script>
 
 <template>
   <article class="py-6 mb-12">
-    <figure 
-      v-if="entry.image && entry.image.length > 0"   
-      :class="featured ? '' : 'sm:w-1/3'"
-    >
+    <figure>
       <NuxtLink
         :to="`/${entry.uri}`" 
         class="text-red-600 hover:underline focus:underline cursor-pointer block mb-4"
       >
         <img 
+          v-if="entry.image && entry.image.length > 0"
           :src="entry.image[0].url" 
           :alt="entry.image[0].alt" 
-          width="990" 
-          height="540"
         />
+        <div v-else class="bg-slate-200 aspect-video hover:bg-slate-300"></div>
       </NuxtLink>
     </figure>
-    <div class="mb-4"å>
+    <div class="mb-4">
       <h2 class="font-bold mb-2" :class="featured ? 'text-6xl' : 'text-4xl'">
         <NuxtLink 
           :to="`/${entry.uri}`" 
