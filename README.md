@@ -40,7 +40,6 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    ```
 
 1. Generate a token for the _Posts_ GraphQL Schema:
-
    ```bash
    # Display a list of schemas and UUIDs:
    ddev craft graphql/list-schemas
@@ -54,7 +53,12 @@ A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
    - Update to match your Craft installation
    - Update `AUTH_HEADER` to the token generated in step 6
 
-1.  Start development:
+1. Install front-end dependencies:
+   ```bash
+   ddev fe npm install
+   ```
+
+1. Start the Nuxt development server:
    ```bash
    ddev fe npm run dev
    ```
