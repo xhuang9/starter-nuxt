@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      AUTH_HEADER: process.env.AUTH_HEADER,
+      GRAPHQL_TOKEN: process.env.GRAPHQL_TOKEN,
       CRAFT_URL: process.env.CRAFT_URL,
       BASE_URL: process.env.BASE_URL,
       SITE_NAME: process.env.SITE_NAME
