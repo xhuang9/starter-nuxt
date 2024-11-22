@@ -94,7 +94,7 @@ There is no `.gitignore` at the root of the project—instead, each system maint
 
 ### Back End
 
-The `backend/` directory is predominantly a standard Craft installation, so [its structure](https://craftcms.com/docs/5.x/system/directory-structure.html) should be familiar. One notable omission, however, is the `templates/` directory! Craft is configured to run in [headless mode](https://craftcms.com/docs/5.x/reference/config/general.html#headlessmode), which means it doesn’t perform any element routing, nor template rendering—in fact, it will only respond to _control panel_, _action_, and static asset requests (like any images you might upload).
+The `backend/` directory is predominantly a standard Craft installation, so [its structure](https://craftcms.com/docs/5.x/system/directory-structure.html) should be familiar. Craft is configured to run in [headless mode](https://craftcms.com/docs/5.x/reference/config/general.html#headlessmode), which means it doesn’t perform any element routing, nor template rendering—in fact, it will only respond to _control panel_, _action_, and static asset requests (like any images you might upload).
 
 Craft uses the `PRIMARY_SITE_URL` environment variable to generate fully-qualified URLs for front-end pages (and assets), and `CRAFT_BASE_CP_URL` to build control panel URLs.
 
