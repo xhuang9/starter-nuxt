@@ -7,6 +7,10 @@ export const PAGE_QUERY = `
         uri
         pageSubheading
         pageContent
+        image {
+          url @transform(handle: "hero")
+          alt
+        }
       }
     }
   }

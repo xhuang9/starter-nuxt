@@ -67,6 +67,9 @@ useHead(() => ({
 
 <template>
   <div v-if="pageData" :key="previewTimestamp">
+    <figure v-if="pageData.image && pageData.image.length > 0">
+      <img :src="pageData.image[0].url" :alt="pageData.image[0].alt" />
+    </figure>
     <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
         {{ pageData.title }}
