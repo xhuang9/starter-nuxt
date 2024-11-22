@@ -10,7 +10,7 @@ export function useGraphQL() {
       }
 
       let apiUrl = `${config.public.CRAFT_URL}/api`
-      
+
       const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
