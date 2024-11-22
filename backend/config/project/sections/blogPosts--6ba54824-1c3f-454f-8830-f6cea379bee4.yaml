@@ -4,7 +4,7 @@ entryTypes:
   - 697da4c2-e02f-4f49-9d76-e22609ceda25 # Page
 handle: blogPosts
 maxAuthors: 1
-name: 'Blog posts'
+name: 'Blog Posts'
 previewTargets:
   -
     __assoc__:

@@ -77,7 +77,7 @@ fieldLayouts:
                   operator: in
                   uid: cce39d0f-1040-4e19-8a10-16b502f3149d
                   values:
-                    - 6ba54824-1c3f-454f-8830-f6cea379bee4 # Blog posts
+                    - 6ba54824-1c3f-454f-8830-f6cea379bee4 # Blog Posts
               elementType: craft\elements\Entry
               fieldContext: global
             fieldUid: d390347a-09cf-4b70-a3b4-bc3cca520623 # Category
