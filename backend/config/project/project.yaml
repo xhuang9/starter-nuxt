@@ -1,4 +1,4 @@
-dateModified: 1732236863
+dateModified: 1732241688
 elementSources:
   craft\elements\Entry:
     -
@@ -139,14 +139,14 @@ meta:
     6ba54824-1c3f-454f-8830-f6cea379bee4: 'Blog Posts' # Blog Posts
     6c819fc7-3f73-4873-8f0c-5ea322fef1f9: 'Divider type' # Divider type
     6c9778b8-507c-4108-937d-6ceeabf35047: Image # Image
-    6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: 'Starter starter' # Starter starter
+    6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: Starters # Starters
     6d2e5577-5ded-43c9-96e2-d4fc4c770fe9: Text # Text
     7b9364bd-2215-495a-8b0b-2280df887a8b: Media # Media
     7dac7ab3-08a0-4af8-ba7c-cbecd0726f08: Simple # Simple
     9d082133-4710-4468-ab39-80db8c9fcf59: Code # Code
     9d42aa56-4a66-4d0b-b8a9-84a4cb387788: 'Text block' # Text block
     25b2446d-c1d2-4aa1-8184-3147e617f069: Text # Text
-    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Starter Nuxt' # Starter Nuxt
+    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Nuxt Starter' # Nuxt Starter
     70b2614b-639a-4de2-8c11-3851d36d6f8c: 'Blog Categories' # Blog Categories
     163c895f-0c05-4845-80e2-043b2346d830: Address # Address
     0413e9dc-1c8a-4221-b81d-c9f6c0594cbd: Hero # Hero
@@ -174,6 +174,7 @@ plugins:
 system:
   edition: solo
   live: true
-  name: 'Starter starter'
+  name: 'Nuxt Starter'
+  retryDuration: null
   schemaVersion: 5.5.0.0
   timeZone: America/Los_Angeles
