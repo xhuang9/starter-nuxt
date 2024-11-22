@@ -19,7 +19,7 @@ const fetchData = async () => {
     const result = await graphql.query(HOME_QUERY, {}, {
       previewToken: previewToken.value
     })
-    data.value = result
+    data.value = result.entry
   } catch (error) {
     console.error('Failed to fetch home data:', error)
   }
@@ -38,22 +38,25 @@ watch([isPreview, previewToken], () => {
 
 <template>
   <div :key="previewTimestamp">
-    <figure v-if="data?.entries?.[0]?.image && data?.entries?.[0]?.image.length > 0">
-      <img :src="data?.entries?.[0]?.image[0].url" :alt="data?.entries?.[0]?.image[0].alt" />
+    <figure v-if="data.image && data.image.length > 0">
+      <img :src="data.image[0].url" :alt="data.image[0].alt" />
     </figure>
     <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
-        {{ data?.entries?.[0]?.title }}
+        {{ data.title }}
       </h1>
-      <p v-if="data?.entries?.[0]?.pageSubheading" class="mt-4">
-        {{ data?.entries?.[0]?.pageSubheading }}
+      <p v-if="data.pageSubheading" class="mt-4">
+        {{ data.pageSubheading }}
       </p>
     </header>
     <section class="page__content">
-      <div 
-        class="container mx-auto py-12 px-2 text-balance" 
-        v-html="data?.entries?.[0]?.pageContent"
-      ></div>
+      <div class="container mx-auto py-12 px-2 text-balance">
+        <div
+          v-if="data.pageContent"
+          v-html="data.pageContent"
+        ></div>
+        <tip v-else>Add content to the homepage by visiting Entries &rarr; Default Pages in the control panel!</tip>
+      </div>
     </section>
   </div>
 </template>
