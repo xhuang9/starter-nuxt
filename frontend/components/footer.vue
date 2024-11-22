@@ -8,14 +8,14 @@ const props = defineProps({
   }
 })
 
-const address = computed(() => props.globalData?.address?.[0] || {})
+const address = computed(() => props.globalData?.address?.[0] || null)
 </script>
 
 
 <template>
   <footer class="bg-slate-50 py-6 px-2 text-sm">
     <address 
-      v-if="address" 
+      v-if="address"
       class="container mx-auto not-italic"
     >
       <p class="font-bold">{{ address.title }}</p>
@@ -33,5 +33,8 @@ const address = computed(() => props.globalData?.address?.[0] || {})
         {{ address.countryCode }}
       </p>
     </address>
+    <div v-else class="container mx-auto">
+      <tip>Add an address by visiting Entries &rarr; Globals in the control panel!</tip>
+    </div>
   </footer>
 </template>
