@@ -6,9 +6,8 @@ nodejs_version: "20"
 webserver_type: nginx-fpm
 composer_root: backend
 xdebug_enabled: false
-additional_fqdns:
-  - starter-nuxt.ddev.site
-  - api.starter-nuxt.ddev.site
+additional_hostnames:
+  - api.starter-nuxt
 database:
     type: mysql
     version: "8.0"
