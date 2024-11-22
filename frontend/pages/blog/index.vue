@@ -78,6 +78,9 @@ useHead(() => ({
             :featured="true"
           />
         </div>
+        <div v-else>
+          <p>No posts yet.</p>
+        </div>
         <Pagination
           v-if="totalPages > 1"
           :currentPage="currentPage"
