@@ -1,19 +1,9 @@
-# Nuxt + Craft CMS Starter
+# Craft CMS + Nuxt Starter
 
-## README UNDER CONSTRUCTION 🚧
+A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects. Check out the [features](#key-features), or [dive right in](#quick-start)!
 
-A minimal, production-ready starter for Nuxt 3 and Craft CMS 5 projects.
-
-## Features
-- 🚀 Nuxt 3 + Craft CMS 5
-- 📱 Responsive pagination
-- 🔍 Preview mode support
-- 📝 Blog and Guestbook examples
-- 🎨 TailwindCSS styling
-
-## Project Structure
-
-
+> [!TIP]
+> Curious about Craft, but want to try it with a different framework? We have [other starter projects](https://craftcms.com/starters), too!
 
 ## Quick Start
 
