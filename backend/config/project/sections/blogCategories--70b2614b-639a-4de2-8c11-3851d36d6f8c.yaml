@@ -10,10 +10,10 @@ previewTargets:
     __assoc__:
       -
         - label
-        - 'Primary entry page'
+        - 'Category Feed'
       -
         - urlFormat
-        - '{{ alias(''@preview'') }}/{uri}'
+        - '{uri}'
       -
         - refresh
         - '1'
@@ -25,6 +25,6 @@ siteSettings:
     template: null
     uriFormat: 'categories/{slug}'
 structure:
-  maxLevels: null
+  maxLevels: 1
   uid: 3fa989b7-cc6c-402a-b995-5698a2b688ea
 type: structure

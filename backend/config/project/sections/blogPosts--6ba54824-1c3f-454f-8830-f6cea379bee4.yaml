@@ -13,7 +13,7 @@ previewTargets:
         - 'Primary entry page'
       -
         - urlFormat
-        - '{{ alias(''@preview'') }}/{uri}'
+        - '{uri}'
       -
         - refresh
         - '1'
