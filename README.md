@@ -124,21 +124,22 @@ The DDEV configuration files shipped with this project use a specific pair of UR
 
 If you would like to use different URLs, you must make a few changes in `.ddev/config.yaml`:
 
-    - Update the `name` key (this influences the `starter-project` segment of the base URL);
-    - Change the back-end hostname under the `additional_hostnames` key;
-    - Change the `VIRTUAL_HOST` domains under `web_environment`;
+- Update the `name` key (this influences the `starter-project` segment of the base URL);
+- Change the back-end hostname under the `additional_hostnames` key;
+- Change the `VIRTUAL_HOST` domains under `web_environment`;
 
 Then, a change is required for each of the nginx configuration files:
-    - Change the `server_name` directive in `.ddev/nginx_full/api-site.conf` to match the back-end url;
-    - Change the `server_name` directive in `.ddev/nginx_full/nuxt-site.conf` to match the front-end url;
+
+- Change the `server_name` directive in `.ddev/nginx_full/api-site.conf` to match the back-end url;
+- Change the `server_name` directive in `.ddev/nginx_full/nuxt-site.conf` to match the front-end url;
 
 Nuxt also needs to be told what front-end URLs should look like:
 
-    - Update `BASE_URL` in `frontend/.env`;
+- Update `BASE_URL` in `frontend/.env`;
 
 Finally, Craft may need to generate absolute URLs to the control panel in some scenarios:
 
-    - Update `CRAFT_BASE_CP_URL` in `backend/.env`;
+- Update `CRAFT_BASE_CP_URL` in `backend/.env`;
 
 Your production configuration will probably look different—as long as Nuxt knows where the GraphQL endpoint lives (`CRAFT_URL` in `frontend/.env`) and both Craft and Nuxt know how to generate public URLs (`PRIMARY_SITE_URL` in `backend/.env` and `BASE_URL` in `frontend/.env`, respectively) these URLs don’t need to be related in any specific way!
 
