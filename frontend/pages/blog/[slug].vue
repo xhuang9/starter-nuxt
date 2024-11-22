@@ -53,17 +53,9 @@ watch([isPreview, previewToken], () => {
 })
 
 // Computed property for cleaner template
-const currentPost = computed(() => {
-  const entry = data.value?.blogPostsEntries?.[0]
-  console.log('Full entry data:', entry)
-  console.log('Next/Prev:', {
-    next: entry?.next,
-    prev: entry?.prev,
-    postDate: entry?.postDate
-  })
-  return entry
-})
+const currentPost = computed(() => data.value?.blogPostsEntries?.[0] || null)
 const hasPost = computed(() => !!currentPost.value)
+const hasNextPrev = computed(() => hasPost.value && (currentPost.value?.prev || currentPost.value?.next))
 
 // Set the page title
 useHead(() => ({
@@ -117,23 +109,28 @@ useHead(() => ({
           v-html="currentPost.pageContent"
         ></div>
       </section>
-
-      <section class="container mx-auto mb-6 px-2 border-t sm:flex sm:justify-between sm:gap-6">
-        <Teaser 
-          v-if="currentPost.prev"
-          :key="currentPost.prev.id"
-          :entry="currentPost.prev"
-        />
-        <Teaser
-          v-if="currentPost.next"
-          :key="currentPost.next.id"
-          :entry="currentPost.next"
-        />
-      </section>
     </template>
 
     <div v-else class="container mx-auto py-12 px-2">
       Post not found
     </div>
+
+    <section v-if="hasNextPrev"class="bg-slate-100">
+        <div class="container mx-auto divide-y divide-slate-300 py-12 px-2">
+          <h2 class="font-bold text-4xl mb-2">Other articles</h2>
+          <div class="sm:grid sm:grid-cols-2 sm:gap-6">
+            <Teaser 
+              v-if="currentPost?.prev"
+            :key="currentPost.prev.id"
+            :entry="currentPost.prev"
+          />
+          <Teaser
+            v-if="currentPost?.next"
+            :key="currentPost.next.id"
+              :entry="currentPost.next"
+            />   
+          </div>
+        </div>
+      </section>
   </div>
 </template>
