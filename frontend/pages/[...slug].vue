@@ -84,10 +84,12 @@ useHead(() => ({
       </p>
     </header>
     <section class="page__content">
-      <div 
+      <div
+        v-if="pageData.pageContent"
         class="container mx-auto py-12 px-2 text-balance" 
         v-html="pageData.pageContent"
       />
+      <tip v-else>This page has no content, but you can add some in the control panel!</tip>
     </section>
     <footer v-if="pageData.children.length" class="page__extra">
       <div class="container mx-auto py-12 px-2 text-balance">
