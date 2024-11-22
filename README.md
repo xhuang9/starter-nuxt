@@ -25,8 +25,7 @@ This project assumes you have our recommended development environment  [DDEV](ht
     ddev craft install
     ```
 
-    > [!IMPORTANT]
-    > Write down the username and password you choose, during installation. You’ll need it to [log in to the control panel](#control-panel).
+    Write down the username and password you choose, during installation. You’ll need it to [log in to the control panel](#control-panel).
 
 1. Generate a token for the _Posts_ GraphQL Schema:
 
