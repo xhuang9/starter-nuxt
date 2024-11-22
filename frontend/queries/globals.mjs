@@ -20,8 +20,8 @@ export const GLOBALS_QUERY = `
       }
     }
     pagesEntries(level: 1) {
-    ... on page_Entry {
-      id
+      ... on page_Entry {
+        id
         title
         uri
       }
