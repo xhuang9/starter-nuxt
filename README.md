@@ -40,8 +40,7 @@ This project assumes you have our recommended development environment  [DDEV](ht
 1. Configure your frontend environment:
 
     - Copy `frontend/.env.example` to `frontend/.env`;
-    - Update to match your Craft installation;
-    - Update `AUTH_HEADER` to the token generated in the previous step;
+    - Update `GRAPHQL_TOKEN` to the token generated in the previous step;
 
 1. Install front-end dependencies:
 
