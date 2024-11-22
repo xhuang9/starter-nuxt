@@ -35,18 +35,6 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    devProxy: {
-      '/api': {
-        target: process.env.CRAFT_URL,
-        changeOrigin: true,
-        secure: false,
-        ws: true,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    },
     devServer: {
       watch: ['./server']
     }
