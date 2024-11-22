@@ -6,6 +6,10 @@ export const HOME_QUERY = `
         title
         pageSubheading
         pageContent
+        image {
+          url @transform(handle: "hero")
+          alt
+        }
       }
     }
   }

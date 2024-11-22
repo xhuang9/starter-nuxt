@@ -38,6 +38,9 @@ watch([isPreview, previewToken], () => {
 
 <template>
   <div :key="previewTimestamp">
+    <figure v-if="data?.entries?.[0]?.image && data?.entries?.[0]?.image.length > 0">
+      <img :src="data?.entries?.[0]?.image[0].url" :alt="data?.entries?.[0]?.image[0].alt" />
+    </figure>
     <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
         {{ data?.entries?.[0]?.title }}
