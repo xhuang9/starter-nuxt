@@ -71,6 +71,11 @@ useHead(() => ({
       <img :src="pageData.image[0].url" :alt="pageData.image[0].alt" />
     </figure>
     <header class="container mx-auto pt-12 pb-6 px-2 text-2xl">
+      <ul v-if="pageData.ancestors.length" class="mb-2 text-base text-slate-400">
+        <li v-for="ancestor in pageData.ancestors" v-bind:key="ancestor.id">
+          <NuxtLink :to="`/${ancestor.uri}`">{{ ancestor.title }}</NuxtLink>
+        </li>
+      </ul>
       <h1 class="font-bold text-4xl sm:text-6xl lg:text-9xl">
         {{ pageData.title }}
       </h1> 
@@ -79,10 +84,23 @@ useHead(() => ({
       </p>
     </header>
     <section class="page__content">
-      <div 
+      <div
+        v-if="pageData.pageContent"
         class="container mx-auto py-12 px-2 text-balance" 
         v-html="pageData.pageContent"
       />
+      <tip v-else>This page has no content, but you can add some in the control panel!</tip>
     </section>
+    <footer v-if="pageData.children.length" class="page__extra">
+      <div class="container mx-auto py-12 px-2 text-balance">
+        <h3 class="font-bold text-3xl mb-4">Children</h3>
+        <ul>
+          <li v-for="child in pageData.children" v-bind:key="child.id">
+            <span class="text-slate-400 mr-2" aria-hidden="true">&rarr;</span>
+            <NuxtLink :to="`/${child.uri}`" class="text-red-600 hover:underline">{{ child.title }}</NuxtLink>
+          </li>
+        </ul>
+      </div>
+    </footer>
   </div>
 </template>

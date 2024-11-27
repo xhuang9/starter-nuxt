@@ -48,19 +48,7 @@
     }
   },
   "scripts": {
-    "post-create-project-cmd": [
-      "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\"",
-      "@php -r \"unlink('composer.json');\"",
-      "@php -r \"rename('composer.json.default', 'composer.json');\"",
-      "@composer dump-autoload -o",
-      "@php craft setup/welcome"
-    ],
     "post-update-cmd": [
-      "@php craft migrate/all --interactive=0",
-      "@php craft project-config/apply",
-      "@php craft clear-caches/all"
-    ],
-    "post-install-cmd": [
       "@php craft migrate/all --interactive=0",
       "@php craft project-config/apply",
       "@php craft clear-caches/all"

@@ -10,7 +10,7 @@ export function useGraphQL() {
       }
 
       let apiUrl = `${config.public.CRAFT_URL}/api`
-      
+
       const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -18,7 +18,7 @@ export function useGraphQL() {
 
       // Add auth header if private flag is true
       if (options.private) {
-        headers['Authorization'] = `Bearer ${config.public.AUTH_HEADER}`
+        headers['Authorization'] = `Bearer ${config.public.GRAPHQL_TOKEN}`
       }
 
       if (options.previewToken) {

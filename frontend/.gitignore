@@ -4,7 +4,6 @@
 .nuxt
 .nitro
 .cache
-.idea
 dist
 
 # Node dependencies
@@ -16,17 +15,8 @@ logs
 
 # Misc
 .DS_Store
-.fleet
-.idea
 
 # Local env files
 .env
 .env.*
 !.env.example
-
-# Craft filse
-vendor
-/backend/storage
-/.idea
-/vendor
-/backend/web/uploads

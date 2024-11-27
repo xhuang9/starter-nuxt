@@ -1,4 +1,4 @@
-dateModified: 1732089349
+dateModified: 1732311699
 elementSources:
   craft\elements\Entry:
     -
@@ -63,7 +63,7 @@ elementSources:
         - postDate
         - desc
       disabled: false
-      key: 'section:6ba54824-1c3f-454f-8830-f6cea379bee4' # Blog posts
+      key: 'section:6ba54824-1c3f-454f-8830-f6cea379bee4' # Blog Posts
       tableAttributes:
         - status
         - postDate
@@ -71,7 +71,7 @@ elementSources:
         - link
       type: native
     -
-      key: 'section:70b2614b-639a-4de2-8c11-3851d36d6f8c' # Blog categories
+      key: 'section:70b2614b-639a-4de2-8c11-3851d36d6f8c' # Blog Categories
       type: native
     -
       defaultSort:
@@ -136,18 +136,18 @@ meta:
     2bae9725-9546-4f55-a889-56102191aa89: Navigation # Navigation
     3e2a1a6f-88ea-477b-936d-39393f2d594f: 'Guestbook Posts' # Guestbook Posts
     5dd08fc8-3ea4-4582-952f-4c0f7ebf409e: Category # Category
-    6ba54824-1c3f-454f-8830-f6cea379bee4: 'Blog posts' # Blog posts
+    6ba54824-1c3f-454f-8830-f6cea379bee4: 'Blog Posts' # Blog Posts
     6c819fc7-3f73-4873-8f0c-5ea322fef1f9: 'Divider type' # Divider type
     6c9778b8-507c-4108-937d-6ceeabf35047: Image # Image
-    6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: 'Starter starter' # Starter starter
+    6d0d3aa4-84be-441d-8fcc-2ab2d6db2503: Starters # Starters
     6d2e5577-5ded-43c9-96e2-d4fc4c770fe9: Text # Text
     7b9364bd-2215-495a-8b0b-2280df887a8b: Media # Media
     7dac7ab3-08a0-4af8-ba7c-cbecd0726f08: Simple # Simple
     9d082133-4710-4468-ab39-80db8c9fcf59: Code # Code
     9d42aa56-4a66-4d0b-b8a9-84a4cb387788: 'Text block' # Text block
     25b2446d-c1d2-4aa1-8184-3147e617f069: Text # Text
-    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Starter Nuxt' # Starter Nuxt
-    70b2614b-639a-4de2-8c11-3851d36d6f8c: 'Blog categories' # Blog categories
+    58ccb571-6c72-449f-8e7b-6f43c5d416b3: 'Nuxt Starter' # Nuxt Starter
+    70b2614b-639a-4de2-8c11-3851d36d6f8c: 'Blog Categories' # Blog Categories
     163c895f-0c05-4845-80e2-043b2346d830: Address # Address
     0413e9dc-1c8a-4221-b81d-c9f6c0594cbd: Hero # Hero
     697da4c2-e02f-4f49-9d76-e22609ceda25: Page # Page
@@ -160,7 +160,7 @@ meta:
     b579b454-12bd-4710-a436-c26907141957: Full # Full
     bd99645a-4524-40e4-83dc-c6b12e023bab: Global # Global
     c4b4f50d-7d62-4a4c-bbf8-7aae00fd82c7: Pages # Pages
-    c7d2eb61-cdde-4a76-88a9-eb30ddcf155b: Posts # Posts
+    c7d2eb61-cdde-4a76-88a9-eb30ddcf155b: Guestbook # Guestbook
     cdad2202-5d55-49ba-995e-962503f5887f: Home # Home
     d4f0917b-edcf-4ef0-a98b-661ff27384ad: Page # Page
     d55d172f-8b8f-4bb7-b680-31249981c350: Global # Global
@@ -174,6 +174,7 @@ plugins:
 system:
   edition: solo
   live: true
-  name: 'Starter starter'
+  name: 'Nuxt Starter'
+  retryDuration: null
   schemaVersion: 5.5.0.0
   timeZone: America/Los_Angeles

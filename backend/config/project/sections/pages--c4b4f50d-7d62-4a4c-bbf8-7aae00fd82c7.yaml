@@ -13,17 +13,17 @@ previewTargets:
         - 'Primary entry page'
       -
         - urlFormat
-        - '{{ alias(''@preview'') }}/{uri}'
+        - '{uri}'
       -
         - refresh
         - '1'
 propagationMethod: all
 siteSettings:
-  58ccb571-6c72-449f-8e7b-6f43c5d416b3: # Starter Nuxt
+  58ccb571-6c72-449f-8e7b-6f43c5d416b3: # Nuxt Starter
     enabledByDefault: true
     hasUrls: true
     template: null
-    uriFormat: '{slug}'
+    uriFormat: '{parent.uri ?? null}/{slug}'
 structure:
   maxLevels: null
   uid: 97fc32ea-6e86-45dd-b3dd-97cdc4360518
