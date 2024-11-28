@@ -2,7 +2,7 @@
 import { usePreview } from '@/composables/usePreview'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { HOME_QUERY } from '@/queries/home.mjs'
-import { ref, watch, useAsyncData } from 'vue'
+import { useAsyncData } from '#app'
 
 const { isPreview, previewToken, previewTimestamp } = usePreview()
 const graphql = useGraphQL()
