@@ -15,10 +15,8 @@ const props = defineProps({
   }
 })
 
-// Get the site name from the global entry
-const siteName = computed(() => {
-  return useRuntimeConfig().public.SITE_NAME || 'Site Name'
-})
+const { public: { SITE_NAME } } = useRuntimeConfig()
+const siteName = computed(() => SITE_NAME || 'Site Name')
 </script>
 
 <template>

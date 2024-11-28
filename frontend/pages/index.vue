@@ -30,7 +30,7 @@ const { data, refresh } = await useAsyncData(
     }
   },
   {
-    watch: [previewToken] // Automatically watch preview token
+    watch: [previewToken]
   }
 )
 

@@ -7,7 +7,6 @@ export function useFlashes() {
     const id = Date.now()
     flashes.value.push({ id, message, level })
     
-    // Auto-remove after 5 seconds
     setTimeout(() => {
       removeFlash(id)
     }, 5000)

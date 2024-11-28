@@ -16,7 +16,7 @@ if (isPreview.value) {
   definePageMeta({ ssr: false })
 }
 
-// Data fetching using useAsyncData
+// Data fetching
 const { 
   data: content, 
   error, 
@@ -51,7 +51,6 @@ const handleNewPost = async () => {
   }
 }
 
-// Watch for preview changes
 watch([isPreview, previewToken], () => {
   if (isPreview.value && previewToken.value) {
     refreshContent()
