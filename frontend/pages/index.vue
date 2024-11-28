@@ -2,11 +2,10 @@
 import { usePreview } from '@/composables/usePreview'
 import { useGraphQL } from '@/composables/useGraphQL'
 import { HOME_QUERY } from '@/queries/home.mjs'
-import { ref, watch } from 'vue'
+import { useAsyncData } from '#app'
 
 const { isPreview, previewToken, previewTimestamp } = usePreview()
 const graphql = useGraphQL()
-const data = ref(null)
 
 // Disable SSR for preview mode
 if (isPreview.value) {
@@ -14,26 +13,32 @@ if (isPreview.value) {
 }
 
 // Fetch data function
-const fetchData = async () => {
-  try {
-    const result = await graphql.query(HOME_QUERY, {}, {
-      previewToken: previewToken.value
-    })
-    data.value = result.entry
-  } catch (error) {
-    console.error('Failed to fetch home data:', error)
+const { data, refresh } = await useAsyncData(
+  'home',
+  async () => {
+    try {
+      const result = await graphql.query(HOME_QUERY, {}, {
+        previewToken: previewToken.value
+      })
+      return result.entry
+    } catch (error) {
+      console.error('Failed to fetch home data:', error)
+      throw createError({ 
+        statusCode: 404,
+        message: 'Homepage not found'
+      })
+    }
+  },
+  {
+    watch: [previewToken] // Automatically watch preview token
   }
-}
+)
 
-// Initial fetch
-await fetchData()
-
-// Watch for preview changes and refresh data
 watch([isPreview, previewToken], () => {
   if (isPreview.value && previewToken.value) {
-    fetchData()
+    refresh()
   }
-}, { immediate: true })
+})
 </script>
 
 <template>

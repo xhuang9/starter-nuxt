@@ -16,34 +16,36 @@ if (isPreview.value) {
   definePageMeta({ ssr: false })
 }
 
-const fetchPost = async () => {
-  try {
-    const result = await graphql.query(BLOG_POSTS_QUERY, {
-      slug: route.params.slug
-    }, {
-      previewToken: previewToken.value
-    })
-    
-    if (!result?.blogPostsEntries?.length) {
-      throw new Error('Post not found')
-    }
-    
-    return result
-  } catch (err) {
-    console.error('Error fetching post:', err)
-    throw err
-  }
-}
-
-const asyncData = useLazyAsyncData(
+const { data, error, refresh } = await useAsyncData(
   `post-${route.params.slug}`,
-  () => fetchPost(),
+  async () => {
+    try {
+      const result = await graphql.query(BLOG_POSTS_QUERY, {
+        slug: route.params.slug
+      }, {
+        previewToken: previewToken.value
+      })
+      
+      if (!result?.blogPostsEntries?.length) {
+        throw createError({ 
+          statusCode: 404, 
+          message: 'Post not found' 
+        })
+      }
+      
+      return result
+    } catch (err) {
+      console.error('Error fetching post:', err)
+      throw createError({ 
+        statusCode: 404,
+        message: 'Post not found'
+      })
+    }
+  },
   {
-    default: () => ({ blogPostsEntries: [] })
+    watch: [previewToken] // Watch preview token for changes
   }
 )
-
-const { data, error, refresh } = asyncData
 
 // Watch for preview changes
 watch([isPreview, previewToken], () => {
@@ -65,7 +67,7 @@ useHead(() => ({
 
 <template>
   <div :key="previewTimestamp">
-    <div v-if="asyncData.status === 'pending'" class="container mx-auto py-12 px-2">
+    <div v-if="pending" class="container mx-auto py-12 px-2">
       Loading...
     </div>
     
