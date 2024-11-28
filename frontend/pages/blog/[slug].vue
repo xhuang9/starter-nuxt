@@ -43,7 +43,7 @@ const { data, error, refresh } = await useAsyncData(
     }
   },
   {
-    watch: [previewToken] // Watch preview token for changes
+    watch: [previewToken]
   }
 )
 
@@ -54,7 +54,6 @@ watch([isPreview, previewToken], () => {
   }
 })
 
-// Computed property for cleaner template
 const currentPost = computed(() => data.value?.blogPostsEntries?.[0] || null)
 const hasPost = computed(() => !!currentPost.value)
 const hasNextPrev = computed(() => hasPost.value && (currentPost.value?.prev || currentPost.value?.next))
