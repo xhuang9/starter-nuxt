@@ -7,28 +7,24 @@ export function usePaginatedData(fetchData, initialItemsPerPage = 4) {
   
   const currentPage = ref(parseInt(route.query.page) || 1)
   const itemsPerPage = ref(initialItemsPerPage)
-  const loading = ref(false)
-  const error = ref(null)
-  const data = ref(null)
+
+  const { 
+    data, 
+    error, 
+    pending: loading, 
+    refresh 
+  } = useAsyncData(
+    `paginated-data-${currentPage.value}`,
+    () => fetchData(currentPage.value, itemsPerPage.value),
+    {
+      watch: [currentPage]
+    }
+  )
 
   const totalPosts = computed(() => data.value?.total || 0)
   const totalPages = computed(() => 
     Math.ceil(totalPosts.value / itemsPerPage.value)
   )
-
-  const fetchPageData = async (page = currentPage.value) => {
-    loading.value = true
-    error.value = null
-    try {
-      const result = await fetchData(page, itemsPerPage.value)
-      data.value = result
-      currentPage.value = page
-    } catch (err) {
-      error.value = err
-    } finally {
-      loading.value = false
-    }
-  }
 
   const updateCurrentPage = async (newPage) => {
     if (newPage > 0 && newPage <= totalPages.value && newPage !== currentPage.value) {
@@ -38,28 +34,12 @@ export function usePaginatedData(fetchData, initialItemsPerPage = 4) {
     }
   }
 
-  const refresh = async () => {
-    loading.value = true
-    try {
-      const newData = await fetchData(currentPage.value, itemsPerPage.value)
-      data.value = newData
-    } catch (err) {
-      error.value = err
-      console.error('Error refreshing data:', err)
-    } finally {
-      loading.value = false
-    }
-  }
-
+  // Watch for route changes
   watch(() => route.query.page, async (newPage) => {
     const page = parseInt(newPage) || 1
     if (page !== currentPage.value) {
-      await fetchPageData(page)
+      currentPage.value = page
     }
-  })
-
-  onMounted(() => {
-    fetchPageData(currentPage.value)
   })
 
   return {
@@ -70,7 +50,7 @@ export function usePaginatedData(fetchData, initialItemsPerPage = 4) {
     loading,
     error,
     updateCurrentPage,
-    fetchPageData,
+    fetchPageData: refresh,
     refresh
   }
 }
