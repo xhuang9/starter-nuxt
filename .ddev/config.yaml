@@ -21,9 +21,14 @@ web_extra_exposed_ports:
     container_port: 3000
     http_port: 3000
     https_port: 3001
+  - name: devtools
+    container_port: 9310
+    http_port: 9310
+    https_port: 9311
 web_environment:
   - VIRTUAL_HOST=starter-nuxt.ddev.site,api.starter-nuxt.ddev.site
   - CRAFT_CMD_ROOT=/var/www/html/backend
+  - NUXT_DEVTOOLS_HOST=0.0.0.0
 
 # Key features of DDEV's config.yaml:
 
@@ -244,8 +249,8 @@ web_environment:
 #  https_port: 4000
 #  http_port: 3999
 # Allows a set of extra ports to be exposed via ddev-router
-# Fill in all three fields even if you don’t intend to use the https_port!
-# If you don’t add https_port, then it defaults to 0 and ddev-router will fail to start.
+# Fill in all three fields even if you don't intend to use the https_port!
+# If you don't add https_port, then it defaults to 0 and ddev-router will fail to start.
 #
 # The port behavior on the ddev-webserver must be arranged separately, for example
 # using web_extra_daemons.

@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+    wsUrl: process.env.BASE_URL?.replace('https://', ''),
+    port: 3000,
+    https: true
+  },
   app: {
     head: {
       titleTemplate: '%s | ' + process.env.SITE_NAME,
@@ -30,8 +35,14 @@ export default defineNuxtConfig({
     server: {
       https: true,
       hmr: {
-        protocol: 'wss'
-      }
+        protocol: 'wss',
+        host: process.env.BASE_URL?.replace('https://', ''),
+        port: 3000
+      },
+      allowedHosts: [
+        'starter-nuxt.ddev.site',
+        '.ddev.site'
+      ]
     }
   },
   nitro: {
