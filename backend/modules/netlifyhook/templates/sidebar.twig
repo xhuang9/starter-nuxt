@@ -1,0 +1,113 @@
+<style>
+    .netlify-build {
+        display: flex;
+        justify-content: space-between;
+        align-items: center!important;
+        padding-block: 12px;
+        padding: var(--m);
+    }
+</style>
+
+<div class="meta">
+	<div class="data netlify-build">
+		<span class="success" id="build-message">Netlify build ready</span>
+		<button type="button" class="btn submit" id="build-button" onclick="BuildNetlify()" disabled>New build</button>
+	</div>
+</div>
+
+<script>
+	// function BuildNetlify(event)
+	// {
+	// 	console.log(event);
+    //     const clickedButton = event.target;
+    //     console.log("Clicked button:", clickedButton);
+	// }
+	window.buildStatus = null;
+    window.buildTimeout = null;
+
+    const buildStatusChangedEvent = new CustomEvent('buildStatusChanged', {
+        detail: { status: window.buildStatus }
+    });
+
+    function changeBuildStatus(newStatus) {
+        window.buildStatus = newStatus;
+        buildStatusChangedEvent.detail.status = newStatus; // Update the event detail
+        window.dispatchEvent(buildStatusChangedEvent);
+    }
+
+    window.addEventListener('buildStatusChanged', (e) => {
+        const buildButton = document.getElementById("build-button");
+        const buildMessage = document.getElementById("build-message");
+
+        if(e.detail.status === "building")
+		{
+            buildMessage.innerText = "Netlify is building ...";
+            buildMessage.classList.remove("error");
+            buildMessage.classList.remove("success");
+
+            buildButton.setAttribute("disabled", "disabled");
+            buildButton.classList.add("disabled");
+            buildButton.innerText = "Building ...";
+		}
+		else if(e.detail.status === "ready")
+		{
+            buildMessage.innerText = "Netlify build ready";
+            buildMessage.classList.add("success");
+            buildMessage.classList.remove("error");
+
+            buildButton.removeAttribute("disabled");
+            buildButton.classList.remove("disabled");
+            buildButton.innerText = "New build";
+		}
+        else if(e.detail.status === "failed") {
+            buildMessage.innerText = "Netlify build failed";
+            buildMessage.classList.add("error");
+            buildMessage.classList.remove("success");
+
+            buildButton.removeAttribute("disabled");
+            buildButton.classList.remove("disabled");
+            buildButton.innerText = "New build";
+        }
+        else {
+            buildMessage.innerText = "Netlify build ready";
+            buildMessage.classList.remove("error");
+            buildMessage.classList.add("success");
+
+            buildButton.removeAttribute("disabled");
+            buildButton.classList.remove("disabled");
+            buildButton.innerText = "New build";
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        initBuildCheck(0);
+    });
+
+	const BuildNetlify = async (event)=>
+	{
+        changeBuildStatus("building");
+        clearTimeout(window.buildTimeout); //cancel the build check timeout, and start again
+        try {
+            await fetch("{{ hookUrl }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+        } catch (error) {
+			console.error(error);
+		}
+
+        initBuildCheck(15000); //we know first build will take longer, so we wait 10 seconds before checking again
+	}
+
+    //start a recursive timeout to constantly check the status of the build
+    const initBuildCheck = (wait = 3000) => {
+		window.buildTimeout = setTimeout(() => {
+			fetch("/actions/modules/build/check").then(response => response.json()).then(data => {
+                changeBuildStatus(data.state ?? null);
+			});
+			initBuildCheck();
+		}, wait);
+	}
+</script>

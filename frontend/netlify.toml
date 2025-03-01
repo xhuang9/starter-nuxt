@@ -3,7 +3,7 @@
 
 # Base settings that apply to all contexts
 [build]
-  base = "/"
+  base = "/frontend"
   command = "npm install && npm run generate"
   publish = "dist"
 

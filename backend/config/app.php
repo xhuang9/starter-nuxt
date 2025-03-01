@@ -26,6 +26,8 @@ return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
     'modules' => [
         'authorinfo' => modules\authorinfo\Module::class,
+        'netlifyhook' => modules\netlifyhook\Module::class,
     ],
-    'bootstrap' => ['authorinfo'],
+    'bootstrap' => ['authorinfo', 'netlifyhook'],
+    
 ];
