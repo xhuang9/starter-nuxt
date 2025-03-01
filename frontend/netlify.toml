@@ -8,7 +8,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
   CRAFT_URL = "https://api.nuxt-starter.yourdomain.com"
   SITE_NAME = "Nuxt Starter"
 
@@ -20,29 +20,12 @@
 [context.production.environment]
   BASE_URL = "https://nuxt-starter.netlify.app"
 
-# Deploy Preview context: Pull/Merge requests
-# This context represents a preview of the site when a pull/merge request is opened
-[context.deploy-preview]
-  command = "npm install && npm run build"
-
-[context.deploy-preview.environment]
+[context.preview.environment]
   BASE_URL = "https://nuxt-starter-preview.netlify.app"
 
-# Branch Deploy context: Any branch that's not master
-# This context represents a deploy from a branch other than master
-[context.branch-deploy]
-  command = "npm install && npm run build"
-
-[context.branch-deploy.environment]
-  BASE_URL = "https://nuxt-starter.netlify.app"
-
-# Specific branch context: dev branch
-# This overrides the branch-deploy context for the dev branch
-[context.dev]
-  command = "npm install && npm run build"
-
-[context.dev.environment]
-  BASE_URL = "https://nuxt-starter.netlify.app"
+# Staging context: staging branch, update this if you have a different branch for staging
+[context.staging.environment]
+  BASE_URL = "https://nuxt-starter-staging.netlify.app"
 
 # Redirects and headers
 [[redirects]]
