@@ -10,10 +10,21 @@ previewTargets:
     __assoc__:
       -
         - label
-        - Homepage
+        - Preview
       -
         - urlFormat
-        - '{uri}'
+        - '{{ alias(''@preview'') }}'
+      -
+        - refresh
+        - '1'
+  -
+    __assoc__:
+      -
+        - label
+        - 'Live (Static)'
+      -
+        - urlFormat
+        - '{{ alias(''@frontend'') }}'
       -
         - refresh
         - '1'

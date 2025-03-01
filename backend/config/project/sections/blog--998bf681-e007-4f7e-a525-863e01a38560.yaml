@@ -10,13 +10,24 @@ previewTargets:
     __assoc__:
       -
         - label
-        - 'Primary entry page'
-      -
-        - refresh
-        - '1'
+        - Preview
       -
         - urlFormat
         - '{{ alias(''@preview'') }}/{uri}'
+      -
+        - refresh
+        - '1'
+  -
+    __assoc__:
+      -
+        - label
+        - 'Live (static)'
+      -
+        - urlFormat
+        - '{{ alias(''@frontend'') }}/{uri}'
+      -
+        - refresh
+        - '1'
 propagationMethod: all
 siteSettings:
   58ccb571-6c72-449f-8e7b-6f43c5d416b3: # Nuxt Starter
