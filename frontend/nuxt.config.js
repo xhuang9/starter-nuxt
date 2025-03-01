@@ -1,5 +1,34 @@
+import { generatePageRoutes, addRoutesToPrerender } from './utils/routes';
+
+// Get the current environment
+const environment = process.env.ENV || 'dev';
+console.log(`Building for environment: ${environment}`);
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: environment === 'production', //if true prerendering will fetch on build time, if false prerendering will fetch on runtime
+  hooks: {
+    async 'nitro:config'(nitroConfig) {
+      // Skip if not production environment or in dev mode
+      if (environment !== 'production' || nitroConfig.dev) {
+        console.log('Skipping route generation for non-prodduction environment');
+        return;
+      }
+      
+      console.log('Generating static routes for production build...');
+      
+      // Generate routes from GraphQL query
+      const routes = await generatePageRoutes({
+        CRAFT_URL: process.env.CRAFT_URL,
+        GRAPHQL_TOKEN: process.env.GRAPHQL_TOKEN
+      });
+      
+      console.log('Generated routes:', routes);
+      
+      // Add the routes to the prerender configuration
+      addRoutesToPrerender(nitroConfig, routes);
+    }
+  },
   compatibilityDate: '2024-04-03',
   devtools: {
     enabled: true,
