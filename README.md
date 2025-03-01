@@ -25,25 +25,32 @@ Following steps over at: https://github.com/craftcms/starter-nuxt?tab=readme-ov-
    - [https://nuxt-starter-preview.netlify.app] Replace with your SPA preview address.
    - [https://nuxt-starter-staging.netlify.app] Replace with your SPA staging address.
 
-3. You can put the entire project, backend and frontend into a single repository or separate them into two repositories. If you separate them, you will need to update the `netlify.toml` file with the correct build command and publish directory.
+ 3. You can put the entire project, backend and frontend into a single repository or separate them into two repositories. If you separate them, you will need to update the `netlify.toml` file with the correct build command and publish directory.
 
-If you use a single repository, you can use the following `netlify.toml` file:
+   If you use a single repository, you can use the following `netlify.toml` file:
 
-```toml
-[build]
-  base = "/frontend"
-  command = "npm install && npm run generate"
-  publish = "dist"
-```
+   ```toml
+   [build]
+      base = "/frontend"
+      command = "npm install && npm run generate"
+      publish = "dist"
+   ```
 
-Otherwise, you should set the `base` to the root directory and update the `command` and `publish` directory accordingly:
+   Otherwise, you should set the `base` to the root directory and update the `command` and `publish` directory accordingly:
 
-```toml
-[build]
-  base = "/"
-  command = "npm install && npm run generate"
-  publish = "dist"
-```
+   ```toml
+   [build]
+      base = "/"
+      command = "npm install && npm run generate"
+      publish = "dist"
+   ```
+
+4. You an also add a netlify build hook to your craft cms backend to trigger a rebuild of the frontend when you publish new content.
+
+   - Go to your netlify site settings > build & deploy > build hooks
+   - Create a new build hook and copy the url
+   - Go to your craft cms backend > settings > webhooks
+   - Go to `./backend/.env` add the NETLIFY_BUILD_HOOK_URL (see `./backend/.env.example`)
 
 ## Why we are not using SSR?
 
