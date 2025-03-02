@@ -45,12 +45,12 @@ Following steps over at: https://github.com/craftcms/starter-nuxt?tab=readme-ov-
       publish = "dist"
    ```
 
-4. You an also add a netlify build hook to your craft cms backend to trigger a rebuild of the frontend when you publish new content.
+4. You can also add a netlify build hook to your craft cms backend to trigger a rebuild of the frontend when you publish new content.
 
    - Go to your netlify site settings > build & deploy > build hooks
    - Create a new build hook and copy the url
    - Go to your craft cms backend > settings > webhooks
-   - Go to `./backend/.env` add the NETLIFY_BUILD_HOOK_URL (see `./backend/.env.example`)
+   - Go to `./backend/.env` add the NETLIFY_BUILD_HOOK_URL, NETLIFY_BUILD_HOOK_JWS_SECRET (see `./backend/.env.example`)
 
 ## Why we are not using SSR?
 

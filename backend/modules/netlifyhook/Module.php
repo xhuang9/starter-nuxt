@@ -1,12 +1,8 @@
 <?php
-namespace modules\authorinfo;
+namespace modules\netlifyhook;
 
 use Craft;
 use craft\helpers\App;
-use craft\elements\User;
-use craft\events\DefineGqlTypeFieldsEvent;
-use craft\gql\TypeManager;
-use GraphQL\Type\Definition\Type;
 use craft\base\Element;
 use craft\events\DefineHtmlEvent;
 use craft\elements\Entry;
@@ -16,8 +12,19 @@ use yii\base\Event;
 
 class Module extends \yii\base\Module
 {
+
+    const NETLIFY_HOOK_MODULE_PATH = __DIR__;
+
     public function init()
     {
+        // Set a @modules alias pointed to the modules/ directory
+        Craft::setAlias('@modules', __DIR__);
+
+        // Set the controllerNamespace based on whether this is a console or web request
+        if (!Craft::$app->getRequest()->getIsConsoleRequest()) {
+            $this->controllerNamespace = 'modules\\netlifyhook\\controllers';
+        }
+
         // Base template directory
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $e) {
             if (is_dir($baseDir = $this->getBasePath() . DIRECTORY_SEPARATOR . 'templates')) {

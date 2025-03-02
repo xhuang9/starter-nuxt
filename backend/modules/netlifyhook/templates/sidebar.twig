@@ -104,7 +104,7 @@
     //start a recursive timeout to constantly check the status of the build
     const initBuildCheck = (wait = 3000) => {
 		window.buildTimeout = setTimeout(() => {
-			fetch("/actions/modules/build/check").then(response => response.json()).then(data => {
+			fetch("/actions/netlifyhook/build/check").then(response => response.json()).then(data => {
                 changeBuildStatus(data.state ?? null);
 			});
 			initBuildCheck();
