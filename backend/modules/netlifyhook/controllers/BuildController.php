@@ -6,7 +6,7 @@ use Craft;
 use craft\web\Controller;
 use yii\web\Response;
 use yii\base\InvalidConfigException;
-use craft\helpers\App;
+use modules\netlifyhook\services\NetlifyWebhookService;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 
@@ -31,7 +31,20 @@ class BuildController extends Controller
         $signature = Craft::$app->getRequest()->getHeaders()->get('X-Webhook-Signature');
         $rawBody = Craft::$app->getRequest()->getRawBody();
         
-        if (!$this->verifyNetlifySignature($signature, $rawBody)) {
+        // Check for missing signature
+        if (!$signature) {
+            Craft::error(
+                'Missing webhook signature in request',
+                'netlify-hook'
+            );
+        }
+        
+        // Validate the webhook request using the service
+        if (!NetlifyWebhookService::validateWebhookRequest($signature, $rawBody)) {
+            Craft::error(
+                'Invalid webhook signature detected from IP: ' . Craft::$app->getRequest()->getUserIP(),
+                'netlify-hook'
+            );
             throw new ForbiddenHttpException('Invalid webhook signature');
         }
         
@@ -54,6 +67,10 @@ class BuildController extends Controller
             } else {
                 // Default to 'ready' if state is invalid
                 $data['state'] = 'ready';
+                Craft::warning(
+                    'Invalid build state received: "' . $data['state'] . '", defaulting to "ready"',
+                    'netlify-hook'
+                );
             }
         }
         
@@ -65,25 +82,12 @@ class BuildController extends Controller
         return $this->asJson($this->getCache());
     }
 
-    /**
-     * Verify the Netlify webhook signature
-     */
-    private function verifyNetlifySignature($signature, $payload): bool
-    {
-        if (empty($signature)) {
-            return false;
-        }
-        
-        $computedSignature = hash_hmac('sha256', $payload, App::env('NETLIFY_BUILD_HOOK_JWS_SECRET'));
-        return hash_equals($signature, $computedSignature);
-    }
-
-
     private function getCache():array|string
     {
         if(!file_exists(self::CACHE_PATH)){
             return ["not exist"];
         }
+        
         return json_decode(file_get_contents(self::CACHE_PATH), true) ?? ["empty"];
     }
 
@@ -93,6 +97,13 @@ class BuildController extends Controller
         if(!file_exists(dirname(self::CACHE_PATH))){
             mkdir(dirname(self::CACHE_PATH), 0775, true);
         }
-        file_put_contents(self::CACHE_PATH, $data);
+        
+        $result = file_put_contents(self::CACHE_PATH, $data);
+        if ($result === false) {
+            Craft::error(
+                'Failed to write Netlify build status to cache file: ' . self::CACHE_PATH,
+                'netlify-hook'
+            );
+        }
     }
 }
