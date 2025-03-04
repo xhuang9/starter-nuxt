@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: {
@@ -7,17 +9,14 @@ export default defineNuxtConfig({
     port: 3000,
     https: true
   },
+  css: [
+    '@/styles/tailwind.css'
+  ],
   app: {
     head: {
       titleTemplate: '%s | ' + process.env.SITE_NAME,
       title: process.env.SITE_NAME
     }
-  },
-  modules: ["@nuxtjs/tailwindcss"],
-  tailwindcss: {
-    configPath: '~/tailwind.config.js',
-    exposeConfig: true,
-    viewer: true
   },
   devServer: {
     host: '0.0.0.0',
@@ -39,6 +38,9 @@ export default defineNuxtConfig({
         host: process.env.BASE_URL?.replace('https://', ''),
         port: 3000
       },
+      plugins: [
+        tailwindcss()
+      ],
       allowedHosts: [
         'starter-nuxt.ddev.site',
         '.ddev.site'
