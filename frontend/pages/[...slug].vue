@@ -52,7 +52,6 @@ const { data: pageData, refresh } = await useAsyncData(
   }
 )
 
-// Watch for preview changes and refresh data
 watch([isPreview, previewToken], () => {
   if (isPreview.value && previewToken.value) {
     refresh()

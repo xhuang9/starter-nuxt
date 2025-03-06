@@ -2,7 +2,7 @@
 import { useGraphQL } from '@/composables/useGraphQL'
 import { usePreview } from '@/composables/usePreview'
 import { GUESTBOOK_QUERY } from '@/queries/guestbook.mjs'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useHead } from '#imports'
 import PostList from '@/components/postList.vue'
 import PostForm from '@/components/postForm.vue'
@@ -17,25 +17,31 @@ if (isPreview.value) {
 }
 
 // Data fetching
-const loading = ref(false)
-const error = ref(null)
-const content = ref({})
-
-const fetchGuestbookData = async () => {
-  loading.value = true
-  error.value = null
-  try {
-    const result = await graphql.query(GUESTBOOK_QUERY, {}, {
-      previewToken: previewToken.value
-    })
-    
-    content.value = result?.guestbookEntries?.[0] || {}
-  } catch (err) {
-    error.value = new Error(`Failed to fetch guestbook data: ${err.message}`)
-  } finally {
-    loading.value = false
+const { 
+  data: content, 
+  error, 
+  pending: loading,
+  refresh: refreshContent
+} = await useAsyncData(
+  'guestbook',
+  async () => {
+    try {
+      const result = await graphql.query(GUESTBOOK_QUERY, {}, {
+        previewToken: previewToken.value
+      })
+      
+      return result?.guestbookEntries?.[0] || {}
+    } catch (err) {
+      throw createError({ 
+        statusCode: 404,
+        message: `Failed to fetch guestbook data: ${err.message}`
+      })
+    }
+  },
+  {
+    watch: [previewToken]
   }
-}
+)
 
 // Post list refresh handling
 const postListRef = ref(null)
@@ -45,9 +51,10 @@ const handleNewPost = async () => {
   }
 }
 
-// Initial data fetch
-onMounted(() => {
-  fetchGuestbookData()
+watch([isPreview, previewToken], () => {
+  if (isPreview.value && previewToken.value) {
+    refreshContent()
+  }
 })
 
 // Page title
