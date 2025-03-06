@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     https: true
   },
   css: [
-    '@/styles/tailwind.css'
+    '@/styles/globals.css'
   ],
   app: {
     head: {
@@ -31,6 +31,9 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    plugins: [
+      tailwindcss()
+    ],
     server: {
       https: true,
       hmr: {
@@ -38,9 +41,6 @@ export default defineNuxtConfig({
         host: process.env.BASE_URL?.replace('https://', ''),
         port: 3000
       },
-      plugins: [
-        tailwindcss()
-      ],
       allowedHosts: [
         'starter-nuxt.ddev.site',
         '.ddev.site'
