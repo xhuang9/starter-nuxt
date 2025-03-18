@@ -5,6 +5,8 @@ const environment = process.env.ENV || 'dev';
 console.log(`Building for environment: ${environment}`);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   ssr: environment === 'production', //if true prerendering will fetch on build time, if false prerendering will fetch on runtime
   hooks: {
@@ -36,17 +38,14 @@ export default defineNuxtConfig({
     port: 3000,
     https: true
   },
+  css: [
+    '@/styles/globals.css'
+  ],
   app: {
     head: {
       titleTemplate: '%s | ' + process.env.SITE_NAME,
       title: process.env.SITE_NAME
     }
-  },
-  modules: ["@nuxtjs/tailwindcss"],
-  tailwindcss: {
-    configPath: '~/tailwind.config.js',
-    exposeConfig: true,
-    viewer: true
   },
   devServer: {
     host: '0.0.0.0',
@@ -61,6 +60,9 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    plugins: [
+      tailwindcss()
+    ],
     server: {
       https: true,
       hmr: {
